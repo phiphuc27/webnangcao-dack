@@ -1,11 +1,11 @@
-## Phát triển ứng dụng web nâng cao
+# Phát triển ứng dụng web nâng cao
 
-# Nhóm:
+## Nhóm:
 
 - 1512402 - Đỗ Hồng Phúc - dohongphuc1997@gmail.com<br />
 - 1512403 - Huỳnh Phi Phúc - phiphuc27@gmail.com<br />
 
-# Chú ý cài đặt:
+## Chú ý cài đặt:
 
 Trong 2 folder là 4 project server api và giao diện phân biệt cho người dùng và quản trị.<br />
 trong đó folder 'client' là giao diện.
