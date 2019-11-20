@@ -13,7 +13,7 @@ trong đó folder 'client' là giao diện.
 ### `npm start`
 
 Chạy chương trình.<br />
-Mở [http://localhost:5000](http://localhost:5000) để mở server api cho quản trị.<br />
-Mở [http://localhost:5001](http://localhost:5001) để mở server api cho người dùng.<br />
-Mở [http://localhost:3000](http://localhost:5000) để mở giao diện cho quản trị.<br />
-Mở [http://localhost:3001](http://localhost:5001) để mở giao diện cho người dùng.<br />
+Mở [http://localhost:5000] để mở server api cho quản trị.<br />
+Mở [http://localhost:5001] để mở server api cho người dùng.<br />
+Mở [http://localhost:3000] để mở giao diện cho quản trị.<br />
+Mở [http://localhost:3001] để mở giao diện cho người dùng.<br />
