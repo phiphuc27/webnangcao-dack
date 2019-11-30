@@ -1,22 +1,394 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* outline: 1px solid red; */
+}
+body {
+  font-family: 'Roboto', sans-serif !important;
 }
 
-.App-logo {
-  height: 40vmin;
+h1 {
+  font-size: 3em;
+  line-height: 1;
+  margin-bottom: 0.5em;
+}
+h2 {
+  font-size: 2em;
+  margin-bottom: 0.75em;
+}
+h3 {
+  font-size: 1.5em;
+  line-height: 1;
+  margin-bottom: 1em;
+}
+h4 {
+  font-size: 1.2em;
+  line-height: 1.25;
+  margin-bottom: 1.25em;
+}
+h5 {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 1.5em;
+}
+h6 {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 1.5em;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+pre {
+  white-space: pre-wrap; /* css-3 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+ul {
+  margin: 0 !important;
+}
+
+/* NAVBAR */
+.nav-container {
+  width: 100%;
+}
+
+.navbar,
+.menubar {
+  position: relative;
+  display: block;
+  padding: 1rem 0;
+  width: 100%;
+}
+
+.navbar {
+  display: grid !important;
+  grid-template-areas: 'logo search user';
+  grid-template-columns: 150px 1fr 200px;
+  gap: 10px;
+  justify-items: center;
+  align-items: center;
+}
+
+.navbar svg {
+  font-size: 2rem;
+}
+
+.nav-logo {
+  grid-area: logo;
+  background: black;
+  justify-self: start;
+}
+
+.navbar a {
+  text-decoration: none !important;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.navbar a > span {
+  font-size: 2rem;
+  letter-spacing: 2px;
+  margin-left: 10px;
+}
+
+.nav-search {
+  grid-area: search;
+  width: 100%;
+  height: 80%;
+  position: relative;
+  display: flex;
+}
+
+.nav-search input[type='text'] {
+  flex-grow: 1;
+  padding: 5px;
+  background: white;
+  outline: none;
+  border-radius: 8px 0 0 8px;
+  border-right: none;
+  font-size: 1rem;
+}
+
+.nav-search button {
+  background: white;
+  padding: 0 1em;
+  border-radius: 0 8px 8px 0;
+  border-left: none;
+  cursor: pointer;
+}
+
+.nav-search button:hover {
+  background: #e0e0e0;
+  border: 3px solid #e0e0e0;
+  border-left: none;
+}
+
+.nav-search span svg {
+  font-size: 1.2rem;
+}
+
+.nav-user {
+  position: relative;
+  grid-area: user;
+}
+
+.nav-user:hover {
+  color: #022b3a;
+}
+
+.nav-user:hover > .user-menu,
+.dropdown-menu:hover .user-menu {
+  display: block;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-info > div {
+  margin-left: 5px;
+}
+
+.user-info h4 {
+  margin: 0;
+}
+
+.user-info span {
+  display: inline-block;
+  font-size: 0.8rem;
+}
+
+.user-menu {
+  display: none;
+}
+
+.dropdown-menu {
+  cursor: default;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 200px;
+  height: auto;
+  background: white;
+  padding: 0 1.2em !important;
+  z-index: 1;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  transition: display 500ms ease-in;
+}
+
+.dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: 20px;
+  height: 14px;
+  width: 14px;
+  background: white;
+  transform: rotate(45deg) translateY(10px);
+}
+.dropdown-menu::after {
+  content: '';
+  position: absolute;
+  display: inline-block;
+  top: -15px;
+  left: 0;
+  width: 100%;
+  height: 15px;
+  background: transparent;
+}
+
+.dropdown-menu ul {
+  color: black;
+  list-style: none;
+}
+.dropdown-menu li {
+  margin: 1.2em 0;
+  cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+  text-decoration: underline;
+}
+
+.menubar {
+  padding: 0 !important;
+}
+
+.menubar > .nav-search {
+  display: none;
+}
+
+.menubar > ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+.menubar li {
+  position: relative;
+  cursor: pointer;
+  padding: 1.2rem 1.2em;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+
+.menubar span::after {
+  content: '';
+  position: absolute;
+  color: black;
+  left: 0;
+  bottom: 10px;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transition: transform 250ms ease-in-out;
+}
+
+.menubar li:hover > span,
+.menubar li:hover a {
+  color: black;
+}
+
+.menubar li:hover > span::after {
+  transform: scaleX(1);
+}
+
+.menubar a {
+  text-decoration: none !important;
+  color: black;
+  transition: color 250ms ease-in-out;
+}
+
+.menu-man:hover > .product-menu,
+.menu-woman:hover > .product-menu {
+  display: flex;
+}
+
+.product-menu {
+  top: 100%;
+  margin: 0 !important;
+  border: none !important;
+  display: none;
+  justify-content: space-between;
+  width: 600px;
+  padding: 1.2rem;
+  border-radius: 0 0 8px 8px !important;
+}
+
+.product-menu ul {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #09d3ac;
+.product-menu li {
+  font-weight: lighter;
+  margin: 8px 0 !important;
+}
+
+.product-menu h4 {
+  font-weight: bold !important;
+  margin-bottom: 0.4rem;
+}
+
+.product-menu a {
+  text-transform: capitalize;
+}
+
+.nav-mobile {
+  grid-area: mobile;
+  display: none;
+}
+
+.MuiDrawer-paper {
+  background: linear-gradient(to top, #36d1dc, #5b86e5);
+  color: #ebf5ee !important;
+}
+
+.MuiPaper-root svg {
+  color: #ebf5ee;
+}
+
+@media screen and (max-width: 1000px) {
+  body {
+    padding-top: 124px;
+  }
+
+  .nav-container {
+    position: fixed;
+    top: 0;
+    height: auto;
+    width: 100%;
+    z-index: 1000;
+  }
+
+  nav .container {
+    padding: 0 !important;
+  }
+  .navbar {
+    grid-template-areas: 'mobile logo cart';
+    grid-template-columns: 1fr 5fr 1fr;
+  }
+
+  .nav-mobile {
+    display: block;
+  }
+
+  .nav-logo {
+    justify-self: center;
+  }
+
+  .nav-search {
+    display: none;
+  }
+
+  .nav-search input[type='text'] {
+    font-size: 1rem;
+  }
+
+  .nav-user {
+    display: none;
+  }
+
+  .menubar > ul {
+    display: none;
+  }
+
+  .menubar > .nav-search {
+    display: flex;
+    padding-bottom: 10px;
+  }
+
+  .MuiPaper-root .nav-user {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+  }
+
+  .MuiDivider-root {
+    background: #ebf5ee !important;
+  }
+
+  .MuiPaper-root a {
+    color: #ebf5ee;
+    text-decoration: none;
+    font-size: 1.2rem;
+  }
+
+  .MuiListItem-root + .MuiListItem-root {
+    padding-top: 1rem;
+  }
+
+  .user-info svg {
+    width: 50px;
+    height: 50px;
+  }
 }
