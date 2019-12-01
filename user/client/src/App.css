@@ -4,6 +4,7 @@
   box-sizing: border-box;
   /* outline: 1px solid red; */
 }
+
 body {
   font-family: 'Roboto', sans-serif !important;
 }
@@ -50,64 +51,51 @@ ul {
   margin: 0 !important;
 }
 
-/* NAVBAR */
-.nav-container {
-  width: 100%;
-}
-
-.navbar,
-.menubar {
-  position: relative;
-  display: block;
-  padding: 1rem 0;
-  width: 100%;
+/* Navbar */
+nav {
+  background: black;
+  color: white;
 }
 
 .navbar {
-  display: grid !important;
-  grid-template-areas: 'logo search user';
-  grid-template-columns: 150px 1fr 200px;
-  gap: 10px;
-  justify-items: center;
-  align-items: center;
-}
-
-.navbar svg {
-  font-size: 2rem;
+  display: grid;
+  grid-template:
+    'logo menu search user' /
+    100px 1.5fr 1fr auto;
+  column-gap: 1em;
+  padding: 0.8em 0;
 }
 
 .nav-logo {
   grid-area: logo;
-  background: black;
-  justify-self: start;
 }
 
-.navbar a {
-  text-decoration: none !important;
-  color: white;
-  display: flex;
-  align-items: center;
+.nav-menu {
+  grid-area: menu;
 }
 
-.navbar a > span {
-  font-size: 2rem;
-  letter-spacing: 2px;
-  margin-left: 10px;
+.nav-menu ul {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 100px);
+  column-gap: 20px;
 }
 
 .nav-search {
   grid-area: search;
   width: 100%;
-  height: 80%;
   position: relative;
-  display: flex;
+}
+
+.nav-search input,
+.nav-search button {
+  border: 1px solid white;
+  padding: 3px 5px;
 }
 
 .nav-search input[type='text'] {
-  flex-grow: 1;
-  padding: 5px;
-  background: white;
   outline: none;
+  width: 80%;
   border-radius: 8px 0 0 8px;
   border-right: none;
   font-size: 1rem;
@@ -115,16 +103,14 @@ ul {
 
 .nav-search button {
   background: white;
-  padding: 0 1em;
+  padding: 3px 1em;
   border-radius: 0 8px 8px 0;
   border-left: none;
   cursor: pointer;
 }
 
 .nav-search button:hover {
-  background: #e0e0e0;
-  border: 3px solid #e0e0e0;
-  border-left: none;
+  background: #f3f3f3;
 }
 
 .nav-search span svg {
@@ -132,263 +118,29 @@ ul {
 }
 
 .nav-user {
-  position: relative;
   grid-area: user;
 }
 
-.nav-user:hover {
-  color: #022b3a;
+.nav-user a + a {
+  margin-inline-start: 10px;
 }
+/* end of navbar*/
 
-.nav-user:hover > .user-menu,
-.dropdown-menu:hover .user-menu {
-  display: block;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.user-info > div {
-  margin-left: 5px;
-}
-
-.user-info h4 {
-  margin: 0;
-}
-
-.user-info span {
-  display: inline-block;
-  font-size: 0.8rem;
-}
-
-.user-menu {
-  display: none;
-}
-
-.dropdown-menu {
-  cursor: default;
-  position: absolute;
-  top: 50px;
-  left: 0;
-  width: 200px;
-  height: auto;
-  background: white;
-  padding: 0 1.2em !important;
-  z-index: 1;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  transition: display 500ms ease-in;
-}
-
-.dropdown-menu::before {
-  content: '';
-  position: absolute;
-  top: -14px;
-  left: 20px;
-  height: 14px;
-  width: 14px;
-  background: white;
-  transform: rotate(45deg) translateY(10px);
-}
-.dropdown-menu::after {
-  content: '';
-  position: absolute;
-  display: inline-block;
-  top: -15px;
-  left: 0;
-  width: 100%;
-  height: 15px;
-  background: transparent;
-}
-
-.dropdown-menu ul {
-  color: black;
-  list-style: none;
-}
-.dropdown-menu li {
-  margin: 1.2em 0;
-  cursor: pointer;
-}
-
-.dropdown-menu li:hover {
-  text-decoration: underline;
-}
-
-.menubar {
-  padding: 0 !important;
-}
-
-.menubar > .nav-search {
-  display: none;
-}
-
-.menubar > ul {
-  list-style: none;
+/* Signup & login*/
+.form-account {
+  margin-block-start: 1em;
+  position: relative;
   display: flex;
   justify-content: center;
-}
-
-.menubar li {
-  position: relative;
-  cursor: pointer;
-  padding: 1.2rem 1.2em;
-  font-weight: 600;
-  font-size: 1.1rem;
-  text-transform: uppercase;
-}
-
-.menubar span::after {
-  content: '';
-  position: absolute;
-  color: black;
-  left: 0;
-  bottom: 10px;
-  width: 100%;
-  height: 2px;
-  background: currentColor;
-  transform: scaleX(0);
-  transition: transform 250ms ease-in-out;
-}
-
-.menubar li:hover > span,
-.menubar li:hover a {
-  color: black;
-}
-
-.menubar li:hover > span::after {
-  transform: scaleX(1);
-}
-
-.menubar a {
-  text-decoration: none !important;
-  color: black;
-  transition: color 250ms ease-in-out;
-}
-
-.menu-man:hover > .product-menu,
-.menu-woman:hover > .product-menu {
-  display: flex;
-}
-
-.product-menu {
-  top: 100%;
-  margin: 0 !important;
-  border: none !important;
-  display: none;
-  justify-content: space-between;
-  width: 600px;
-  padding: 1.2rem;
-  border-radius: 0 0 8px 8px !important;
-}
-
-.product-menu ul {
-  display: flex;
+  align-items: center;
   flex-direction: column;
 }
 
-.product-menu li {
-  font-weight: lighter;
-  margin: 8px 0 !important;
+.form-container {
+  background: white;
+  padding: 1.5em 1em;
+  width: 520px;
+  border: 1px solid black;
+  border-radius: 10px;
 }
-
-.product-menu h4 {
-  font-weight: bold !important;
-  margin-bottom: 0.4rem;
-}
-
-.product-menu a {
-  text-transform: capitalize;
-}
-
-.nav-mobile {
-  grid-area: mobile;
-  display: none;
-}
-
-.MuiDrawer-paper {
-  background: linear-gradient(to top, #36d1dc, #5b86e5);
-  color: #ebf5ee !important;
-}
-
-.MuiPaper-root svg {
-  color: #ebf5ee;
-}
-
-@media screen and (max-width: 1000px) {
-  body {
-    padding-top: 124px;
-  }
-
-  .nav-container {
-    position: fixed;
-    top: 0;
-    height: auto;
-    width: 100%;
-    z-index: 1000;
-  }
-
-  nav .container {
-    padding: 0 !important;
-  }
-  .navbar {
-    grid-template-areas: 'mobile logo cart';
-    grid-template-columns: 1fr 5fr 1fr;
-  }
-
-  .nav-mobile {
-    display: block;
-  }
-
-  .nav-logo {
-    justify-self: center;
-  }
-
-  .nav-search {
-    display: none;
-  }
-
-  .nav-search input[type='text'] {
-    font-size: 1rem;
-  }
-
-  .nav-user {
-    display: none;
-  }
-
-  .menubar > ul {
-    display: none;
-  }
-
-  .menubar > .nav-search {
-    display: flex;
-    padding-bottom: 10px;
-  }
-
-  .MuiPaper-root .nav-user {
-    display: flex;
-    justify-content: center;
-    padding: 20px 0;
-  }
-
-  .MuiDivider-root {
-    background: #ebf5ee !important;
-  }
-
-  .MuiPaper-root a {
-    color: #ebf5ee;
-    text-decoration: none;
-    font-size: 1.2rem;
-  }
-
-  .MuiListItem-root + .MuiListItem-root {
-    padding-top: 1rem;
-  }
-
-  .user-info svg {
-    width: 50px;
-    height: 50px;
-  }
-}
+/* end of signup & login*/
