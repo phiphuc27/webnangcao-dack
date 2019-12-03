@@ -1,26 +1,50 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import logo from './logo.svg';
+import { connect } from 'react-redux';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import Home from './Components/Pages/Home';
+import Login from './Containers/LoginContainer';
 
-export default App;
+import Navbar from './Components/Navbar';
+
+const App = ({ loggedIn, user }) => {
+  const PrivateRoute = ({ component: Component, path }) => (
+    <Route
+      path={path}
+      render={props =>
+        loggedIn ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: { from: props.location }
+            }}
+          />
+        )
+      }
+    />
+  );
+
+  return (
+    <>
+      <Navbar user={user} />
+      <Switch>
+        <Route exact path="/">
+          {loggedIn ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}
+        </Route>
+        <PrivateRoute exact path="/dashboard" component={Home} />
+        <Route exact path="/login" component={Login} />
+      </Switch>
+    </>
+  );
+};
+
+const mapStateToProps = state => ({
+  loggedIn: state.user.loggedIn,
+  user: state.user.user
+});
+
+export default connect(mapStateToProps)(App);

@@ -1,22 +1,146 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* outline: 1px solid red; */
 }
 
-.App-logo {
-  height: 40vmin;
+body {
+  font-family: 'Roboto', sans-serif !important;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+h1 {
+  font-size: 3em;
+  line-height: 1;
+  margin-bottom: 0.5em;
+}
+h2 {
+  font-size: 2em;
+  margin-bottom: 0.75em;
+}
+h3 {
+  font-size: 1.5em;
+  line-height: 1;
+  margin-bottom: 1em;
+}
+h4 {
+  font-size: 1.2em;
+  line-height: 1.25;
+  margin-bottom: 1.25em;
+}
+h5 {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 1.5em;
+}
+h6 {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 1.5em;
+}
+
+pre {
+  white-space: pre-wrap; /* css-3 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+ul {
+  margin: 0 !important;
+}
+
+/* Navbar */
+nav {
+  background: black;
   color: white;
 }
 
-.App-link {
-  color: #09d3ac;
+.navbar {
+  display: grid;
+  grid-template:
+    'logo menu search user' /
+    100px 1.5fr 1fr auto;
+  column-gap: 1em;
+  padding: 0.8em 0;
 }
+
+.nav-logo {
+  grid-area: logo;
+}
+
+.nav-menu {
+  grid-area: menu;
+}
+
+.nav-menu ul {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 100px);
+  column-gap: 20px;
+}
+
+.nav-search {
+  grid-area: search;
+  width: 100%;
+  position: relative;
+}
+
+.nav-search input,
+.nav-search button {
+  border: 1px solid white;
+  padding: 3px 5px;
+}
+
+.nav-search input[type='text'] {
+  outline: none;
+  width: 80%;
+  border-radius: 8px 0 0 8px;
+  border-right: none;
+  font-size: 1rem;
+}
+
+.nav-search button {
+  background: white;
+  padding: 3px 1em;
+  border-radius: 0 8px 8px 0;
+  border-left: none;
+  cursor: pointer;
+}
+
+.nav-search button:hover {
+  background: #f3f3f3;
+}
+
+.nav-search span svg {
+  font-size: 1.2rem;
+}
+
+.nav-user {
+  grid-area: user;
+}
+
+.nav-user a + a {
+  margin-inline-start: 10px;
+}
+/* end of navbar*/
+
+/* Signup & login*/
+.form-account {
+  margin-block-start: 1em;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.form-container {
+  background: white;
+  padding: 1.5em 1em;
+  width: 520px;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+/* end of signup & login*/

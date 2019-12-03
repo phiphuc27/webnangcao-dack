@@ -8,6 +8,6 @@ const mapStateToProps = state => ({
   error: state.user.error
 });
 const mapDispatchToProps = dispatch => ({
-  register: data => dispatch(register(data))
+  signup: data => dispatch(register(data))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

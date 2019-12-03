@@ -1,14 +1,36 @@
 import React, { useState } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
+import { makeStyles } from '@material-ui/core/styles';
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 import { Link } from 'react-router-dom';
+
+import useForm from 'react-hook-form';
+
+const useStyles = makeStyles({
+  errorInput: {
+    border: '1px solid #cc0000',
+    '&:focus': {
+      borderColor: '#cc0000',
+      boxShadow: '0 0 0 0.2rem rgba(204,0,0,.25)'
+    }
+  },
+
+  errorText: {
+    color: '#cc0000',
+    marginBlockEnd: '10px'
+  }
+});
 
 const Login = ({ isFetching, login, loginGoogle, loginFacebook }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = e => {
+  const { register, handleSubmit, errors } = useForm();
+
+  const classes = useStyles();
+
+  const onSubmit = e => {
     console.log(e);
     const data = { email, password };
     login(data);
@@ -18,17 +40,19 @@ const Login = ({ isFetching, login, loginGoogle, loginFacebook }) => {
     <div className="container form-account">
       <h2>Đăng nhập </h2>
       <div className="form-container">
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>
               Email <span style={{ color: 'red' }}>*</span>
             </Form.Label>
+            {errors.email && <p className={classes.errorText}>{errors.email.message}</p>}
             <Form.Control
+              className={errors.email && classes.errorInput}
               type="email"
               placeholder="Email"
               name="email"
-              value={email}
               onChange={e => setEmail(e.target.value)}
+              ref={register({ required: 'Vui lòng nhập email !' })}
             />
           </Form.Group>
 
@@ -36,12 +60,14 @@ const Login = ({ isFetching, login, loginGoogle, loginFacebook }) => {
             <Form.Label>
               Mật khẩu <span style={{ color: 'red' }}>*</span>
             </Form.Label>
+            {errors.password && <p className={classes.errorText}>{errors.password.message}</p>}
             <Form.Control
+              className={errors.password && classes.errorInput}
               type="password"
               placeholder="Mật khẩu"
               name="password"
-              value={password}
               onChange={e => setPassword(e.target.value)}
+              ref={register({ required: 'Vui lòng nhập password!' })}
             />
           </Form.Group>
           <div

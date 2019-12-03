@@ -12,7 +12,9 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import rootReducer from './Reducers';
 
-import AppContainer from './Containers/AppContainer';
+import { getLoginUser } from './Actions';
+
+import App from './App';
 
 const store = createStore(
   rootReducer,
@@ -22,10 +24,15 @@ const store = createStore(
   )
 );
 
+const token = localStorage.getItem('token');
+if (token) {
+  store.dispatch(getLoginUser(token));
+}
+
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <AppContainer />
+      <App />
     </Router>
   </Provider>,
   document.getElementById('root')
