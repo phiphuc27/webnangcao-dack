@@ -23,18 +23,6 @@ exports.load = sql => {
   });
 };
 
-exports.save = sql => {
-  return new Promise((resolve, reject) => {
-    pool.query(sql, function(error, value) {
-      if (error) {
-        reject(error);
-      } else {
-        return resolve(value);
-      }
-    });
-  });
-};
-
 exports.save = (sql, value) => {
   return new Promise((resolve, reject) => {
     if (value) {

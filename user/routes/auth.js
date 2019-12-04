@@ -23,9 +23,9 @@ router.post('/register', async (req, res) => {
   const { error } = registerValidation(req.body);
   //if (error) return res.status(400).send(error.details[0].message);
 
-  // checking if user name is already in database
-  const usernameExist = await UsersModel.findByUsername(req.body.username);
-  if (usernameExist[0]) return res.status(400).send('User is already existed!');
+  // checking if email is already in database
+  const emailExist = await UsersModel.findByEmail(req.body.email);
+  if (emailExist) return res.status(400).send('User is already existed!');
 
   // hash password
   const salt = await bcrypt.genSalt(10);
@@ -33,19 +33,16 @@ router.post('/register', async (req, res) => {
 
   // create new user
   const user = {
-    TENTK: req.body.username,
+    EMAIL: req.body.email,
     MATKHAU: hashedPassword,
     LOAI: req.body.type
   };
   try {
     const savedUser = await UsersModel.insert(user);
-    UsersModel.updateProfile(
-      {
-        ID: savedUser.insertId,
-        AVATARURL: 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'
-      },
-      savedUser.insertId
-    );
+    UsersModel.insertProfile({
+      ID: savedUser.insertId,
+      AVATARURL: 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'
+    });
     res.send({ userId: savedUser.insertId });
   } catch (err) {
     res.status(400).send(err);
@@ -124,7 +121,7 @@ router.post('/google', async (req, res) => {
         AVATARURL: req.body.photoURL
       };
 
-      UsersModel.updateProfile(userProfile);
+      UsersModel.insertProfile(userProfile);
       const token = utils.generateToken(savedUser.insertId);
       return res.json({ token: token });
     } catch (err) {
@@ -159,7 +156,8 @@ router.post('/facebook', async (req, res) => {
   } else {
     // create new user
     const user = {
-      email: req.body.email
+      EMAIL: req.body.email,
+      LOAI: req.body.type
     };
     try {
       const savedUser = await UsersModel.insert(user);
@@ -170,7 +168,7 @@ router.post('/facebook', async (req, res) => {
         AVATARURL: req.body.photoURL
       };
 
-      UsersModel.updateProfile(userProfile);
+      UsersModel.insertProfile(userProfile);
       const token = utils.generateToken(savedUser.insertId);
       return res.json({ token: token });
     } catch (err) {

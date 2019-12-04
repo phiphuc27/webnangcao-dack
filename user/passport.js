@@ -35,17 +35,17 @@ require('dotenv').config();
 passport.use(
   new LocalStrategy(
     {
-      usernameField: 'username',
+      usernameField: 'email',
       passwordField: 'password'
     },
-    async (username, password, cb) => {
+    async (email, password, cb) => {
       try {
-        console.log(username);
-        return UsersModel.findByUsername(username)
+        console.log(email);
+        return UsersModel.findByEmail(email)
           .then(async user => {
-            if (!user[0]) {
+            if (!user) {
               return cb(null, false, {
-                message: 'Incorrect email or password.'
+                message: 'Incorrect email.'
               });
             }
             // checking password
@@ -70,7 +70,7 @@ passport.use(
 //JWT Strategy
 const jwtOptions = {
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-  secretOrKey: config.SECRET_KEY
+  secretOrKey: process.env.SECRET_KEY
 };
 
 passport.use(
