@@ -2,15 +2,16 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 function generateToken(id) {
-  return (token = jwt.sign({ _id: id }, process.env.SECRET_KEY, {
+  const token = jwt.sign({ _id: id }, process.env.SECRET_KEY, {
     expiresIn: 60 * 60 * 24 // expires in 24 hours
-  }));
+  });
+  return token;
 }
 
 function getCleanUser(user) {
   if (!user) return {};
 
-  var u = user.toJSON();
+  const u = user.toJSON();
   return {
     id: u.id,
     first_name: u.first_name,
@@ -28,6 +29,6 @@ function getCleanUser(user) {
 }
 
 module.exports = {
-  getCleanUser: getCleanUser,
-  generateToken: generateToken
+  getCleanUser,
+  generateToken
 };

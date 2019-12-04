@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable camelcase */
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';

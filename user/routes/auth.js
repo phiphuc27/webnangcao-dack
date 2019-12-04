@@ -1,51 +1,50 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+
+const router = express.Router();
+
 const passport = require('passport');
-var UsersModel = require('../models/Users');
-
-const aws = require('aws-sdk');
-
 const bcrypt = require('bcryptjs');
+const UsersModel = require('../models/Users');
+
 const utils = require('../utils');
 
-const { registerValidation, loginValidation } = require('../validation');
-
-//const db = require('../db');
+// const db = require('../db');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
   res.send('Message: this is api of authority');
 });
 
 /* POST register user */
 router.post('/register', async (req, res) => {
-  // validation
-  const { error } = registerValidation(req.body);
-  //if (error) return res.status(400).send(error.details[0].message);
-
-  // checking if email is already in database
-  const emailExist = await UsersModel.findByEmail(req.body.email);
-  if (emailExist) return res.status(400).send('User is already existed!');
-
-  // hash password
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
-  // create new user
-  const user = {
-    EMAIL: req.body.email,
-    MATKHAU: hashedPassword,
-    LOAI: req.body.type
-  };
   try {
+    // checking if email is already in database
+    const emailExist = await UsersModel.checkEmailExist(req.body.email);
+    if (emailExist[0].emailExist)
+      return res
+        .status(400)
+        .send('Email đã được đăng kí! Vui lòng nhập email khác.');
+
+    // hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+    // create new user
+    const user = {
+      EMAIL: req.body.email,
+      MATKHAU: hashedPassword,
+      LOAI: req.body.type
+    };
+
     const savedUser = await UsersModel.insert(user);
     UsersModel.insertProfile({
       ID: savedUser.insertId,
       AVATARURL: 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'
     });
-    res.send({ userId: savedUser.insertId });
+    return res.json({ userId: savedUser.insertId });
   } catch (err) {
-    res.status(400).send(err);
+    console.log(err);
+    return res.status(400).send(err);
   }
 });
 
@@ -56,36 +55,34 @@ router.get('/login', (req, res) => {
 router.post('/login', async (req, res) => {
   // validation
   console.log('api post login');
-  const { error } = loginValidation(req.body);
-  //if (error) return res.status(400).send(error.details[0].message);
 
   passport.authenticate('local', { session: false }, (err, user, info) => {
-    console.log(info);
     if (err || !user) {
       return res.status(400).send({
-        message: 'Something is not right',
-        user: user
+        message: info.message,
+        user
       });
     }
-    req.login(user, { session: false }, err => {
+    return req.login(user, { session: false }, error => {
       if (err) {
-        res.send(err);
+        return res.send(error);
       }
       // generate a signed son web token with the contents of user object and return it in the response
-      const token = utils.generateToken(user);
-      user = utils.getCleanUser(user);
-      return res.json({ user: user, token: token });
+      const token = utils.generateToken(user.ID);
+      console.log(user);
+      return res.json({ user, token });
     });
   })(req, res);
 });
 
+// eslint-disable-next-line consistent-return
 router.post('/google', async (req, res) => {
   // checking if user email is already in database
   let userProfile = {
     google_id: req.body.googleId
   };
   const emailExist = await UsersModel.checkEmailExist(req.body.email);
-  if (emailExist) {
+  if (emailExist[0].emailExist) {
     await UsersModel.findByEmail(req.body.email)
       .then(async user => {
         if (user.TEN === null)
@@ -97,9 +94,9 @@ router.post('/google', async (req, res) => {
           'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'
         )
           userProfile = { ...userProfile, AVATARURL: req.body.photoURL };
-        await UsersModel.updateProfile(userProfile, user.id);
-        const token = utils.generateToken(user.id);
-        return res.json({ token: token });
+        await UsersModel.updateProfile(userProfile, user.ID);
+        const token = utils.generateToken(user.ID);
+        return res.json({ token });
       })
       .catch(err => {
         console.log(err);
@@ -123,20 +120,21 @@ router.post('/google', async (req, res) => {
 
       UsersModel.insertProfile(userProfile);
       const token = utils.generateToken(savedUser.insertId);
-      return res.json({ token: token });
+      return res.json({ token });
     } catch (err) {
-      res.status(400).send(err);
+      return res.status(400).send(err);
     }
   }
 });
 
+// eslint-disable-next-line consistent-return
 router.post('/facebook', async (req, res) => {
   // checking if user email is already in database
   let userProfile = {
     facebook_id: req.body.facebookId
   };
   const emailExist = await UsersModel.checkEmailExist(req.body.email);
-  if (emailExist) {
+  if (emailExist[0].emailExist) {
     await UsersModel.findByEmail(req.body.email)
       .then(async user => {
         if (user.TEN === null)
@@ -148,7 +146,7 @@ router.post('/facebook', async (req, res) => {
           userProfile = { ...userProfile, AVATARURL: req.body.photoURL };
         await UsersModel.updateProfile(userProfile, user.id);
         const token = utils.generateToken(user.id);
-        return res.json({ token: token });
+        return res.json({ token });
       })
       .catch(err => {
         return res.status(400).send(err);
@@ -170,11 +168,23 @@ router.post('/facebook', async (req, res) => {
 
       UsersModel.insertProfile(userProfile);
       const token = utils.generateToken(savedUser.insertId);
-      return res.json({ token: token });
+      return res.json({ token });
     } catch (err) {
-      res.status(400).send(err);
+      return res.status(400).send(err);
     }
   }
+});
+
+router.post('/updateType', async (req, res) => {
+  const user = await UsersModel.getUserById(req.id);
+  if (!user) {
+    return res.json({ result: 'error' });
+  }
+  if (user.LOAI !== '5') {
+    return res.json({ result: 'error' });
+  }
+  await UsersModel.updateType(user.id, req.type);
+  return res.json({ result: 'success' });
 });
 
 module.exports = router;

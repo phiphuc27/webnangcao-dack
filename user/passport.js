@@ -4,16 +4,12 @@ const passportJWT = require('passport-jwt');
 const ExtractJWT = passportJWT.ExtractJwt;
 
 const LocalStrategy = require('passport-local').Strategy;
+
 const JWTStrategy = passportJWT.Strategy;
-
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-
-const FacebookStrategy = require('passport-facebook').Strategy;
-var config = require('./config/config');
-
 const bcrypt = require('bcryptjs');
-var UsersModel = require('./models/Users');
-//const db = require('./db');
+
+const UsersModel = require('./models/Users');
+// const db = require('./db');
 
 require('dotenv').config();
 
@@ -31,7 +27,7 @@ require('dotenv').config();
 // 		});
 // });
 
-//Local Strategy
+// Local Strategy
 passport.use(
   new LocalStrategy(
     {
@@ -40,7 +36,6 @@ passport.use(
     },
     async (email, password, cb) => {
       try {
-        console.log(email);
         return UsersModel.findByEmail(email)
           .then(async user => {
             if (!user) {
@@ -49,36 +44,40 @@ passport.use(
               });
             }
             // checking password
-            const validPassword = await bcrypt.compare(password, user.password);
+            const validPassword = await bcrypt.compare(
+              password,
+              user[0].MATKHAU
+            );
             if (!validPassword)
               return cb(null, false, {
                 message: 'Incorrect email or password.'
               });
 
-            return cb(null, user, { message: 'Logged In Successfully' });
+            return cb(null, user[0], { message: 'Logged In Successfully' });
           })
           .catch(err => {
+            console.log(err);
             cb(err);
           });
       } catch (err) {
-        cb(err);
+        return cb(err);
       }
     }
   )
 );
 
-//JWT Strategy
+// JWT Strategy
 const jwtOptions = {
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.SECRET_KEY
 };
 
 passport.use(
-  new JWTStrategy(jwtOptions, async (jwtPayload, cb) => {
-    //find the user in db if needed
-    return await UsersModel.getUserById(jwtPayload._id)
+  new JWTStrategy(jwtOptions, (jwtPayload, cb) => {
+    // find the user in db if needed
+    return UsersModel.getUserInfoById(jwtPayload._id)
       .then(user => {
-        return cb(null, user);
+        return cb(null, user[0]);
       })
       .catch(err => {
         return cb(err);

@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const aws = require('aws-sdk');
 
 const bcrypt = require('bcryptjs');
 

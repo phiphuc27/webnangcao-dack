@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { HomeRounded } from '@material-ui/icons';
 import { GoSearch } from 'react-icons/go';
 
@@ -8,10 +8,10 @@ const index = () => {
     <nav>
       <div className="container navbar">
         <div className="nav-logo">
-          <Link to="/">
+          <NavLink to="/">
             <HomeRounded />
             <span>Logo</span>
-          </Link>
+          </NavLink>
         </div>
         <div className="nav-menu">
           <ul>
@@ -29,12 +29,12 @@ const index = () => {
         </div>
 
         <div className="nav-user">
-          <Link to="/register" className="btn btn-secondary">
+          <NavLink to="/register" className="btn btn-secondary">
             Sign Up
-          </Link>
-          <Link to="/login" className="btn btn-primary">
+          </NavLink>
+          <NavLink to="/login" className="btn btn-primary">
             Log In
-          </Link>
+          </NavLink>
         </div>
       </div>
     </nav>
