@@ -19,7 +19,7 @@ export const register = data => {
     dispatch(startRegister);
     axios({
       method: 'post',
-      url: '/user/register',
+      url: '/auth/register',
       data
     })
       .then(() => {
@@ -79,7 +79,7 @@ export const login = data => {
     await dispatch(startLogin);
     await axios({
       method: 'post',
-      url: '/user/login',
+      url: '/auth/login',
       data
     })
       .then(response => {

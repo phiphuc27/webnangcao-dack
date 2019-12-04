@@ -1,5 +1,7 @@
 const mysql = require('mysql');
+
 const dotenv = require('dotenv');
+
 dotenv.config();
 
 const pool = mysql.createPool({
@@ -13,12 +15,12 @@ const pool = mysql.createPool({
 
 exports.load = sql => {
   return new Promise((resolve, reject) => {
-    pool.query(sql, function(error, rows, fields) {
+    pool.query(sql, function(error, rows) {
       if (error) {
-        reject(error);
-      } else {
-        return resolve(rows);
+        return reject(error);
       }
+      console.log('Query executed');
+      return resolve(rows);
     });
   });
 };
@@ -26,20 +28,18 @@ exports.load = sql => {
 exports.save = (sql, value) => {
   return new Promise((resolve, reject) => {
     if (value) {
-      pool.query(sql, value, function(error, value) {
+      pool.query(sql, value, function(error, result) {
         if (error) {
-          reject(error);
-        } else {
-          return resolve(value);
+          return reject(error);
         }
+        return resolve(result);
       });
     } else {
-      pool.query(sql, function(error, value) {
+      pool.query(sql, function(error, result) {
         if (error) {
-          reject(error);
-        } else {
-          return resolve(value);
+          return reject(error);
         }
+        return resolve(result);
       });
     }
   });
