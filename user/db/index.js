@@ -6,9 +6,9 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   host: 'localhost',
   port: '3306',
-  user: 'root',
-  password: '1121997',
-  database: 'uberfortutordb'
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE
 });
 
 exports.load = sql => {
