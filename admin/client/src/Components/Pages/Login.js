@@ -92,7 +92,7 @@ const Login = ({ isFetching, login }) => {
               </Button>
             ) : (
               <Button variant="primary" type="submit">
-                Sign Up
+                Sign In
               </Button>
             )}
           </div>

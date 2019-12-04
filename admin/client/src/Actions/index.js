@@ -66,6 +66,7 @@ export const getLoginUser = token => {
       .then(response => {
         window.sessionStorage.setItem('jwtToken', response.data.token);
         dispatch(successLogin(response.data.user));
+        
       })
       .catch(err => {
         window.sessionStorage.removeItem('jwtToken');
@@ -79,13 +80,15 @@ export const login = data => {
     await dispatch(startLogin);
     await axios({
       method: 'post',
-      url: '/user/login',
+      url: '/auth/login',
       data
     })
       .then(response => {
+        // console.log(response.data.token);
         dispatch(getLoginUser(response.data.token));
       })
       .catch(err => {
+        // console.log(err.response);
         dispatch(errorLogin(err.response.data.message));
       });
   };
