@@ -80,5 +80,5 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`danhgia` (
 ENGINE = InnoDB;
 
 INSERT INTO `uberfortutordb`.`taikhoan` (`EMAIL`, `MATKHAU`, `LOAI`) VALUES
-('admin_root', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 0);
--- admin_root - 1234567
+('root@admin.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 0);
+-- root@admin.com - 1234567
