@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 
 const bcrypt = require('bcryptjs');
 
@@ -14,8 +15,15 @@ router.get('/', (req, res, next) => {
 
 /* POST register user */
 router.post('/register', async (req, res) => {
+  //check if root admin
+  if (req.user) {
+    if (req.user.LOAI !== 0)
+      return res
+        .status(400)
+        .send('Only root admin can register new admin account');
+  }
   // validation
-  const { error } = registerValidation(req.body);
+  //const { error } = registerValidation(req.body);
   //if (error) return res.status(400).send(error.details[0].message);
 
   // checking if email is already in database

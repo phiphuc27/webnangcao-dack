@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 import useForm from 'react-hook-form';
@@ -19,7 +20,7 @@ const useStyles = makeStyles({
   }
 });
 
-const Login = ({ isFetching, login }) => {
+const Login = ({ isFetching, isFetched, login }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -35,6 +36,7 @@ const Login = ({ isFetching, login }) => {
 
   return (
     <div className="container form-account">
+      {isFetched && <Redirect to="/dashboard" />}
       <h2>Đăng nhập </h2>
       <div className="form-container">
         <Form onSubmit={handleSubmit(onSubmit)}>

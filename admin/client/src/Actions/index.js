@@ -17,9 +17,15 @@ export const errorRegister = error => ({
 export const register = data => {
   return dispatch => {
     dispatch(startRegister);
+    const token = sessionStorage.getItem('jwtToken');
+    //console.log(token);
+    //if (token === undefined) throw new Error('no token');
     axios({
       method: 'post',
-      url: '/user/register',
+      url: '/users/register',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
       data
     })
       .then(() => {
@@ -65,8 +71,8 @@ export const getLoginUser = token => {
     })
       .then(response => {
         window.sessionStorage.setItem('jwtToken', response.data.token);
+        // console.log(response.data.token);
         dispatch(successLogin(response.data.user));
-        
       })
       .catch(err => {
         window.sessionStorage.removeItem('jwtToken');

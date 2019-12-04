@@ -5,6 +5,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
 
 import Home from './Components/Pages/Home';
+import Register from './Containers/RegisterContainer';
 import Login from './Containers/LoginContainer';
 
 import Navbar from './Components/Navbar';
@@ -36,6 +37,7 @@ const App = ({ loggedIn, user }) => {
           {loggedIn ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}
         </Route>
         <PrivateRoute exact path="/dashboard" component={Home} />
+        <PrivateRoute exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
       </Switch>
     </>

@@ -12,7 +12,7 @@ router.get(
   '/me',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const token = utils.generateToken(req.user.id);
+    const token = utils.generateToken(req.user.ID);
     res.json({ user: req.user, token: token });
   }
 );

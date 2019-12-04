@@ -45,7 +45,7 @@ router.post('/login', async (req, res) => {
         res.send(err);
       }
       // generate a signed son web token with the contents of user object and return it in the response
-      const token = utils.generateToken(user);
+      const token = utils.generateToken(user.ID);
       //user = utils.getCleanUser(user);
       return res.json({ user: user, token: token });
     });

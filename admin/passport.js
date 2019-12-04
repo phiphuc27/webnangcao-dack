@@ -80,8 +80,8 @@ const jwtOptions = {
 passport.use(
   new JWTStrategy(jwtOptions, async (jwtPayload, cb) => {
     //find the user in db if needed
-    //console.log(jwtPayload._id);
-    return await UsersModel.getUserById(jwtPayload._id.ID)
+    //console.log(jwtPayload);
+    return await UsersModel.getUserById(jwtPayload._id)
       .then(user => {
         return cb(null, user[0]);
       })
