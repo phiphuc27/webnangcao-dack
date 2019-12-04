@@ -1,9 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { HomeRounded } from '@material-ui/icons';
 import { GoSearch } from 'react-icons/go';
 
-const index = () => {
+const index = ({ loggedIn, user }) => {
   return (
     <nav>
       <div className="container navbar">
@@ -29,16 +30,25 @@ const index = () => {
         </div>
 
         <div className="nav-user">
-          <Link to="/register" className="btn btn-secondary">
-            Sign Up
-          </Link>
-          <Link to="/login" className="btn btn-primary">
-            Log In
-          </Link>
+          {loggedIn && user.LOAI === 0 ? (
+            <Link to="/register" className="btn btn-secondary">
+              Register
+            </Link>
+          ) : null}
+          {loggedIn ? null : (
+            <Link to="/login" className="btn btn-primary">
+              Log In
+            </Link>
+          )}
         </div>
       </div>
     </nav>
   );
 };
 
-export default index;
+const mapStateToProps = state => ({
+  loggedIn: state.user.loggedIn,
+  user: state.user.user
+});
+
+export default connect(mapStateToProps)(index);

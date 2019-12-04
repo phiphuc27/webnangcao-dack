@@ -10,7 +10,7 @@ import {
 
 const mapStateToProps = state => ({
   isFetching: state.user.fetching,
-  isFetched: state.user.fetched,
+  isFetched: state.user.loggedIn,
   error: state.user.error
 });
 const mapDispatchToProps = dispatch => ({
