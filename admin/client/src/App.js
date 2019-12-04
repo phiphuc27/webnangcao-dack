@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import './App.css';
 
 import Home from './Components/Pages/Home';
@@ -10,7 +10,9 @@ import Login from './Containers/LoginContainer';
 
 import Navbar from './Components/Navbar';
 
-const App = ({ loggedIn, user }) => {
+import { logout } from './Actions';
+
+const App = ({ loggedIn, user, logOut, history }) => {
   const PrivateRoute = ({ component: Component, path }) => (
     <Route
       path={path}
@@ -31,7 +33,7 @@ const App = ({ loggedIn, user }) => {
 
   return (
     <>
-      <Navbar user={user} />
+      <Navbar user={user} logout={logOut} history={history} />
       <Switch>
         <Route exact path="/">
           {loggedIn ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}
@@ -49,4 +51,11 @@ const mapStateToProps = state => ({
   user: state.user.user
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+  logOut: () => {
+    window.sessionStorage.removeItem('jwtToken');
+    dispatch(logout);
+  }
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
