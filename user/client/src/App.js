@@ -1,18 +1,21 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable camelcase */
 import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './App.css';
 import Home from './Components/Pages/Home';
 import Login from './Containers/LoginContainer';
 import Register from './Containers/RegisterContainer';
+import Profile from './Containers/ProfileContainer';
 import Navbar from './Components/Navbar';
 
-const App = ({ loggedIn, user }) => {
-  const PrivateRoute = ({ component: Component, path }) => (
+import { logout } from './Actions';
+
+const App = ({ loggedIn, user, logOut, history }) => {
+  const PrivateRoute = ({ component: Component, ...path }) => (
     <Route
-      path={path}
+      {...path}
       render={props =>
         loggedIn ? (
           <Component {...props} />
@@ -30,11 +33,12 @@ const App = ({ loggedIn, user }) => {
 
   return (
     <>
-      <Navbar user={user} />
+      <Navbar user={user} logout={logOut} history={history} />
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
+        <PrivateRoute exact path="/profile" component={Profile} />
       </Switch>
     </>
   );
@@ -44,5 +48,11 @@ const mapStateToProps = state => ({
   loggedIn: state.user.loggedIn,
   user: state.user.user
 });
+const mapDispatchToProps = dispatch => ({
+  logOut: () => {
+    window.sessionStorage.removeItem('jwtToken');
+    dispatch(logout);
+  }
+});
 
-export default connect(mapStateToProps)(App);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

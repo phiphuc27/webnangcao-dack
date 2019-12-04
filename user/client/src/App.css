@@ -119,10 +119,31 @@ nav {
 
 .nav-user {
   grid-area: user;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .nav-user a + a {
   margin-inline-start: 10px;
+}
+
+.nav-dropdown {
+  background: transparent !important;
+  border: transparent;
+}
+
+.nav-dropdown > img {
+  height: 30px;
+  width: 30px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+
+.nav-dropdown:hover,
+.nav-dropdown:focus {
+  color: #dbdbdb;
 }
 /* end of navbar*/
 

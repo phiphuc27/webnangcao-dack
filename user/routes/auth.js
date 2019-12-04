@@ -48,9 +48,6 @@ router.post('/register', async (req, res) => {
   }
 });
 
-router.get('/login', (req, res) => {
-  res.sendStatus(200);
-});
 /* POST login user */
 router.post('/login', async (req, res) => {
   // validation
@@ -79,23 +76,23 @@ router.post('/login', async (req, res) => {
 router.post('/google', async (req, res) => {
   // checking if user email is already in database
   let userProfile = {
-    google_id: req.body.googleId
+    GOOGLEID: req.body.googleId
   };
   const emailExist = await UsersModel.checkEmailExist(req.body.email);
   if (emailExist[0].emailExist) {
     await UsersModel.findByEmail(req.body.email)
       .then(async user => {
-        if (user.TEN === null)
+        if (user[0].TEN === null)
           userProfile = { ...userProfile, TEN: req.body.givenName };
-        if (user.HO === null)
+        if (user[0].HO === null)
           userProfile = { ...userProfile, HO: req.body.familyName };
         if (
-          user.AVATARURL ===
+          user[0].AVATARURL ===
           'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'
         )
           userProfile = { ...userProfile, AVATARURL: req.body.photoURL };
-        await UsersModel.updateProfile(userProfile, user.ID);
-        const token = utils.generateToken(user.ID);
+        await UsersModel.updateProfile(userProfile, user[0].ID);
+        const token = utils.generateToken(user[0].ID);
         return res.json({ token });
       })
       .catch(err => {
@@ -115,7 +112,8 @@ router.post('/google', async (req, res) => {
         ID: savedUser.insertId,
         TEN: req.body.givenName,
         HO: req.body.familyName,
-        AVATARURL: req.body.photoURL
+        AVATARURL: req.body.photoURL,
+        GOOGLEID: req.body.googleId
       };
 
       UsersModel.insertProfile(userProfile);
@@ -131,21 +129,21 @@ router.post('/google', async (req, res) => {
 router.post('/facebook', async (req, res) => {
   // checking if user email is already in database
   let userProfile = {
-    facebook_id: req.body.facebookId
+    FACEBOOKID: req.body.facebookId
   };
   const emailExist = await UsersModel.checkEmailExist(req.body.email);
   if (emailExist[0].emailExist) {
     await UsersModel.findByEmail(req.body.email)
       .then(async user => {
-        if (user.TEN === null)
+        if (user[0].TEN === null)
           userProfile = { ...userProfile, TEN: req.body.name };
         if (
-          user.AVATARURL ===
+          user[0].AVATARURL ===
           'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'
         )
           userProfile = { ...userProfile, AVATARURL: req.body.photoURL };
-        await UsersModel.updateProfile(userProfile, user.id);
-        const token = utils.generateToken(user.id);
+        await UsersModel.updateProfile(userProfile, user[0].ID);
+        const token = utils.generateToken(user[0].ID);
         return res.json({ token });
       })
       .catch(err => {
@@ -163,7 +161,8 @@ router.post('/facebook', async (req, res) => {
       userProfile = {
         ID: savedUser.insertId,
         TEN: req.body.name,
-        AVATARURL: req.body.photoURL
+        AVATARURL: req.body.photoURL,
+        FACEBOOKID: req.body.facebookId
       };
 
       UsersModel.insertProfile(userProfile);

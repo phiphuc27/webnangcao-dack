@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Login from '../Components/Pages/Login';
 import { login, googleLogin, facebookLogin, errorLogin, getLoginUser } from '../Actions';
 
 const mapStateToProps = state => ({
   isFetching: state.user.fetching,
-  isFetched: state.user.fetched,
+  isFetched: state.user.loggedIn,
   error: state.user.error
 });
 const mapDispatchToProps = dispatch => ({
@@ -36,4 +37,4 @@ const mapDispatchToProps = dispatch => ({
     });
   }
 });
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

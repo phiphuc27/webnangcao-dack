@@ -99,11 +99,12 @@ export const googleLogin = data => {
       email: data.profileObj.email,
       familyName: data.profileObj.familyName,
       givenName: data.profileObj.givenName,
-      photoURL: data.profileObj.imageUrl
+      photoURL: data.profileObj.imageUrl,
+      type: 3
     };
     const request = await axios({
       method: 'post',
-      url: '/user/google',
+      url: '/auth/google',
       data: userData
     });
     return {
@@ -116,14 +117,17 @@ export const googleLogin = data => {
 export const facebookLogin = data => {
   return async dispatch => {
     await dispatch(startLogin);
+    console.log(data);
     const userData = {
+      facebookId: data.userID,
       email: data.email,
       name: data.name,
-      photoURL: data.picture.data.url
+      photoURL: data.picture.data.url,
+      type: 3
     };
     const request = await axios({
       method: 'post',
-      url: '/user/facebook',
+      url: '/auth/facebook',
       data: userData
     });
     return {
@@ -131,5 +135,9 @@ export const facebookLogin = data => {
       payload: request
     };
   };
+};
+
+export const logout = {
+  type: 'LOG_OUT'
 };
 /* end of login */

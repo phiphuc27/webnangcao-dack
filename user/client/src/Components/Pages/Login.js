@@ -3,7 +3,7 @@ import { Form, Button, Spinner } from 'react-bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import useForm from 'react-hook-form';
 
@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   }
 });
 
-const Login = ({ isFetching, login, loginGoogle, loginFacebook }) => {
+const Login = ({ isFetching, isFetched, login, loginGoogle, loginFacebook, history }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -30,14 +30,14 @@ const Login = ({ isFetching, login, loginGoogle, loginFacebook }) => {
 
   const classes = useStyles();
 
-  const onSubmit = e => {
-    console.log(e);
+  const onSubmit = () => {
     const data = { email, password };
     login(data);
   };
 
   return (
     <div className="container form-account">
+      {isFetched && <Redirect to="/profile" />}
       <h2>Đăng nhập </h2>
       <div className="form-container">
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -114,7 +114,7 @@ const Login = ({ isFetching, login, loginGoogle, loginFacebook }) => {
               </Button>
             ) : (
               <Button variant="primary" type="submit">
-                Sign Up
+                Đăng nhập
               </Button>
             )}
           </div>

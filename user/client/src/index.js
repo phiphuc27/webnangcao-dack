@@ -24,7 +24,7 @@ const store = createStore(
   )
 );
 
-const token = localStorage.getItem('token');
+const token = window.sessionStorage.getItem('jwtToken');
 if (token) {
   store.dispatch(getLoginUser(token));
 }
