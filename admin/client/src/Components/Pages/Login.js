@@ -94,7 +94,7 @@ const Login = ({ isFetching, isFetched, login }) => {
               </Button>
             ) : (
               <Button variant="primary" type="submit">
-                Sign In
+                Đăng nhập
               </Button>
             )}
           </div>

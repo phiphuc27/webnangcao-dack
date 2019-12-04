@@ -4,7 +4,12 @@ import { Link } from 'react-router-dom';
 import { HomeRounded } from '@material-ui/icons';
 import { GoSearch } from 'react-icons/go';
 
-const index = ({ loggedIn, user }) => {
+const index = ({ user, logout, history }) => {
+  const handleLogout = e => {
+    e.preventDefault();
+    logout();
+    history.push('/');
+  };
   return (
     <nav>
       <div className="container navbar">
@@ -16,7 +21,13 @@ const index = ({ loggedIn, user }) => {
         </div>
         <div className="nav-menu">
           <ul>
-            <li>Menu 1</li>
+            {user && user.LOAI === 0 ? (
+              <li>
+                <Link to="/register">Tạo mới admin</Link>
+              </li>
+            ) : (
+              <li>Menu 1</li>
+            )}
             <li>Menu 2</li>
           </ul>
         </div>
@@ -29,18 +40,24 @@ const index = ({ loggedIn, user }) => {
           </button>
         </div>
 
-        <div className="nav-user">
-          {loggedIn && user.LOAI === 0 ? (
-            <Link to="/register" className="btn btn-secondary">
-              Register
-            </Link>
-          ) : null}
-          {loggedIn ? null : (
+        {user ? (
+          <div className="nav-user">
+            <p>{user.EMAIL}</p>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={e => handleLogout(e)}
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <div className="nav-user">
             <Link to="/login" className="btn btn-primary">
               Log In
             </Link>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </nav>
   );

@@ -66,6 +66,10 @@ nav {
   padding: 0.8em 0;
 }
 
+.navbar a {
+  color: white;
+}
+
 .nav-logo {
   grid-area: logo;
 }
@@ -77,8 +81,8 @@ nav {
 .nav-menu ul {
   list-style-type: none;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 100px);
-  column-gap: 20px;
+  grid-template-columns: repeat(auto-fit, 120px);
+  column-gap: 10px;
 }
 
 .nav-search {
@@ -119,6 +123,12 @@ nav {
 
 .nav-user {
   grid-area: user;
+  display: flex;
+  align-items: center;
+}
+
+.nav-user p {
+  margin: 0 5px;
 }
 
 .nav-user a + a {

@@ -17,9 +17,8 @@ export const errorRegister = error => ({
 export const register = data => {
   return dispatch => {
     dispatch(startRegister);
-    const token = sessionStorage.getItem('jwtToken');
-    //console.log(token);
-    //if (token === undefined) throw new Error('no token');
+    const token = window.sessionStorage.getItem('jwtToken');
+
     axios({
       method: 'post',
       url: '/users/register',
@@ -140,5 +139,9 @@ export const facebookLogin = data => {
       payload: request
     };
   };
+};
+
+export const logout = {
+  type: 'LOG_OUT'
 };
 /* end of login */
