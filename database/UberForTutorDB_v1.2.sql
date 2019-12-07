@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`thongtin` (
   `GIOITINH` NVARCHAR(3) NULL,
   `AVATARURL` VARCHAR(150) NULL,
   `GIOITHIEU` NVARCHAR(150) NULL,
-  `GOGGLEID` nvarchar(255) NULL,
+  `GOOGLEID` nvarchar(255) NULL,
   `FACEBOOKID` nvarchar(255) NULL,
   CONSTRAINT `fk_thongtintaikhoan`
     FOREIGN KEY (`ID`) 

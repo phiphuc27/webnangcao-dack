@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { HomeRounded } from '@material-ui/icons';
-import { Dropdown } from 'react-bootstrap';
 import { GoSearch } from 'react-icons/go';
 
 const index = ({ user, logout, history }) => {
@@ -36,22 +35,44 @@ const index = ({ user, logout, history }) => {
 
         {user ? (
           <div className="nav-user">
-            <Dropdown alignRight>
-              <Dropdown.Toggle className="nav-dropdown" id="dropdown-basic">
-                <img src={user.AVATARURL} alt="avatar" />
-                {user.EMAIL}
-              </Dropdown.Toggle>
+            <div className="user-info">
+              <img src={user.AVATARURL} alt="hình đại diện" />
+              <p>
+                <b>
+                  {user.HO} {user.TEN}
+                </b>
+              </p>
+            </div>
 
-              <Dropdown.Menu>
-                <Link to="/profile" className="dropdown-item">
-                  Profile
-                </Link>
-                <Dropdown.Divider />
-                <Dropdown.Item as="button" onClick={e => handleLogout(e)}>
-                  Log out
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            <div className="dropdown-menu user-menu">
+              <ul>
+                <li>
+                  <Link to="/profile/tai-khoan">Hồ sơ</Link>
+                </li>
+                {user.LOAI === 3 ? (
+                  <>
+                    <li>
+                      <Link to="/profile/hop-dong">Lịch sử hợp đồng học</Link>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      <Link to="/profile/yeu-cau">Lịch sử yêu cầu học</Link>
+                    </li>
+                    <li>
+                      <Link to="/profile/doanh-thu">Doanh thu</Link>
+                    </li>
+                  </>
+                )}
+                <hr />
+                <li>
+                  <button type="button" onClick={e => handleLogout(e)}>
+                    Thoát tài khoản
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
         ) : (
           <div className="nav-user">
