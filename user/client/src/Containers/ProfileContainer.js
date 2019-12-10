@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Profile from '../Components/Pages/Profile';
-import { login } from '../Actions';
+import { login } from '../Actions/user';
 
 const mapStateToProps = state => ({
   isFetching: state.user.fetching,

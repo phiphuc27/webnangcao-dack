@@ -6,15 +6,16 @@ import { connect } from 'react-redux';
 import { Spinner } from 'react-bootstrap';
 import './App.css';
 
-import Home from './Components/Pages/Home';
+import Home from './Containers/HomeContainer';
 import Error from './Components/Pages/Error';
 import Login from './Containers/LoginContainer';
 import Register from './Containers/RegisterContainer';
 import Profile from './Containers/ProfileContainer';
 import Navbar from './Components/Navbar/Navbar';
-import Footer from './Components/Footer';
+import Footer from './Components/Other/Footer';
+import Tutors from './Components/Pages/Tutors';
 
-import { logout } from './Actions';
+import { logout } from './Actions/user';
 
 const App = ({ isLoading, loggedIn, user, logOut, history }) => {
   const PrivateRoute = ({ component: Component, ...path }) => (
@@ -53,6 +54,7 @@ const App = ({ isLoading, loggedIn, user, logOut, history }) => {
         <>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/tutors" component={Tutors} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <PrivateRoute exact path="/profile/:tab" component={Profile} />

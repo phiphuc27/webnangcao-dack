@@ -1,5 +1,4 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
@@ -7,9 +6,12 @@ import {
   Typography
 } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
+import { FaEdit } from 'react-icons/fa';
+import EditModal from '../Modals/EditProfile';
 
 const Profile = ({ user, match }) => {
-  const [expanded, setExpanded] = React.useState(match.params.tab);
+  const [expanded, setExpanded] = useState(match.params.tab);
+  const [modalShow, setModalShow] = useState(false);
 
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -21,6 +23,12 @@ const Profile = ({ user, match }) => {
           <div className="sidebar-container">
             <div className="profile-image">
               <img src={user.AVATARURL} alt="hình đại diện" />
+              <div className="image-overlay">
+                <input type="file" id="edit_picture" />
+                <label htmlFor="edit_picture">
+                  <FaEdit />
+                </label>
+              </div>
             </div>
 
             <div className="profile-tab">
@@ -39,7 +47,7 @@ const Profile = ({ user, match }) => {
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                   <ul>
-                    <li>Thông tin cá nhân</li>
+                    <li className="active">Thông tin cá nhân</li>
                   </ul>
                 </ExpansionPanelDetails>
               </ExpansionPanel>
@@ -123,7 +131,9 @@ const Profile = ({ user, match }) => {
                   <h3>Thông tin cá nhân</h3>
                 </div>
                 <div className="col-2" style={{ textAlign: 'end' }}>
-                  <Link to="/profile/edit">Chỉnh sửa</Link>
+                  <button type="button" className="btn" onClick={() => setModalShow(true)}>
+                    Chỉnh sửa
+                  </button>
                 </div>
               </div>
             </div>
@@ -168,7 +178,9 @@ const Profile = ({ user, match }) => {
                       <h3>Giới thiệu bản thân</h3>
                     </div>
                     <div className="col-2" style={{ textAlign: 'end' }}>
-                      <Link to="/profile/edit">Chỉnh sửa</Link>
+                      <button type="button" className="btn" onClick={() => setModalShow(true)}>
+                        Chỉnh sửa
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -194,7 +206,9 @@ const Profile = ({ user, match }) => {
                       <h3>Kỹ năng</h3>
                     </div>
                     <div className="col-2" style={{ textAlign: 'end' }}>
-                      <Link to="/profile/edit">Chỉnh sửa</Link>
+                      <button type="button" className="btn" onClick={() => setModalShow(true)}>
+                        Chỉnh sửa
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -216,6 +230,7 @@ const Profile = ({ user, match }) => {
           )}
         </div>
       </div>
+      <EditModal loai={user.LOAI} show={modalShow} onHide={() => setModalShow(false)} />
     </div>
   );
 };
