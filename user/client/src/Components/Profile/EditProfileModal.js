@@ -25,7 +25,7 @@ const EditProfile = ({ show, onHide, user, onProfileChange }) => {
     lastName: user.HO || '',
     firstName: user.TEN || '',
     address: user.DIACHI || '',
-    gender: user.GIOITINH || 'male',
+    gender: user.GIOITINH || 'Nam',
     description: user.GIOITHIEU || ''
   });
 
@@ -118,8 +118,8 @@ const EditProfile = ({ show, onHide, user, onProfileChange }) => {
                 value={input.gender}
                 onChange={e => setInput({ ...input, [e.target.name]: e.target.value })}
               >
-                <option value="male">Nam</option>
-                <option value="female">Nữ</option>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
               </Form.Control>
             </Col>
           </Form.Group>
