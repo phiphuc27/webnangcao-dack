@@ -259,12 +259,12 @@ const Profile = ({ user, isLoading, match, handleProfileChange, handlePhotoChang
       )}
 
       <EditProfileModal
-        loai={user.LOAI}
+        user={user}
         show={modalProfile}
         onHide={() => setModalProfile(false)}
         onProfileChange={() => handleProfileChange()}
       />
-      <EditSkillModal loai={user.LOAI} show={modalSkill} onHide={() => setModalSkill(false)} />
+      <EditSkillModal user={user} show={modalSkill} onHide={() => setModalSkill(false)} />
     </div>
   );
 };

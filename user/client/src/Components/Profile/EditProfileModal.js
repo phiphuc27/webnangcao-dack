@@ -19,14 +19,14 @@ const useStyles = makeStyles({
   }
 });
 
-const EditProfile = ({ show, onHide, loai, onProfileChange }) => {
+const EditProfile = ({ show, onHide, user, onProfileChange }) => {
   const { register, errors, handleSubmit } = useForm();
   const [input, setInput] = useState({
-    lastName: '',
-    firstName: '',
-    address: '',
-    gender: 'male',
-    description: ''
+    lastName: user.HO || '',
+    firstName: user.TEN || '',
+    address: user.DIACHI || '',
+    gender: user.GIOITINH || 'male',
+    description: user.GIOITHIEU || ''
   });
 
   const classes = useStyles();
@@ -123,7 +123,7 @@ const EditProfile = ({ show, onHide, loai, onProfileChange }) => {
               </Form.Control>
             </Col>
           </Form.Group>
-          {loai === 2 && (
+          {user.LOAI === 2 && (
             <Form.Group as={Row} controlId="formBasicEmail">
               <Form.Label column sm={3}>
                 Giới thiệu bản thân <span style={{ color: 'red' }}>*</span>
