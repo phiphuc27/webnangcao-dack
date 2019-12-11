@@ -2,24 +2,7 @@ const registerState = {
   fetching: false,
   fetched: false,
   error: '',
-  tutor: [
-    {
-      ID: 1,
-      TEN: 'A',
-      HO: 'B',
-      DIACHI: 'C',
-      GIOITINH: 'D',
-      AVATARURL: 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'
-    },
-    {
-      ID: 2,
-      TEN: 'AA',
-      HO: 'BB',
-      DIACHI: 'CC',
-      GIOITINH: 'DD',
-      AVATARURL: 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'
-    }
-  ]
+  tutors: []
 };
 
 const tutorManagement = (state = registerState, action) => {
@@ -33,10 +16,42 @@ const tutorManagement = (state = registerState, action) => {
       };
     }
     case 'SUCCESS_GET_DATA': {
-      return { ...state, fetching: false, fetched: true, tutor: action.tutor };
+      return { ...state, fetching: false, fetched: true, tutors: action.tutor };
     }
     case 'ERROR_GET_DATA': {
       return { ...state, fetching: false, fetched: false, error: action.error };
+    }
+
+    case 'SORT_TUTOR': {
+      switch (action.name) {
+        case 'NAME_DESC': {
+          let tmpTutors = [...state.tutors];
+          tmpTutors = tmpTutors.sort((a, b) => a.TEN.localeCompare(b.TEN));
+          return { ...state, tutors: tmpTutors };
+        }
+
+        case 'NAME_ASC': {
+          let tmpTutors = [...state.tutors];
+          tmpTutors = tmpTutors.sort((a, b) => b.TEN.localeCompare(a.TEN));
+          return { ...state, tutors: tmpTutors };
+        }
+
+        case 'PRICE_ASC': {
+          let tmpTutors = [...state.tutors];
+          tmpTutors = tmpTutors.sort((a, b) => a.GIA - b.GIA);
+          return { ...state, tutors: tmpTutors };
+        }
+
+        case 'PRICE_DESC': {
+          let tmpTutors = [...state.tutors];
+          tmpTutors = tmpTutors.sort((a, b) => b.GIA - a.GIA);
+          return { ...state, tutors: tmpTutors };
+        }
+
+        default: {
+          return state;
+        }
+      }
     }
 
     default:

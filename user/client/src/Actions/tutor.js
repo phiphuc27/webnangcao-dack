@@ -16,16 +16,40 @@ export const errorGetData = error => ({
 
 export const getAllTutors = () => {
   return dispatch => {
+    console.log('get tutors');
     dispatch(startGetData);
     axios({
       method: 'get',
-      url: '/tutor'
+      url: '/tutors'
     })
-      .then(() => {
-        dispatch(successGetData);
+      .then(response => {
+        dispatch(successGetData(response.data.tutors));
       })
       .catch(err => {
-        dispatch(errorGetData(err.response.data));
+        dispatch(errorGetData(err));
       });
   };
 };
+
+export const getTutorById = data => {
+  return dispatch => {
+    console.log('get tutors');
+    dispatch(startGetData);
+    console.log(data);
+    axios({
+      method: 'get',
+      url: `/tutors/${data}`
+    })
+      .then(response => {
+        dispatch(successGetData(response.data.tutor));
+      })
+      .catch(err => {
+        dispatch(errorGetData(err));
+      });
+  };
+};
+
+export const sortTutor = name => ({
+  type: 'SORT_TUTOR',
+  name
+});

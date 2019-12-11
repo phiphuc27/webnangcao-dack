@@ -14,6 +14,7 @@ import Profile from './Containers/ProfileContainer';
 import Navbar from './Components/Navbar/Navbar';
 import Footer from './Components/Other/Footer';
 import Tutors from './Components/Pages/Tutors';
+import SingleTutor from './Components/Pages/SingleTutor';
 
 import { logout } from './Actions/user';
 
@@ -55,6 +56,7 @@ const App = ({ isLoading, loggedIn, user, logOut, history }) => {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/tutors" component={Tutors} />
+            <Route exact path="/tutors/:id" component={SingleTutor} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <PrivateRoute exact path="/profile/:tab" component={Profile} />

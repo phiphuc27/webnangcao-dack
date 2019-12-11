@@ -20,7 +20,9 @@ const index = ({ user, logout, history }) => {
         </div>
         <div className="nav-menu">
           <ul>
-            <li>Menu 1</li>
+            <li>
+              <a href="/tutors">Danh sách gia sư</a>
+            </li>
             <li>Menu 2</li>
           </ul>
         </div>

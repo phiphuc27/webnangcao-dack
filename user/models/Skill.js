@@ -1,24 +1,24 @@
-var db = require('../db/index');
+const db = require('../db/index');
 
-var Skill = {
-  getAllSkill: function() {
-    var sql = `Select * from kynang`;
+const Skill = {
+  getAllSkill() {
+    const sql = `Select * from kynang`;
     return db.load(sql);
   },
-  getSkillByUserId: function(id) {
-    var sql = `select * from kynang where IDND='${id}'`;
+  getSkillByUserId(id) {
+    const sql = `select * from kynang where IDND='${id}'`;
     return db.load(sql);
   },
-  insert: function(skill) {
-    var sql = `insert into kynang set ? `;
+  insert(skill) {
+    const sql = `insert into kynang set ? `;
     return db.save(sql, skill);
   },
-  delete: function(id) {
-    var sql = `delete from kynang where ID='${id}'`;
+  delete(id) {
+    const sql = `delete from kynang where ID='${id}'`;
     return db.save(sql);
   },
-  update: function(id, skill) {
-    var sql = `update kynang set KYNANG='${skill}' where ID='${id}'`;
+  update(id, skill) {
+    const sql = `update kynang set KYNANG='${skill}' where ID='${id}'`;
     return db.save(sql);
   }
 };

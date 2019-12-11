@@ -1,26 +1,48 @@
-import React, { useState } from 'react';
+/* eslint-disable react/no-array-index-key */
+import React from 'react';
 import NumberFormat from 'react-number-format';
 
 const Product = ({ tutor }) => {
-  const { ID, HO, TEN, DIACHI, AVATARURL } = tutor;
-  const link = `/products/${ID}`;
+  const { ID, HO, TEN, DIACHI, AVATARURL, GIA, KYNANG } = tutor;
+  const link = `/tutors/${ID}`;
   return (
     <div>
       <div className="card">
-        <div className="card-image">
-          <a href={link}>
-            <img src={AVATARURL} alt="anh dai dien" />
-          </a>
-        </div>
         <div className="card-info">
-          <h6>
+          <div className="card-image">
             <a href={link}>
-              {HO} {TEN}
+              <img src={AVATARURL} alt="anh dai dien" />
             </a>
-          </h6>
-          <p>
-            <NumberFormat value={10000} displayType="text" thousandSeparator suffix="₫" />
-          </p>
+          </div>
+          <div className="card-name">
+            <h6>
+              <a href={link}>
+                {HO} {TEN}
+              </a>
+            </h6>
+          </div>
+          <div className="card-price">
+            <NumberFormat value={GIA} displayType="text" thousandSeparator suffix="₫" />
+            <span>/h</span>
+          </div>
+          <div className="card-address">
+            <p>{DIACHI}</p>
+          </div>
+        </div>
+        <div className="card-skill">
+          <hr />
+          <ul className="profile-skill">
+            {KYNANG.map((item, index) => (
+              <li key={index}>
+                <span>{item.KYNANG}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <a href={link} className="btn btn-primary">
+            Xem chi tiết
+          </a>
         </div>
       </div>
     </div>

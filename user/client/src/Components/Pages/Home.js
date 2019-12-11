@@ -5,7 +5,7 @@ import TutorList from '../TutorList/TutorList';
 
 const Home = ({ tutors }) => {
   const tutorList = tutors.map(tutor => {
-    return <Tutor key={tutor.id} tutor={tutor} />;
+    return <Tutor key={tutor.ID} tutor={tutor} />;
   });
   return (
     <div>
