@@ -12,7 +12,7 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import rootReducer from './Reducers';
 
-import { getLoginUser } from './Actions';
+import { getLoginUser } from './Actions/user';
 
 import App from './App';
 

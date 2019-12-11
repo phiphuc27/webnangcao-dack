@@ -77,10 +77,10 @@ const index = ({ user, logout, history }) => {
         ) : (
           <div className="nav-user">
             <Link to="/register" className="btn btn-secondary">
-              Sign Up
+              Đăng kí
             </Link>
             <Link to="/login" className="btn btn-primary">
-              Log In
+              Đăng nhập
             </Link>
           </div>
         )}

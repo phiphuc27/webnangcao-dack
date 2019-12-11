@@ -37,7 +37,7 @@ const Login = ({ isFetching, isFetched, login, loginGoogle, loginFacebook, histo
 
   return (
     <div className="container form-account">
-      {isFetched && <Redirect to="/profile" />}
+      {isFetched && <Redirect to="/profile/tai-khoan" />}
       <h2>Đăng nhập </h2>
       <div className="form-container">
         <Form onSubmit={handleSubmit(onSubmit)}>

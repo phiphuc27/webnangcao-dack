@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Register from '../Components/Pages/Register';
-import { register } from '../Actions';
+import { register } from '../Actions/user';
 
 const mapStateToProps = state => ({
   isFetching: state.user.fetching,
