@@ -19,7 +19,7 @@ const useStyles = makeStyles({
   }
 });
 
-const EditProfile = ({ show, onHide }) => {
+const EditProfile = ({ show, onHide, onSubmitNewSkill, user }) => {
   const { errors, handleSubmit, setError } = useForm();
   const [skills, setSkills] = useState([]);
 
@@ -32,7 +32,12 @@ const EditProfile = ({ show, onHide }) => {
   const classes = useStyles();
 
   const onSubmit = () => {
-    console.log(skills);
+    // console.log(skills);
+    const data = skills.map(value => {
+      return { IDND: user.ID, KYNANG: value };
+    });
+    onSubmitNewSkill(data);
+    onHide();
   };
 
   const onAddSkill = () => {

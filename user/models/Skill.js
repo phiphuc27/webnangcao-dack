@@ -13,6 +13,10 @@ const Skill = {
     const sql = `insert into kynang set ? `;
     return db.save(sql, skill);
   },
+  insertSkill(skill) {
+    const sql = `insert into kynang(IDND, KYNANG) values ? `;
+    return db.save(sql, skill);
+  },
   delete(id) {
     const sql = `delete from kynang where ID='${id}'`;
     return db.save(sql);

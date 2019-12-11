@@ -20,7 +20,7 @@ router.get('/profile', (req, res, next) => {
 });
 
 router.post('/profile', (req, res, next) => {
-  UsersModel.updateProfile(req.body, req.user.id)
+  UsersModel.updateProfile(req.body, req.user.ID)
     .then(result => {
       res.status(200).send(result);
     })
@@ -55,9 +55,9 @@ router.post('/profile/changePhoto', async (req, res) => {
   const newPhoto = {
     AVATARURL: req.body.downloadUrl
   };
-  db.updateProfile(newPhoto, req.user.id)
+  UsersModel.updateProfile(newPhoto, req.user.ID)
     .then(result => {
-      res.status(200).send(result);
+      res.status(200).send(newPhoto);
     })
     .catch(err => {
       res.status(500).send(err);
@@ -79,6 +79,28 @@ router.post('/getUserSkill', async (req, res, next) => {
   const skill = await SkillModel.getSkillByUserId(req.body.id);
 
   res.json(skill);
+});
+
+router.post('/insertUserSkills', async (req, res, next) => {
+  // console.log(req.body.skill);
+  const list = req.body.skill;
+  const runSQL = async () => {
+    const data = [];
+    for (let i = 0; i < list.length; i++) {
+      const res = await SkillModel.insert(list[i]);
+      data.push(res.insertId);
+    }
+    return data;
+  };
+  runSQL()
+    .then(result => {
+      // console.log(result);
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err);
+    });
 });
 
 router.post('/insertUserSkill', async (req, res, next) => {

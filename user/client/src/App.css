@@ -764,4 +764,20 @@ nav {
 .skill-group:hover button {
   opacity: 0.8;
 }
+
+.skill-edit-btn {
+  cursor: pointer;
+}
+
+.skill-edit-btn:hover {
+  color: #007bb6;
+}
+
+.skill-delete-btn {
+  cursor: pointer;
+}
+
+.skill-delete-btn:hover {
+  color: #ea4c89;
+}
 /* end of profile */

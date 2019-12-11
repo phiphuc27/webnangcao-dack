@@ -5,21 +5,82 @@ import {
   ExpansionPanelDetails,
   Typography
 } from '@material-ui/core';
-import { Spinner } from 'react-bootstrap';
+import { Form, Spinner, Button } from 'react-bootstrap';
+import useForm from 'react-hook-form';
+import Modal from 'react-bootstrap/Modal';
 import { ExpandMore } from '@material-ui/icons';
 import { FaEdit } from 'react-icons/fa';
 import EditProfileModal from '../Profile/EditProfileModal';
 import EditSkillModal from '../Profile/EditSkillModal';
 
-const Profile = ({ user, isLoading, match, handleProfileChange, handlePhotoChange, profile }) => {
+const Profile = ({
+  user,
+  skill,
+  isLoading,
+  match,
+  handleProfileChange,
+  handlePhotoChange,
+  profile,
+  getUserSkill,
+  updateSkill,
+  deleteSkill,
+  handleAddNewSkill
+}) => {
   const [expanded, setExpanded] = useState(match.params.tab);
   const [modalProfile, setModalProfile] = useState(false);
   const [modalSkill, setModalSkill] = useState(false);
 
+  const [updateSkillModalShow, setUpdateSkillModalShow] = React.useState(false);
+  const [updateSkillText, setUpdateSkillText] = React.useState('');
+  const [skillIndex, setSkillIndex] = React.useState(null);
+
+  const { register, handleSubmit } = useForm();
+
   const { fetching } = profile;
+
+  if (!profile.fetching) {
+    if (user) {
+      if (skill === null) {
+        getUserSkill(user.ID);
+      }
+    }
+  }
+
+  let skillList = null;
+  if (skill) {
+    skillList = skill.map((value, index) => {
+      return (
+        <li key={value.ID}>
+          {value.KYNANG}
+          &nbsp;&nbsp;
+          <i
+            className="fas fa-edit skill-edit-btn"
+            onClick={e => {
+              setSkillIndex(value.ID);
+              setUpdateSkillModalShow(true);
+            }}
+          />
+          &nbsp;
+          <i
+            className="far fa-trash-alt skill-delete-btn"
+            onClick={e => {
+              deleteSkill(value.ID);
+            }}
+          />
+        </li>
+      );
+    });
+  }
 
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
+  };
+
+  const onSubmitUpdate = e => {
+    // console.log(e);
+    if (updateSkillText === '') return;
+    updateSkill(updateSkillText, skillIndex);
+    setUpdateSkillModalShow(false);
   };
 
   return (
@@ -213,14 +274,7 @@ const Profile = ({ user, isLoading, match, handleProfileChange, handlePhotoChang
                   <div className="profile-body">
                     <div className="row">
                       <div className="col-12">
-                        <p>
-                          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi, illo.
-                          Aspernatur consequuntur consectetur totam. Quibusdam eius consequatur
-                          reprehenderit. Deleniti velit at doloremque quo veniam eveniet fugiat
-                          nulla quaerat! Et laboriosam, laudantium excepturi error, nesciunt ad
-                          veniam fuga tempora corrupti atque distinctio, itaque libero ut qui.
-                          Nesciunt autem dolores iure inventore!
-                        </p>
+                        <p>{user.GIOITHIEU}</p>
                       </div>
                     </div>
                   </div>
@@ -241,13 +295,47 @@ const Profile = ({ user, isLoading, match, handleProfileChange, handlePhotoChang
                   <div className="profile-body">
                     <div className="row">
                       <div className="col-12">
-                        <ul className="profile-skill">
-                          <li>Kỹ năng 1</li>
-                          <li>Kỹ năng 2</li>
-                          <li>Kỹ năng 3</li>
-                          <li>Kỹ năng 4</li>
-                          <li>Kỹ năng 5</li>
-                        </ul>
+                        <ul className="profile-skill">{skillList}</ul>
+                        <Modal
+                          show={updateSkillModalShow}
+                          onHide={() => setUpdateSkillModalShow(false)}
+                          size="lg"
+                          aria-labelledby="contained-modal-title-vcenter"
+                          centered
+                        >
+                          <Modal.Header closeButton>
+                            <Modal.Title id="contained-modal-title-vcenter">
+                              Chỉnh sửa kỹ năng
+                            </Modal.Title>
+                          </Modal.Header>
+                          <Modal.Body>
+                            <Form onSubmit={handleSubmit(onSubmitUpdate)} id="update-form">
+                              <Form.Group controlId="exampleForm.ControlInput1">
+                                <Form.Label>Kỹ năng</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  placeholder="Kỹ năng"
+                                  name="skill-input"
+                                  onChange={e => setUpdateSkillText(e.target.value)}
+                                  ref={register({
+                                    required: 'Vui lòng nhập kỹ năng !'
+                                  })}
+                                />
+                              </Form.Group>
+                            </Form>
+                          </Modal.Body>
+                          <Modal.Footer>
+                            <Button
+                              variant="secondary"
+                              onClick={() => setUpdateSkillModalShow(false)}
+                            >
+                              Close
+                            </Button>
+                            <Button variant="primary" type="submit" form="update-form">
+                              Xác nhận
+                            </Button>
+                          </Modal.Footer>
+                        </Modal>
                       </div>
                     </div>
                   </div>
@@ -262,9 +350,14 @@ const Profile = ({ user, isLoading, match, handleProfileChange, handlePhotoChang
         user={user}
         show={modalProfile}
         onHide={() => setModalProfile(false)}
-        onProfileChange={() => handleProfileChange()}
+        onProfileChange={data => handleProfileChange(data)}
       />
-      <EditSkillModal user={user} show={modalSkill} onHide={() => setModalSkill(false)} />
+      <EditSkillModal
+        user={user}
+        show={modalSkill}
+        onHide={() => setModalSkill(false)}
+        onSubmitNewSkill={skill => handleAddNewSkill(skill)}
+      />
     </div>
   );
 };
