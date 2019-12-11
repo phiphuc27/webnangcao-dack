@@ -97,7 +97,7 @@ router.get('/getUserList', async (req, res, next) => {
 });
 
 router.post('/getUserInfo', async (req, res, next) => {
-  const user = await UsersModel.getInfoUserById(req.body.id);
+  const user = await UsersModel.getUserInfoById(req.body.id);
   // console.log(user);
 
   if (user.length > 0) {

@@ -1,12 +1,14 @@
 const express = require('express');
+
 const router = express.Router();
 
 const bcrypt = require('bcryptjs');
 
 const { passwordValidation } = require('../validation');
 
-var UsersModel = require('../models/Users');
-//const db = require('../db');
+const UsersModel = require('../models/Users');
+const SkillModel = require('../models/Skill');
+// const db = require('../db');
 
 router.get('/', (req, res, next) => {
   res.render('index', { title: 'User Page' });
@@ -41,6 +43,66 @@ router.post('/profile/changePassword', async (req, res, next) => {
   const hashedPassword = await bcrypt.hash(req.body.new_password, salt);
 
   UsersModel.updatePassword(req.user.id, hashedPassword)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+router.post('/profile/changePhoto', async (req, res) => {
+  const newPhoto = {
+    AVATARURL: req.body.downloadUrl
+  };
+  db.updateProfile(newPhoto, req.user.id)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+router.post('/getUserInfo', async (req, res, next) => {
+  const user = await UsersModel.getUserInfoById(req.body.id);
+  // console.log(user);
+
+  if (user.length > 0) {
+    res.status(200).json(user[0]);
+  } else {
+    res.status(500).send('Không tìm thấy người dùng');
+  }
+});
+
+router.post('/getUserSkill', async (req, res, next) => {
+  const skill = await SkillModel.getSkillByUserId(req.body.id);
+
+  res.json(skill);
+});
+
+router.post('/insertUserSkill', async (req, res, next) => {
+  await SkillModel.insert({ IDND: req.body.id, KYNANG: req.body.skill })
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+router.post('/updateUserSkill', async (req, res, next) => {
+  await SkillModel.update(req.body.id, req.body.skill)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+router.post('/deleteUserSkill', async (req, res, next) => {
+  SkillModel.delete(req.body.id)
     .then(result => {
       res.status(200).send(result);
     })
