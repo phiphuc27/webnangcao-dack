@@ -1,15 +1,23 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Profile from '../Components/Pages/Profile';
-import { login } from '../Actions/user';
+import { editProfile, uploadPhoto } from '../Actions/user';
 
 const mapStateToProps = state => ({
-  isFetching: state.user.fetching,
+  isLoading: state.user.fetching,
   isFetched: state.user.fetched,
   error: state.user.error,
-  user: state.user.user
+  user: state.user.user,
+  profile: state.user.profile
 });
 const mapDispatchToProps = dispatch => ({
-  login: data => dispatch(login(data))
+  handleProfileChange: data => {
+    dispatch(editProfile(data));
+  },
+  handlePhotoChange: file => {
+    const formData = new FormData();
+    formData.append('file', file);
+    dispatch(uploadPhoto(formData));
+  }
 });
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile));

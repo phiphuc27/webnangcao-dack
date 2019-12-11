@@ -3,7 +3,15 @@ const registerState = {
   fetched: false,
   loggedIn: false,
   error: '',
-  user: null
+  user: null,
+  profile: {
+    fetching: false,
+    fetched: false,
+    error: {
+      profile: '',
+      photo: ''
+    }
+  }
 };
 
 const accountManagement = (state = registerState, action) => {
@@ -59,6 +67,45 @@ const accountManagement = (state = registerState, action) => {
         fetching: false
       };
     }
+    case 'EDIT_START': {
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          fetching: true,
+          fetched: false,
+          error: {
+            profile: '',
+            photo: ''
+          }
+        }
+      };
+    }
+
+    case 'EDIT_SUCCESS': {
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          fetching: false,
+          fetched: true,
+          error: {
+            profile: '',
+            photo: ''
+          }
+        }
+      };
+    }
+
+    case 'EDIT_ERROR': {
+      return {
+        ...state,
+        fetching: false,
+        fetched: false,
+        error: { ...state.error, [action.name]: action.error }
+      };
+    }
+
     default:
       return state;
   }

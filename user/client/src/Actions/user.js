@@ -141,3 +141,79 @@ export const logout = {
   type: 'LOG_OUT'
 };
 /* end of login */
+
+/* Profile */
+export const startEdit = {
+  type: 'EDIT_START'
+};
+
+export const successEdit = {
+  type: 'EDIT_SUCCESS'
+};
+
+export const errorEdit = (name, error) => ({
+  type: 'EDIT_PROFILE_ERROR',
+  name,
+  error
+});
+
+export const editProfile = data => {
+  return dispatch => {
+    dispatch(startEdit);
+    const token = window.sessionStorage.getItem('jwtToken');
+    axios({
+      method: 'post',
+      url: '/user/profile',
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(response => {
+        if (response.statusText === 'OK') {
+          dispatch(successEdit);
+        }
+      })
+      .catch(err => {
+        dispatch(errorEdit('profile', err));
+      });
+  };
+};
+
+export const editPhoto = data => {
+  return async dispatch => {
+    const token = window.sessionStorage.getItem('jwtToken');
+    await axios({
+      method: 'post',
+      url: '/user/profile/changePhoto',
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(async response => {
+        if (response.statusText === 'OK') {
+          dispatch(successEdit);
+        }
+      })
+      .catch(err => {
+        dispatch(errorEdit('photo', err.response.data));
+      });
+  };
+};
+
+export const uploadPhoto = photo => {
+  return async dispatch => {
+    dispatch(startEdit);
+    await axios
+      .post('https://us-central1-carovn-v2.cloudfunctions.net/uploadFile', photo)
+      .then(response => {
+        dispatch(editPhoto(response.data));
+      })
+      .catch(err => {
+        dispatch(errorEdit('photo', err));
+      });
+  };
+};
+
+/* end of profile */

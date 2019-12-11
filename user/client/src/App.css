@@ -636,7 +636,7 @@ nav {
   height: 100%;
 }
 
-.image-overlay > input {
+.image-overlay input {
   position: absolute;
   top: 0;
   left: -999px;
