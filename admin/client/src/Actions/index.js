@@ -145,3 +145,214 @@ export const logout = {
   type: 'LOG_OUT'
 };
 /* end of login */
+
+/* User list */
+export const startGetList = {
+  type: 'GET_LIST_START'
+};
+
+export const successGetList = value => ({
+  type: 'GET_LIST_SUCCESS',
+  value
+});
+
+export const errorGetList = error => ({
+  type: 'GET_LIST_ERROR',
+  error
+});
+
+export const getUserList = () => {
+  return async dispatch => {
+    await dispatch(startGetList);
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'get',
+      url: '/users/getUserList',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(response => {
+        dispatch(successGetList(response.data));
+      })
+      .catch(err => {
+        dispatch(errorGetList(err.response.data));
+      });
+  };
+};
+
+/* End User list */
+
+/* User profile */
+
+export const startGetUserProfile = {
+  type: 'GET_USER_PROFILE_START'
+};
+
+export const successGetUserProfile = value => ({
+  type: 'GET_USER_PROFILE_SUCCESS',
+  value
+});
+
+export const errorGetUserProfile = error => ({
+  type: 'GET_USER_PROFILE_ERROR',
+  error
+});
+
+export const getUserProfile = id => {
+  return async dispatch => {
+    await dispatch(startGetUserProfile);
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'post',
+      url: '/users/getUserInfo',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { id }
+    })
+      .then(async response => {
+        // console.log(response);
+        dispatch(
+          successGetUserProfile(response.data ? response.data : 'Not Found')
+        );
+
+        if (response.data) {
+          // get user skill
+          await dispatch(startGetUserSkill);
+          await axios({
+            method: 'post',
+            url: '/users/getUserSkill',
+            headers: {
+              Authorization: `Bearer ${token}`
+            },
+            data: { id }
+          })
+            .then(response => {
+              dispatch(successGetUserSkill(response.data));
+            })
+            .catch(err => {
+              dispatch(errorGetUserSkill(err.response.data));
+            });
+        }
+      })
+      .catch(err => {
+        // console.log(err);
+        dispatch(errorGetUserProfile(err.response ? err.response.data : err));
+      });
+  };
+};
+
+export const startGetUserSkill = {
+  type: 'GET_USER_SKILL_START'
+};
+
+export const successGetUserSkill = value => ({
+  type: 'GET_USER_SKILL_SUCCESS',
+  value
+});
+
+export const errorGetUserSkill = error => ({
+  type: 'GET_USER_SKILL_ERROR',
+  error
+});
+
+export const getUserSkill = id => {
+  return async dispatch => {
+    await dispatch(startGetUserSkill);
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'post',
+      url: '/users/getUserSkill',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { id }
+    })
+      .then(response => {
+        dispatch(successGetUserSkill(response.data));
+      })
+      .catch(err => {
+        dispatch(errorGetUserSkill(err.response.data));
+      });
+  };
+};
+
+export const addNewSkill = (id, skill) => {
+  return async dispatch => {
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'post',
+      url: '/users/insertUserSkill',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { id, skill }
+    })
+      .then(response => {
+        const data = { ID: response.data.insertId, IDND: id, KYNANG: skill };
+        dispatch({
+          type: 'ADD_NEW_SKILL_SUCCESS',
+          value: data
+        });
+      })
+      .catch(err => {
+        dispatch(errorGetUserSkill(err.response.data));
+      });
+  };
+};
+
+export const updateSkill = (skill, skillId) => {
+  return async dispatch => {
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'post',
+      url: '/users/updateUserSkill',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { id: skillId, skill }
+    })
+      .then(response => {
+        dispatch({
+          type: 'UPDATE_SKILL_SUCCESS',
+          value: skill,
+          id: skillId
+        });
+      })
+      .catch(err => {
+        dispatch(errorGetUserSkill(err.response.data));
+      });
+  };
+};
+
+export const deleteSkill = id => {
+  return async dispatch => {
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'post',
+      url: '/users/deleteUserSkill',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { id }
+    })
+      .then(response => {
+        dispatch({
+          type: 'DELETE_SKILL_SUCCESS',
+          id: id
+        });
+      })
+      .catch(err => {
+        dispatch(errorGetUserSkill(err.response.data));
+      });
+  };
+};
+
+/* End User profile */

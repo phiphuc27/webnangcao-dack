@@ -5,8 +5,16 @@ var Users = {
     var sql = `Select * from taikhoan`;
     return db.load(sql);
   },
+  getUsersOnly: function() {
+    var sql = `Select * from taikhoan where LOAI=2 or LOAI=3`;
+    return db.load(sql);
+  },
   getUserById: function(id) {
     var sql = `select * from taikhoan where ID='${id}'`;
+    return db.load(sql);
+  },
+  getInfoUserById: function(id) {
+    var sql = `select * from taikhoan u join thongtin i on u.ID = i.ID where u.ID='${id}'`;
     return db.load(sql);
   },
   insert: function(user) {

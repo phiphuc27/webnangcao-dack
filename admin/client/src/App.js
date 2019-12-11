@@ -7,6 +7,8 @@ import './App.css';
 import Home from './Components/Pages/Home';
 import Register from './Containers/RegisterContainer';
 import Login from './Containers/LoginContainer';
+import UserList from './Containers/UserListContainer';
+import Profile from './Containers/ProfileContainer';
 
 import Navbar from './Components/Navbar';
 
@@ -30,7 +32,8 @@ const App = ({ loggedIn, user, logOut, history }) => {
       }
     />
   );
-
+  // console.log(loggedIn);
+  // console.log(history.location);
   return (
     <>
       <Navbar user={user} logout={logOut} history={history} />
@@ -39,7 +42,9 @@ const App = ({ loggedIn, user, logOut, history }) => {
           {loggedIn ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}
         </Route>
         <PrivateRoute exact path="/dashboard" component={Home} />
+        <PrivateRoute exact path="/userlist" component={UserList} />
         <PrivateRoute exact path="/register" component={Register} />
+        <PrivateRoute exact path="/user/:id" component={Profile} />
         <Route exact path="/login" component={Login} />
       </Switch>
     </>

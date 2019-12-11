@@ -1,8 +1,12 @@
 import { combineReducers } from 'redux';
 import user from './user';
+import userList from './userList';
+import profile from './profile';
 
 const allReducer = combineReducers({
-  user
+  user,
+  userList,
+  profile
 });
 
 const rootReducer = (state, action) => {

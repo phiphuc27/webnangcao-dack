@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
+//const passport = require('passport');
 
 const bcrypt = require('bcryptjs');
 
 const { registerValidation, passwordValidation } = require('../validation');
 
 var UsersModel = require('../models/Users');
+var SkillModel = require('../models/Skill');
 //const db = require('../db');
 
 router.get('/', (req, res, next) => {
@@ -81,6 +82,59 @@ router.post('/profile/changePassword', async (req, res, next) => {
   const hashedPassword = await bcrypt.hash(req.body.new_password, salt);
 
   UsersModel.updatePassword(req.user.id, hashedPassword)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+router.get('/getUserList', async (req, res, next) => {
+  const list = await UsersModel.getUsersOnly();
+
+  res.json(list);
+});
+
+router.post('/getUserInfo', async (req, res, next) => {
+  const user = await UsersModel.getInfoUserById(req.body.id);
+  // console.log(user);
+
+  if (user.length > 0) {
+    res.status(200).json(user[0]);
+  } else {
+    res.status(500).send('Không tìm thấy người dùng');
+  }
+});
+
+router.post('/getUserSkill', async (req, res, next) => {
+  const skill = await SkillModel.getSkillByUserId(req.body.id);
+
+  res.json(skill);
+});
+
+router.post('/insertUserSkill', async (req, res, next) => {
+  await SkillModel.insert({ IDND: req.body.id, KYNANG: req.body.skill })
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+router.post('/updateUserSkill', async (req, res, next) => {
+  await SkillModel.update(req.body.id, req.body.skill)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+router.post('/deleteUserSkill', async (req, res, next) => {
+  SkillModel.delete(req.body.id)
     .then(result => {
       res.status(200).send(result);
     })
