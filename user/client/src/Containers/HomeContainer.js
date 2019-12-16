@@ -10,6 +10,6 @@ const mapStateToProps = state => ({
   tutors: state.tutor.tutors
 });
 const mapDispatchToProps = dispatch => ({
-  getAllTutors: () => dispatch(getAllTutors)
+  getAllTutors: () => dispatch(getAllTutors())
 });
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));

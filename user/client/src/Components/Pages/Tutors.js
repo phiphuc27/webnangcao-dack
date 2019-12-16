@@ -82,13 +82,11 @@ const Tutors = () => {
               </FormControl>
               <br />
             </div>
-            <div className="row container-fluid">
-              {tutors && tutors.length > 0 ? (
-                <TutorList tutors={tutors} />
-              ) : (
-                <h4>Không tìm thấy sản phẩm</h4>
-              )}
-            </div>
+            {tutors && tutors.length > 0 ? (
+              <TutorList tutors={tutors} />
+            ) : (
+              <h4>Không tìm thấy sản phẩm</h4>
+            )}
           </div>
         </div>
       </div>

@@ -456,13 +456,6 @@ nav {
 .section-title a {
   text-decoration: none !important;
   color: var(--black-text);
-}
-
-.section-title a:hover {
-  color: var(--black-text);
-}
-
-.section-title h4 {
   position: relative;
   font-size: 2rem;
   font-weight: 600;
@@ -473,23 +466,49 @@ nav {
   text-transform: uppercase;
 }
 
-.section-title p {
-  font-size: 0.9rem;
+.section-title a:hover {
+  color: var(--black-text);
 }
 
-.section-title h4::before {
+.section-title a::before {
   content: '';
   position: absolute;
   margin: 0 auto;
   bottom: -20px;
   left: 50%;
   transform: translateX(-50%);
-  width: 230px;
+  width: 80%;
   height: 4px;
   background: var(--main-bg-color);
 }
 
 /* end of title*/
+
+/* Service */
+.service {
+  margin-block-start: 3rem;
+  padding: 1em;
+  background: white;
+  border: var(--border);
+}
+
+.service-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 1em;
+  row-gap: 1.2em;
+}
+
+.service-title {
+  text-transform: capitalize;
+  font-weight: 600;
+  margin-block-end: 5px;
+}
+
+.service-title span {
+  margin-inline-end: 10px;
+}
+/* end of service */
 
 /* FEATURE TUTORS */
 .featured-tutors {
@@ -500,7 +519,7 @@ nav {
   margin: 0 auto;
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   justify-items: center;
   column-gap: 40px;
   row-gap: 2rem;
@@ -532,11 +551,12 @@ nav {
 .card-info {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: 1fr auto auto;
 
-  gap: 1em;
+  gap: 1.2em;
   grid-template-areas:
-    'avatar name'
+    'avatar avatar'
+    'name name'
     'price address';
 }
 
@@ -544,17 +564,19 @@ nav {
   grid-area: name;
 }
 
-.card-info h6 {
-  font-size: 0.8rem;
+.card-name h6 {
+  font-size: 1.3rem;
+  text-align: center;
   letter-spacing: 1px;
+  margin: 0;
 }
 
-.card-info h6 > a {
+.card-name h6 > a {
   text-decoration: none;
   color: black;
 }
 
-.card-info h6 > a:hover {
+.card-name h6 > a:hover {
   color: #5b86e5;
 }
 
@@ -562,6 +584,7 @@ nav {
   grid-area: price;
   text-align: center;
   font-weight: 600;
+  color: #e20b0b;
 }
 
 .card-price span + span {
@@ -573,6 +596,7 @@ nav {
 }
 
 .card-address p {
+  text-align: center;
   margin: 0;
 }
 
@@ -580,6 +604,10 @@ nav {
   grid-column: 1/3;
   padding: 5px 0;
   margin-bottom: 1em;
+}
+
+.profile-skill {
+  min-height: 41px;
 }
 /* end of tutor card*/
 
