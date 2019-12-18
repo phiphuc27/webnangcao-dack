@@ -131,4 +131,4 @@ INSERT INTO `uberfortutordb`.`kynang` (`KYNANG`) VALUES
 ('c#'),('c++'),('c'),('java'),('javascript'),('react'),('angular'),('vue');
 
 INSERT INTO `uberfortutordb`.`kynang_nguoidung` (`IDKN`,`IDND`) VALUES
-('1','1'),('2','1'),('3','1'),('1','2'),('6','2'),('7','3'),('5','3');
+('1','4'),('2','4'),('3','4'),('1','2'),('6','2'),('7','3'),('5','3');

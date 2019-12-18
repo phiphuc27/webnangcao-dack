@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
+import { Breadcrumbs, Typography } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import Tutor from '../Tutor/Tutor';
 import TutorList from '../Tutor/TutorList';
@@ -9,7 +10,8 @@ import Category from '../Other/Category';
 import { sortTutor, getAllTutors } from '../../Actions/tutor';
 
 const Tutors = () => {
-  let tutors = useSelector(state => state.tutor.tutors);
+  const tutors = useSelector(state => state.tutor.tutors);
+  let sortTutors = useSelector(state => state.tutor.sortTutors);
 
   const dispatch = useDispatch();
 
@@ -22,8 +24,8 @@ const Tutors = () => {
     dispatch(sortTutor(sort));
   }, [sort, dispatch]);
 
-  if (tutors.length > 0) {
-    tutors = tutors.map(tutor => {
+  if (sortTutors.length > 0) {
+    sortTutors = sortTutors.map(tutor => {
       return <Tutor key={tutor.ID} tutor={tutor} />;
     });
   }
@@ -33,20 +35,20 @@ const Tutors = () => {
   };
 
   return (
-    <div style={{ marginBlockEnd: '5em' }}>
+    <div style={{ marginBlockEnd: '5em' }} className="container-lg">
+      <br />
+      <Breadcrumbs aria-label="breadcrumb">
+        <a href="/">Trang chủ</a>
+        <Typography color="textPrimary">Danh sách gia sư</Typography>
+      </Breadcrumbs>
       <div style={{ display: 'flex' }}>
-        <div className="col-md-3" style={{ paddingLeft: '50px', paddingRight: '10px' }}>
+        <div className="col-md-3" style={{ paddingRight: '10px' }}>
           <Category />
         </div>
         <div className="col-md-9">
-          <div
-            style={{
-              paddingRight: '50px',
-              marginBlockStart: '3em'
-            }}
-          >
+          <div style={{ marginBlockStart: '3em' }}>
             <div className="row">
-              <div className="col-md-10" style={{ display: 'flex', alignItems: 'center' }}>
+              <div className="col-md-9" style={{ display: 'flex', alignItems: 'center' }}>
                 {/* {search && (
                     <h6 className="row">
                       Kết quả tìm kiếm cho&nbsp;
@@ -63,7 +65,7 @@ const Tutors = () => {
                   paddingRight: '18px',
                   marginTop: '0px'
                 }}
-                className="col-md-2"
+                className="col-md-3"
               >
                 <InputLabel shrink htmlFor="sort-native-label-placeholder">
                   Sắp xếp
@@ -85,10 +87,10 @@ const Tutors = () => {
               </FormControl>
               <br />
             </div>
-            {tutors && tutors.length > 0 ? (
-              <TutorList tutors={tutors} />
+            {sortTutors && sortTutors.length > 0 ? (
+              <TutorList tutors={sortTutors} />
             ) : (
-              <h4>Không tìm thấy sản phẩm</h4>
+              <h4>Không tìm thấy gia sư</h4>
             )}
           </div>
         </div>

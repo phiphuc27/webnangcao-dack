@@ -9,14 +9,35 @@ export const successGetData = tutor => ({
   tutor
 });
 
+export const successGetSkills = skills => ({
+  type: 'SUCCESS_GET_SKILLS',
+  skills
+});
+
 export const errorGetData = error => ({
   type: 'ERROR_GET_DATA',
   error
 });
 
+export const getAllSkills = () => {
+  return dispatch => {
+    console.log('get skills');
+    dispatch(startGetData);
+    axios({
+      method: 'get',
+      url: '/skills'
+    })
+      .then(response => {
+        dispatch(successGetSkills(response.data.skills));
+      })
+      .catch(err => {
+        dispatch(errorGetData(err));
+      });
+  };
+};
+
 export const getAllTutors = () => {
   return dispatch => {
-    console.log('get tutors');
     dispatch(startGetData);
     axios({
       method: 'get',
@@ -33,9 +54,7 @@ export const getAllTutors = () => {
 
 export const getTutorById = data => {
   return dispatch => {
-    console.log('get tutors');
     dispatch(startGetData);
-    console.log(data);
     axios({
       method: 'get',
       url: `/tutors/${data}`
@@ -52,4 +71,15 @@ export const getTutorById = data => {
 export const sortTutor = name => ({
   type: 'SORT_TUTOR',
   name
+});
+
+export const filterTutor = (name, filter) => ({
+  type: 'FILTER_TUTOR',
+  name,
+  filter
+});
+
+export const searchSkill = search => ({
+  type: 'SEARCH_SKILL',
+  search
 });

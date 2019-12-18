@@ -1,8 +1,11 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Button, Form, Row, Col, InputGroup } from 'react-bootstrap';
 import useForm from 'react-hook-form';
+import Select from 'react-select';
 import { makeStyles } from '@material-ui/core/styles';
+import { getAllSkills, searchSkill } from '../../Actions/tutor';
 
 const useStyles = makeStyles({
   errorInput: {
@@ -20,14 +23,30 @@ const useStyles = makeStyles({
 });
 
 const EditProfile = ({ show, onHide, onSubmitNewSkill, user }) => {
+  let allSkills = useSelector(state => state.tutor.skills);
+  const dispatch = useDispatch();
+
+  if (allSkills.length === 0) {
+    dispatch(getAllSkills());
+  }
+  allSkills = allSkills.map(skill => {
+    return {
+      value: skill.ID,
+      label: skill.KYNANG
+    };
+  });
   const { errors, handleSubmit, setError } = useForm();
-  const [skills, setSkills] = useState([]);
+  const [skills, setSkills] = useState(user.KYNANG.map(item => item.KYNANG) || []);
 
   const [skill, setSkill] = useState('');
 
   useEffect(() => {
     setSkill('');
   }, [skills]);
+
+  useEffect(() => {
+    dispatch(searchSkill(skill));
+  }, [skill, dispatch]);
 
   const classes = useStyles();
 
@@ -41,17 +60,17 @@ const EditProfile = ({ show, onHide, onSubmitNewSkill, user }) => {
   };
 
   const onAddSkill = () => {
-    if (skill === '') {
+    if (skill.label === '') {
       setError('skills', 'required', 'Bắt buộc !');
       return;
     }
     for (let i = 0; i < skills.length; i += 1) {
-      if (skills[i] === skill) {
+      if (skills[i] === skill.label) {
         setSkill('');
         return;
       }
     }
-    setSkills([...skills, skill]);
+    setSkills([...skills, skill.label]);
   };
 
   const onDeleteSkill = target => {
@@ -69,7 +88,7 @@ const EditProfile = ({ show, onHide, onSubmitNewSkill, user }) => {
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">Chỉnh sửa hồ sơ</Modal.Title>
+          <Modal.Title id="contained-modal-title-vcenter">Chỉnh sửa kỹ năng</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group as={Row} controlId="formBasicEmail">
@@ -78,13 +97,12 @@ const EditProfile = ({ show, onHide, onSubmitNewSkill, user }) => {
             </Form.Label>
             <Col sm={9}>
               <InputGroup>
-                <Form.Control
-                  className={errors.skills && classes.errorInput}
-                  type="text"
-                  name="skills"
-                  placeholder="Kĩ năng"
+                <Select
+                  placeholder='Kĩ năng'
+                  options={allSkills}
+                  isSearchable
                   value={skill}
-                  onChange={e => setSkill(e.target.value)}
+                  onChange={value => setSkill(value)}
                 />
                 <InputGroup.Append>
                   <Button variant="outline-secondary" onClick={onAddSkill}>
@@ -93,18 +111,20 @@ const EditProfile = ({ show, onHide, onSubmitNewSkill, user }) => {
                 </InputGroup.Append>
               </InputGroup>
               {errors.skills && <p className={classes.errorText}>{errors.skills.message}</p>}
+
               <div style={{ marginBlockStart: '.8em' }}>
                 <ul className="profile-skill">
-                  {skills.map((item, index) => (
-                    <li key={index} className="skill-group">
-                      <p>{item}</p>
-                      <button
-                        type="button"
-                        className="btn btn-secondary"
-                        onClick={() => onDeleteSkill(item)}
-                      >
-                        X
-                      </button>
+                  {skills.map((value, index) => (
+                    <li key={index}>
+                      {value}
+                      &nbsp;&nbsp;
+                      <i
+                        role="presentation"
+                        className="far fa-trash-alt skill-delete-btn"
+                        onClick={() => {
+                          onDeleteSkill(value);
+                        }}
+                      />
                     </li>
                   ))}
                 </ul>

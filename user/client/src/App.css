@@ -63,7 +63,7 @@ ul {
 }
 
 /* Navbar */
-nav {
+.nav {
   background: var(--main-bg-color);
   color: var(--main-text-color);
 }
@@ -398,6 +398,21 @@ nav {
 }
 /* end of footer */
 
+/* Breadcrumb */
+.MuiBreadcrumbs-li > a {
+  color: black;
+}
+
+.MuiBreadcrumbs-li > a:hover {
+  text-decoration: underline;
+}
+
+.MuiBreadcrumbs-li > p {
+  color: var(--text-hover-color);
+}
+
+/* end of breadcrumb */
+
 /* BANNER */
 .carousel {
   padding: 0 !important;
@@ -487,6 +502,7 @@ nav {
 /* Service */
 .service {
   margin-block-start: 3rem;
+  margin-block-end: 3rem;
   padding: 1em;
   background: white;
   border: var(--border);
@@ -511,9 +527,6 @@ nav {
 /* end of service */
 
 /* FEATURE TUTORS */
-.featured-tutors {
-  padding: 3rem 0;
-}
 
 .featured-tutors-container {
   margin: 0 auto;
@@ -862,5 +875,18 @@ nav {
 
 .skill-delete-btn:hover {
   color: #ea4c89;
+}
+
+.css-2b097c-container {
+  width: 80%;
+}
+
+.css-yk16xz-control {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.css-1hb7zxy-IndicatorsContainer {
+  display: none !important;
 }
 /* end of profile */

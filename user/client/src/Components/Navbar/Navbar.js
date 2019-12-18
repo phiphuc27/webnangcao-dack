@@ -10,7 +10,7 @@ const index = ({ user, logout, history }) => {
     history.push('/');
   };
   return (
-    <nav>
+    <nav className='nav'>
       <div className="container navbar">
         <div className="nav-logo">
           <Link to="/">

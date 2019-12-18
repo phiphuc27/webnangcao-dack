@@ -6,7 +6,7 @@ const Skill = {
     return db.load(sql);
   },
   getSkillByUserId(id) {
-    const sql = `select * from kynang where IDND='${id}'`;
+    const sql = `select * from kynang_nguoidung u join kynang i on u.IDKN=i.ID where u.IDND='${id}'`;
     return db.load(sql);
   },
   insert(skill) {
@@ -14,7 +14,7 @@ const Skill = {
     return db.save(sql, skill);
   },
   insertSkill(skill) {
-    const sql = `insert into kynang(IDND, KYNANG) values ? `;
+    const sql = `insert into kynang(KYNANG) values ? `;
     return db.save(sql, skill);
   },
   delete(id) {

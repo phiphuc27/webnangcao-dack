@@ -9,6 +9,7 @@ const JWTStrategy = passportJWT.Strategy;
 const bcrypt = require('bcryptjs');
 
 const UsersModel = require('./models/Users');
+const SkillModel = require('./models/Skill');
 // const db = require('./db');
 
 require('dotenv').config();
@@ -38,9 +39,9 @@ passport.use(
       try {
         return UsersModel.findByEmail(email)
           .then(async user => {
-            if (!user) {
+            if (!user[0]) {
               return cb(null, false, {
-                message: 'Incorrect email.'
+                message: 'Email hoặc mật khẩu không đúng.'
               });
             }
             // checking password
@@ -50,7 +51,7 @@ passport.use(
             );
             if (!validPassword)
               return cb(null, false, {
-                message: 'Incorrect email or password.'
+                message: 'Email hoặc mật khẩu không đúng.'
               });
 
             return cb(null, user[0], { message: 'Logged In Successfully' });
@@ -76,8 +77,11 @@ passport.use(
   new JWTStrategy(jwtOptions, (jwtPayload, cb) => {
     // find the user in db if needed
     return UsersModel.getUserInfoById(jwtPayload._id)
-      .then(user => {
-        return cb(null, user[0]);
+      .then(async user => {
+        const tmpTutor = { ...user[0] };
+        const skills = await SkillModel.getSkillByUserId(tmpTutor.ID);
+        const newTutor = { ...tmpTutor, KYNANG: [...skills] };
+        return cb(null, newTutor);
       })
       .catch(err => {
         return cb(err);

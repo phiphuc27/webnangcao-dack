@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   }
 });
 
-const Login = ({ isFetching, isFetched, login, loginGoogle, loginFacebook, history }) => {
+const Login = ({ isFetching, isFetched, login, loginGoogle, loginFacebook, error }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -40,6 +40,7 @@ const Login = ({ isFetching, isFetched, login, loginGoogle, loginFacebook, histo
       {isFetched && <Redirect to="/profile/tai-khoan" />}
       <h2>Đăng nhập </h2>
       <div className="form-container">
+        {error && <p className={classes.errorText}>{error}</p>}
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>

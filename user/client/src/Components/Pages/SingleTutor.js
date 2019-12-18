@@ -41,7 +41,7 @@ const SingleTutor = ({ match }) => {
               <div className="profile-header">
                 <div className="row">
                   <div className="col-10">
-                    <h3>Thông tin cá nhân</h3>
+                    <h3>Thông tin gia sư</h3>
                   </div>
                 </div>
               </div>

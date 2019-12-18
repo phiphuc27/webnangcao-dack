@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Select from 'react-select';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 import NumberFormat from 'react-number-format';
 import { allOptions } from '../../data';
+import { getAllSkills, filterTutor } from '../../Actions/tutor';
 
 const groupStyles = {
   display: 'flex',
@@ -31,8 +33,43 @@ const formatGroupLabel = data => (
 );
 
 const Category = () => {
-  const [cityOptions, setCityOption] = useState(allOptions[0]);
-  const [price, setPrice] = useState([100000, 2000000]);
+  let skills = useSelector(state => state.tutor.skills);
+  const dispatch = useDispatch();
+
+  if (skills.length === 0) {
+    dispatch(getAllSkills());
+  }
+
+  skills = skills.map(skill => {
+    return {
+      value: skill.ID,
+      label: skill.KYNANG
+    };
+  });
+
+  const skillSelect = [
+    {
+      value: -1,
+      label: '-Chọn kĩ năng'
+    },
+    ...skills
+  ];
+
+  const [cityOption, setCityOption] = useState(allOptions[0]);
+  const [skillOption, setSkillOption] = useState(skillSelect[0]);
+  const [price, setPrice] = useState([10000, 500000]);
+
+  useEffect(() => {
+    dispatch(filterTutor('SKILL', skillOption.label));
+  }, [skillOption, dispatch]);
+
+  useEffect(() => {
+    dispatch(filterTutor('CITY', cityOption.label));
+  }, [cityOption, dispatch]);
+
+  useEffect(() => {
+    dispatch(filterTutor('PRICE', price));
+  }, [price, dispatch]);
 
   return (
     <div>
@@ -43,25 +80,34 @@ const Category = () => {
             <h2 className="fw-title row" style={{ marginBottom: '10px' }}>
               Bộ lọc
             </h2>
-
+            <br />
             <Select
               defaultValue={allOptions[0]}
               options={allOptions}
               formatGroupLabel={formatGroupLabel}
               isSearchable
-              value={cityOptions}
+              value={cityOption}
               onChange={value => setCityOption(value)}
+            />
+            <br />
+            <Select
+              defaultValue={skillSelect[0]}
+              options={skillSelect}
+              formatGroupLabel={formatGroupLabel}
+              isSearchable
+              value={skillOption}
+              onChange={value => setSkillOption(value)}
             />
           </div>
           <div className="filter-widget mb-0 row">
             <div className="fw-color-choose">
               <Typography className="fw-title" id="range-slider" gutterBottom>
-                Giá
+                Giá theo giờ
               </Typography>
               <Slider
                 style={{ width: '250px' }}
-                max={2000000}
-                min={100000}
+                max={500000}
+                min={10000}
                 value={price}
                 onChange={(e, newValue) => setPrice(newValue)}
                 valueLabelDisplay="off"
