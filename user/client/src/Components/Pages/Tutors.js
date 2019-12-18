@@ -3,8 +3,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { useSelector, useDispatch } from 'react-redux';
-import Tutor from '../TutorList/Tutor';
-import TutorList from '../TutorList/TutorList';
+import Tutor from '../Tutor/Tutor';
+import TutorList from '../Tutor/TutorList';
+import Category from '../Other/Category';
 import { sortTutor, getAllTutors } from '../../Actions/tutor';
 
 const Tutors = () => {
@@ -34,7 +35,9 @@ const Tutors = () => {
   return (
     <div style={{ marginBlockEnd: '5em' }}>
       <div style={{ display: 'flex' }}>
-        <div className="col-md-3" style={{ paddingLeft: '50px', paddingRight: '10px' }} />
+        <div className="col-md-3" style={{ paddingLeft: '50px', paddingRight: '10px' }}>
+          <Category />
+        </div>
         <div className="col-md-9">
           <div
             style={{

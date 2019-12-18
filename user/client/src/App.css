@@ -526,6 +526,60 @@ nav {
 }
 /* end of feature tutors*/
 
+/* CATEGORY */
+.filter-widget {
+  margin-bottom: 50px;
+}
+
+.filter-widget .fw-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #414141;
+  text-transform: uppercase;
+  margin-bottom: 25px;
+}
+
+.dropbtn,
+.dropbtn:hover,
+.dropbtn:active,
+.dropbtn:visited,
+.dropbtn:focus {
+  all: unset;
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.dropbtn-a,
+.dropbtn-a:hover,
+.dropbtn-a:active,
+.dropbtn-a:visited,
+.dropbtn-a:focus {
+  all: unset;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: block;
+  background-color: none;
+  min-width: 160px;
+}
+.dropdown-content a:hover,
+.dropdown-content a:active,
+.dropdown-content a:visited,
+.dropdown-content a:focus {
+  text-decoration: none;
+}
+.dropdown-content a {
+  all: unset;
+  color: black;
+  padding: 5px 35px;
+  text-decoration: none;
+  display: block;
+}
+/* end of category */
+
 /* TUTOR CARD */
 
 .card {

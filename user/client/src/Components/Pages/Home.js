@@ -8,8 +8,8 @@ import {
   FaLaptop
 } from 'react-icons/fa';
 import Banner from '../Other/Banner';
-import Tutor from '../TutorList/Tutor';
-import TutorList from '../TutorList/TutorList';
+import Tutor from '../Tutor/Tutor';
+import TutorList from '../Tutor/TutorList';
 import Title from '../Other/Title';
 
 const Home = ({ tutors, getAllTutors }) => {

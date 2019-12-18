@@ -53,17 +53,23 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `uberfortutordb`.`kynang` (
   `ID` INT(11) NOT NULL AUTO_INCREMENT,
   `KYNANG` NVARCHAR(150) NOT NULL,-- ky nang
+  PRIMARY KEY (`ID`),
+  UNIQUE INDEX `KYNANG_UNIQUE` (`ID` ASC)
   )
+  
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `uberfortutordb`.`kynang_nguoidung` (
-  `ID` INT(11) NOT NULL AUTO_INCREMENT,
-  `IDND` INT(11) NOT NULL,-- id nguoi dung
-  `KYNANG` NVARCHAR(150) NOT NULL,-- ky nang
-  PRIMARY KEY (`ID`),
-  CONSTRAINT `fk_nguoidungkynang`
+`IDKN` INT(11) NOT NULL,-- id ky nang
+`IDND` INT(11) NOT NULL,-- id nguoi dung
+PRIMARY KEY (`IDKN`, `IDND`),
+CONSTRAINT `fk_nguoidung_kynang_nguoidung`
     FOREIGN KEY (`IDND`) 
-	REFERENCES `taikhoan`(`ID`))
+	REFERENCES `taikhoan`(`ID`),
+CONSTRAINT `fk_kynang_kynang_nguoidung`
+    FOREIGN KEY (`IDKN`) 
+	REFERENCES `kynang`(`ID`)
+    )
 
 ENGINE = InnoDB;
 
@@ -119,5 +125,8 @@ INSERT INTO `uberfortutordb`.`thongtin` (`ID`, `TEN`, `HO`, `DIACHI`, `GIOITINH`
 INSERT INTO `uberfortutordb`.`thongtin` (`ID`, `TEN`, `HO`, `DIACHI`, `GIOITINH`, `AVATARURL`, `GIOITHIEU`) VALUES
 (7, 'Phúc 6', 'Hồng', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... student');
 
-INSERT INTO `uberfortutordb`.`kynang` (`IDND`, `KYNANG`) VALUES
-(2, 'c#');
+INSERT INTO `uberfortutordb`.`kynang` (`KYNANG`) VALUES
+('c#'),('c++'),('c'),('java'),('javascript'),('react'),('angular'),('vue');
+
+INSERT INTO `uberfortutordb`.`kynang_nguoidung` (`IDKN`,`IDND`) VALUES
+('1','1'),('2','1'),('3','1'),('1','2'),('6','2'),('7','3'),('5','3');
