@@ -1,3 +1,5 @@
+DROP SCHEMA IF EXISTS `uberfortutordb`;
+
 CREATE SCHEMA IF NOT EXISTS `uberfortutordb` DEFAULT CHARACTER SET utf8;
 CREATE TABLE IF NOT EXISTS `uberfortutordb`.`taikhoan` (
   `ID` INT(11) NOT NULL AUTO_INCREMENT,
