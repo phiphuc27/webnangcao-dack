@@ -69,10 +69,6 @@ const provinces = [
 
 export const allOptions = [
   {
-    value: 0,
-    label: '-Chọn thành phố-'
-  },
-  {
     label: 'Thành Phố',
     options: cities
   },

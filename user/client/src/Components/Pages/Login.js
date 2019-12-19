@@ -37,7 +37,7 @@ const Login = ({ isFetching, isFetched, login, loginGoogle, loginFacebook, error
 
   return (
     <div className="container form-account">
-      {isFetched && <Redirect to="/profile/tai-khoan" />}
+      {isFetched && <Redirect to="/profile/account" />}
       <h2>Đăng nhập </h2>
       <div className="form-container">
         {error && <p className={classes.errorText}>{error}</p>}

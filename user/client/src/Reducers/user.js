@@ -8,11 +8,15 @@ const registerState = {
   profile: {
     fetching: false,
     fetched: false,
-    user: null,
     error: {
       profile: '',
       photo: ''
     }
+  },
+  password: {
+    fetching: false,
+    fetched: false,
+    error: ''
   }
 };
 
@@ -103,9 +107,49 @@ const accountManagement = (state = registerState, action) => {
     case 'EDIT_ERROR': {
       return {
         ...state,
-        fetching: false,
-        fetched: false,
-        error: { ...state.error, [action.name]: action.error }
+        profile: {
+          ...state.profile,
+          fetching: false,
+          fetched: false,
+          error: {
+            ...state.profile.error,
+            [action.name]: action.error
+          }
+        }
+      };
+    }
+    case 'EDIT_PASSWORD_START': {
+      return {
+        ...state,
+        password: {
+          ...state.password,
+          fetching: true,
+          fetched: false,
+          error: ''
+        }
+      };
+    }
+    case 'EDIT_PASSWORD_SUCCESS': {
+      return {
+        ...state,
+        password: {
+          ...state.password,
+          fetching: false,
+          fetched: true,
+          error: ''
+        }
+      };
+    }
+
+    case 'EDIT_PASSWORD_ERROR': {
+      return {
+        ...state,
+        password: {
+          ...state.password,
+          fetching: false,
+          fetched: false,
+          error: action.error
+        }
       };
     }
 
@@ -195,7 +239,7 @@ const accountManagement = (state = registerState, action) => {
     }
     case 'DELETE_SKILL_SUCCESS': {
       let i = 0;
-      for (i = 0; i < state.skill.length; i++) {
+      for (i = 0; i < state.skill.length; i += 1) {
         if (state.skill[i].ID === action.id) break;
       }
       return {

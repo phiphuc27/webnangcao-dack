@@ -769,13 +769,26 @@ ul {
   margin-block-start: 1em;
 }
 
+.profile-tab a {
+  color: var(--black-text);
+}
+
+.profile-tab a:hover {
+  text-decoration: none;
+  filter: opacity(0.8);
+}
+
 .tab-header {
   font-weight: 600 !important;
   font-size: 1.1rem !important;
 }
 
 .active {
-  color: #0a579d;
+  color: #0a579d !important;
+}
+
+.active-link {
+  color: #de0909 !important;
 }
 
 .info-container {
@@ -877,16 +890,16 @@ ul {
   color: #ea4c89;
 }
 
-.css-2b097c-container {
+.skill-edit .css-2b097c-container {
   width: 80%;
 }
 
-.css-yk16xz-control {
+.skill-edit .css-yk16xz-control {
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
 }
 
-.css-1hb7zxy-IndicatorsContainer {
+.skill-edit .css-1hb7zxy-IndicatorsContainer {
   display: none !important;
 }
 /* end of profile */

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
@@ -8,8 +9,13 @@ import {
 import { Spinner } from 'react-bootstrap';
 import { ExpandMore } from '@material-ui/icons';
 import { FaEdit } from 'react-icons/fa';
-import EditProfileModal from '../Profile/EditProfileModal';
-import EditSkillModal from '../Profile/EditSkillModal';
+
+import AccountTab from '../Profile/AccountTab';
+import PasswordTab from '../Profile/PasswordTab';
+
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
 
 const Profile = ({
   user,
@@ -20,20 +26,14 @@ const Profile = ({
   profile,
   handleAddNewSkill
 }) => {
-  const [expanded, setExpanded] = useState(match.params.tab);
-  const [modalProfile, setModalProfile] = useState(false);
-  const [modalSkill, setModalSkill] = useState(false);
+  const query = useQuery();
+
+  const { tab } = match.params;
+
+  const [expanded, setExpanded] = useState(tab);
+  const [subExpanded, setSubExpanded] = useState(query.get('tab'));
 
   const { fetching } = profile;
-
-  const skill = user.KYNANG;
-
-  let skillList = null;
-  if (skill) {
-    skillList = skill.map(value => {
-      return <li key={value.ID}>{value.KYNANG}</li>;
-    });
-  }
 
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -76,89 +76,181 @@ const Profile = ({
 
               <div className="profile-tab">
                 <ExpansionPanel
-                  expanded={expanded === 'tai-khoan'}
-                  onChange={handleChange('tai-khoan')}
+                  expanded={expanded === 'account'}
+                  onChange={handleChange('account')}
                 >
                   <ExpansionPanelSummary
                     expandIcon={<ExpandMore />}
                     aria-controls="panel1bh-content"
                     id="panel1bh-header"
                   >
-                    <Typography className={`tab-header ${expanded === 'tai-khoan' && 'active'}`}>
+                    <Typography className={`tab-header ${expanded === 'account' && 'active'}`}>
                       Thông tin cá nhân
                     </Typography>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
                     <ul>
-                      <li className="active">Thông tin cá nhân</li>
+                      <li>
+                        <a
+                          href="/profile/account"
+                          className={!subExpanded && tab === 'account' ? 'active-link' : undefined}
+                        >
+                          Thông tin cá nhân
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="/profile/account?tab=password"
+                          className={subExpanded === 'password' ? 'active-link' : undefined}
+                        >
+                          Thay đổi mật khẩu
+                        </a>
+                      </li>
                     </ul>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
                 {user.LOAI === 2 ? (
-                  <ExpansionPanel
-                    expanded={expanded === 'yeu-cau'}
-                    onChange={handleChange('yeu-cau')}
-                  >
+                  <ExpansionPanel expanded={expanded === 'class'} onChange={handleChange('class')}>
                     <ExpansionPanelSummary
                       expandIcon={<ExpandMore />}
                       aria-controls="panel2bh-content"
                       id="panel2bh-header"
                     >
-                      <Typography className={`tab-header ${expanded === 'yeu-cau' && 'active'}`}>
-                        Lịch sử yêu cầu học
+                      <Typography className={`tab-header ${expanded === 'class' && 'active'}`}>
+                        Quản lí yêu cầu học
                       </Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                       <ul>
-                        <li>Đã đăng</li>
-                        <li>Đang chờ duyệt</li>
-                        <li>Đã duyệt</li>
-                        <li>Đã lưu</li>
+                        <li>
+                          <a
+                            href="/profile/class"
+                            className={!subExpanded && tab === 'class' ? 'active-link' : undefined}
+                          >
+                            Đã nhận
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="/profile/class?tab=accepted"
+                            className={
+                              subExpanded === 'accepted' && tab === 'class'
+                                ? 'active-link'
+                                : undefined
+                            }
+                          >
+                            Đã đồng ý
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="/profile/class?tab=finished"
+                            className={
+                              subExpanded === 'finished' && tab === 'class'
+                                ? 'active-link'
+                                : undefined
+                            }
+                          >
+                            Đã hoàn tất
+                          </a>
+                        </li>
                       </ul>
                     </ExpansionPanelDetails>
                   </ExpansionPanel>
                 ) : (
                   <ExpansionPanel
-                    expanded={expanded === 'hop-dong'}
-                    onChange={handleChange('hop-dong')}
+                    expanded={expanded === 'contract'}
+                    onChange={handleChange('contract')}
                   >
                     <ExpansionPanelSummary
                       expandIcon={<ExpandMore />}
                       aria-controls="panel2bh-content"
                       id="panel2bh-header"
                     >
-                      <Typography className={`tab-header ${expanded === 'hop-dong' && 'active'}`}>
-                        Lịch sử hợp đồng học
+                      <Typography className={`tab-header ${expanded === 'contract' && 'active'}`}>
+                        Quản lí hợp đồng học
                       </Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                       <ul>
-                        <li>Đã đăng kí</li>
-                        <li>Đang chờ nhận</li>
-                        <li>Đang học</li>
-                        <li>Đã thanh toán</li>
+                        <li>
+                          <a
+                            href="/profile/contract"
+                            className={
+                              !subExpanded && tab === 'contract' ? 'active-link' : undefined
+                            }
+                          >
+                            Đã đăng kí
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="/profile/contract?tab=accepted"
+                            className={
+                              subExpanded === 'accepted' && tab === 'contract'
+                                ? 'active-link'
+                                : undefined
+                            }
+                          >
+                            Đã chấp nhận
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="/profile/contract?tab=paid"
+                            className={
+                              subExpanded === 'paid' && tab === 'contract'
+                                ? 'active-link'
+                                : undefined
+                            }
+                          >
+                            Đã thanh toán
+                          </a>
+                        </li>
                       </ul>
                     </ExpansionPanelDetails>
                   </ExpansionPanel>
                 )}
                 {user.LOAI === 2 && (
                   <ExpansionPanel
-                    expanded={expanded === 'doanh-thu'}
-                    onChange={handleChange('doanh-thu')}
+                    expanded={expanded === 'revenue'}
+                    onChange={handleChange('revenue')}
                   >
                     <ExpansionPanelSummary
                       expandIcon={<ExpandMore />}
                       aria-controls="panel3bh-content"
                       id="panel3bh-header"
                     >
-                      <Typography className={`tab-header ${expanded === 'doanh-thu' && 'active'}`}>
+                      <Typography className={`tab-header ${expanded === 'revenue' && 'active'}`}>
                         Doanh thu
                       </Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                       <ul>
-                        <li>Theo tháng</li>
-                        <li>Theo năm</li>
+                        <li>
+                          <a
+                            href="/profile/revenue?tab=month"
+                            className={
+                              subExpanded === 'month' && tab === 'revenue'
+                                ? 'active-link'
+                                : undefined
+                            }
+                          >
+                            Theo tháng
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="/profile/revenue?tab=year"
+                            className={
+                              subExpanded === 'year' && tab === 'revenue'
+                                ? 'active-link'
+                                : undefined
+                            }
+                          >
+                            Theo năm
+                          </a>
+                        </li>
                       </ul>
                     </ExpansionPanelDetails>
                   </ExpansionPanel>
@@ -166,123 +258,16 @@ const Profile = ({
               </div>
             </div>
           </div>
-          <div className="profile-info">
-            <div className="info-container">
-              <div className="profile-header">
-                <div className="row">
-                  <div className="col-10">
-                    <h3>Thông tin cá nhân</h3>
-                  </div>
-                  <div className="col-2" style={{ textAlign: 'end' }}>
-                    <button type="button" className="btn" onClick={() => setModalProfile(true)}>
-                      Chỉnh sửa
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="profile-body">
-                <div className="row">
-                  <div className="col-lg-3 col-sm-6">
-                    <h5>Họ và tên</h5>
-                  </div>
-                  <div className="col-lg-9 col-sm-6">
-                    <p>
-                      {user.HO} {user.TEN}
-                    </p>
-                  </div>
-                </div>
-                <hr />
-                <div className="row">
-                  <div className="col-lg-3 col-sm-6">
-                    <h5>Giới tính</h5>
-                  </div>
-                  <div className="col-lg-9 col-sm-6">
-                    <p>{user.GIOITINH}</p>
-                  </div>
-                </div>
-                <hr />
-                <div className="row">
-                  <div className="col-lg-3 col-sm-6">
-                    <h5>Địa chỉ</h5>
-                  </div>
-                  <div className="col-lg-9 col-sm-6">
-                    <p>{user.DIACHI}</p>
-                  </div>
-                </div>
-                <hr />
-                <div className="row">
-                  <div className="col-lg-3 col-sm-6">
-                    <h5>Thành phố</h5>
-                  </div>
-                  <div className="col-lg-9 col-sm-6">
-                    <p>{user.THANHPHO}</p>
-                  </div>
-                </div>
-                <hr />
-              </div>
-            </div>
-            {user.LOAI === 2 && (
-              <>
-                <div className="info-container">
-                  <div className="profile-header">
-                    <div className="row">
-                      <div className="col-10">
-                        <h3>Giới thiệu bản thân</h3>
-                      </div>
-                      <div className="col-2" style={{ textAlign: 'end' }}>
-                        <button type="button" className="btn" onClick={() => setModalProfile(true)}>
-                          Chỉnh sửa
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="profile-body">
-                    <div className="row">
-                      <div className="col-12">
-                        <p>{user.GIOITHIEU}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="info-container">
-                  <div className="profile-header">
-                    <div className="row">
-                      <div className="col-10">
-                        <h3>Kỹ năng</h3>
-                      </div>
-                      <div className="col-2" style={{ textAlign: 'end' }}>
-                        <button type="button" className="btn" onClick={() => setModalSkill(true)}>
-                          Chỉnh sửa
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="profile-body">
-                    <div className="row">
-                      <div className="col-12">
-                        <ul className="profile-skill">{skillList}</ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
+          {tab === 'account' && !subExpanded && (
+            <AccountTab
+              user={user}
+              handleAddNewSkill={handleAddNewSkill}
+              handleProfileChange={handleProfileChange}
+            />
+          )}
+          {tab === 'account' && subExpanded === 'password' && <PasswordTab user={user} />}
         </div>
       )}
-
-      <EditProfileModal
-        user={user}
-        show={modalProfile}
-        onHide={() => setModalProfile(false)}
-        onProfileChange={data => handleProfileChange(data)}
-      />
-      <EditSkillModal
-        user={user}
-        show={modalSkill}
-        onHide={() => setModalSkill(false)}
-        onSubmitNewSkill={item => handleAddNewSkill(item)}
-      />
     </div>
   );
 };

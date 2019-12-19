@@ -47,16 +47,10 @@ const Category = () => {
     };
   });
 
-  const skillSelect = [
-    {
-      value: -1,
-      label: '-Chọn kĩ năng'
-    },
-    ...skills
-  ];
+  const skillSelect = [...skills];
 
-  const [cityOption, setCityOption] = useState(allOptions[0]);
-  const [skillOption, setSkillOption] = useState(skillSelect[0]);
+  const [cityOption, setCityOption] = useState('');
+  const [skillOption, setSkillOption] = useState('');
   const [price, setPrice] = useState([10000, 500000]);
 
   useEffect(() => {
@@ -82,7 +76,7 @@ const Category = () => {
             </h2>
             <br />
             <Select
-              defaultValue={allOptions[0]}
+              placeholder="-Chọn thành phố-"
               options={allOptions}
               formatGroupLabel={formatGroupLabel}
               isSearchable
@@ -91,7 +85,7 @@ const Category = () => {
             />
             <br />
             <Select
-              defaultValue={skillSelect[0]}
+              placeholder="-Chọn kĩ năng-"
               options={skillSelect}
               formatGroupLabel={formatGroupLabel}
               isSearchable

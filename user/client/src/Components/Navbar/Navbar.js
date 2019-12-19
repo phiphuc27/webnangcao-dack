@@ -10,7 +10,7 @@ const index = ({ user, logout, history }) => {
     history.push('/');
   };
   return (
-    <nav className='nav'>
+    <nav className="nav">
       <div className="container navbar">
         <div className="nav-logo">
           <Link to="/">
@@ -49,21 +49,21 @@ const index = ({ user, logout, history }) => {
             <div className="dropdown-menu user-menu">
               <ul>
                 <li>
-                  <Link to="/profile/tai-khoan">Hồ sơ</Link>
+                  <Link to="/profile/account">Hồ sơ</Link>
                 </li>
                 {user.LOAI === 3 ? (
                   <>
                     <li>
-                      <Link to="/profile/hop-dong">Lịch sử hợp đồng học</Link>
+                      <Link to="/profile/contract">Lịch sử hợp đồng học</Link>
                     </li>
                   </>
                 ) : (
                   <>
                     <li>
-                      <Link to="/profile/yeu-cau">Lịch sử yêu cầu học</Link>
+                      <Link to="/profile/class">Lịch sử yêu cầu học</Link>
                     </li>
                     <li>
-                      <Link to="/profile/doanh-thu">Doanh thu</Link>
+                      <Link to="/profile/revenue">Doanh thu</Link>
                     </li>
                   </>
                 )}

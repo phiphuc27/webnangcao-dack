@@ -158,6 +158,19 @@ export const errorEdit = (name, error) => ({
   error
 });
 
+export const startPasswordEdit = {
+  type: 'EDIT_PASSWORD_START'
+};
+
+export const successPasswordEdit = {
+  type: 'EDIT_PASSWORD_SUCCESS'
+};
+
+export const errorPasswordEdit = error => ({
+  type: 'EDIT_PASSWORD_ERROR',
+  error
+});
+
 export const editProfile = data => {
   // console.log(data);
   return dispatch => {
@@ -178,6 +191,32 @@ export const editProfile = data => {
       })
       .catch(err => {
         dispatch(errorEdit('profile', err));
+      });
+  };
+};
+
+export const editPassword = data => {
+  return dispatch => {
+    dispatch(startPasswordEdit);
+    const token = window.sessionStorage.getItem('jwtToken');
+    axios({
+      method: 'post',
+      url: '/users/profile/changePassword',
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(async response => {
+        if (response.statusText === 'OK') {
+          await dispatch(successPasswordEdit);
+          setTimeout(() => {
+            dispatch(getLoginUser(token));
+          }, 2000);
+        }
+      })
+      .catch(err => {
+        dispatch(errorPasswordEdit(err.response.data));
       });
   };
 };
@@ -327,10 +366,10 @@ export const addNewSkills = skill => {
     })
       .then(response => {
         // set ID for new skill
-        var list = skill.concat();
-        for (var i = 0; i < skill.length; i++){
+        const list = skill.concat();
+        for (let i = 0; i < skill.length; i += 1) {
           list[i].ID = response.data[i];
-        };
+        }
         dispatch({
           type: 'ADD_NEW_SKILL_SUCCESS',
           value: list
@@ -380,11 +419,13 @@ export const updateSkill = (skill, skillId) => {
       data: { id: skillId, skill }
     })
       .then(response => {
-        dispatch({
-          type: 'UPDATE_SKILL_SUCCESS',
-          value: skill,
-          id: skillId
-        });
+        if (response.statusText === 'OK') {
+          dispatch({
+            type: 'UPDATE_SKILL_SUCCESS',
+            value: skill,
+            id: skillId
+          });
+        }
       })
       .catch(err => {
         dispatch(errorUserSkill('skill', err));
@@ -405,10 +446,12 @@ export const deleteSkill = id => {
       data: { id }
     })
       .then(response => {
-        dispatch({
-          type: 'DELETE_SKILL_SUCCESS',
-          id
-        });
+        if (response.statusText === 'OK') {
+          dispatch({
+            type: 'DELETE_SKILL_SUCCESS',
+            id
+          });
+        }
       })
       .catch(err => {
         dispatch(errorUserSkill('skill', err));

@@ -60,7 +60,8 @@ const EditProfile = ({ show, onHide, onSubmitNewSkill, user }) => {
   };
 
   const onAddSkill = () => {
-    if (skill.label === '') {
+    console.log(skill.label);
+    if (skill.label === undefined) {
       setError('skills', 'required', 'Bắt buộc !');
       return;
     }
@@ -85,6 +86,7 @@ const EditProfile = ({ show, onHide, onSubmitNewSkill, user }) => {
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      className="skill-edit"
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Modal.Header closeButton>
@@ -98,7 +100,7 @@ const EditProfile = ({ show, onHide, onSubmitNewSkill, user }) => {
             <Col sm={9}>
               <InputGroup>
                 <Select
-                  placeholder='Kĩ năng'
+                  placeholder="Kĩ năng"
                   options={allSkills}
                   isSearchable
                   value={skill}

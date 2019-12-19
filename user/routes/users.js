@@ -1,25 +1,24 @@
 const express = require('express');
 
 const router = express.Router();
+const passport = require('passport');
 
 const bcrypt = require('bcryptjs');
-
-const { passwordValidation } = require('../validation');
 
 const UsersModel = require('../models/Users');
 const SkillModel = require('../models/Skill');
 // const db = require('../db');
 
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
   res.render('index', { title: 'User Page' });
 });
 
 /* GET users listing. */
-router.get('/profile', (req, res, next) => {
+router.get('/profile', (req, res) => {
   res.type('json').send(JSON.stringify(req.user, null, '\t'));
 });
 
-router.post('/profile', (req, res, next) => {
+router.post('/profile', (req, res) => {
   UsersModel.updateProfile(req.body, req.user.ID)
     .then(result => {
       res.status(200).send(result);
@@ -29,26 +28,28 @@ router.post('/profile', (req, res, next) => {
     });
 });
 
-router.post('/profile/changePassword', async (req, res, next) => {
-  const { error } = passwordValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-  if (!bcrypt.compare(req.body.old_password, req.user.password))
-    return res.status(400).send('Your password is incorrect!');
-  if (req.body.old_password === req.body.new_password)
+router.post('/profile/changePassword', async (req, res) => {
+  console.log(req.body);
+  const checkPassword = await bcrypt.compare(
+    req.body.oldPassword,
+    req.user.MATKHAU
+  );
+  if (!checkPassword)
+    return res.status(400).send('Mật khẩu không chính xác!');
+  if (req.body.oldPassword === req.body.newPassword)
     return res
       .status(400)
-      .send('Your new password is same as your old password!');
+      .send('Mật khẩu mới trùng với mật khẩu hiện tại của bạn!');
   // hash password
   const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(req.body.new_password, salt);
+  const hashedPassword = await bcrypt.hash(req.body.newPassword, salt);
 
-  UsersModel.updatePassword(req.user.id, hashedPassword)
-    .then(result => {
-      res.status(200).send(result);
-    })
-    .catch(err => {
-      res.status(500).send(err);
-    });
+  try {
+    const result = await UsersModel.updatePassword(req.user.ID, hashedPassword);
+    return res.status(200).send(result);
+  } catch (err) {
+    return res.status(500).send(err);
+  }
 });
 
 router.post('/profile/changePhoto', async (req, res) => {
@@ -56,7 +57,7 @@ router.post('/profile/changePhoto', async (req, res) => {
     AVATARURL: req.body.downloadUrl
   };
   UsersModel.updateProfile(newPhoto, req.user.ID)
-    .then(result => {
+    .then(() => {
       res.status(200).send(newPhoto);
     })
     .catch(err => {
@@ -64,7 +65,7 @@ router.post('/profile/changePhoto', async (req, res) => {
     });
 });
 
-router.post('/getUserInfo', async (req, res, next) => {
+router.post('/getUserInfo', async (req, res) => {
   const user = await UsersModel.getUserInfoById(req.body.id);
   // console.log(user);
 
@@ -75,21 +76,23 @@ router.post('/getUserInfo', async (req, res, next) => {
   }
 });
 
-router.post('/getUserSkill', async (req, res, next) => {
+router.post('/getUserSkill', async (req, res) => {
   const skill = await SkillModel.getSkillByUserId(req.body.id);
 
   res.json(skill);
 });
 
-router.post('/insertUserSkills', async (req, res, next) => {
+router.post('/insertUserSkills', async (req, res) => {
   // console.log(req.body.skill);
   const list = req.body.skill;
   const runSQL = async () => {
-    const data = [];
-    for (let i = 0; i < list.length; i++) {
-      const res = await SkillModel.insert(list[i]);
-      data.push(res.insertId);
-    }
+    const data = await Promise.all(
+      list.map(async item => {
+        const result = await SkillModel.insert(item);
+        return result.insertId;
+      })
+    );
+
     return data;
   };
   runSQL()
@@ -103,7 +106,7 @@ router.post('/insertUserSkills', async (req, res, next) => {
     });
 });
 
-router.post('/insertUserSkill', async (req, res, next) => {
+router.post('/insertUserSkill', async (req, res) => {
   await SkillModel.insert({ IDND: req.body.id, KYNANG: req.body.skill })
     .then(result => {
       res.status(200).send(result);
@@ -113,7 +116,7 @@ router.post('/insertUserSkill', async (req, res, next) => {
     });
 });
 
-router.post('/updateUserSkill', async (req, res, next) => {
+router.post('/updateUserSkill', async (req, res) => {
   await SkillModel.update(req.body.id, req.body.skill)
     .then(result => {
       res.status(200).send(result);
@@ -123,7 +126,7 @@ router.post('/updateUserSkill', async (req, res, next) => {
     });
 });
 
-router.post('/deleteUserSkill', async (req, res, next) => {
+router.post('/deleteUserSkill', async (req, res) => {
   SkillModel.delete(req.body.id)
     .then(result => {
       res.status(200).send(result);
