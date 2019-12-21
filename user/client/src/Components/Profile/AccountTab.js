@@ -70,6 +70,14 @@ const AccountTab = ({ user, handleProfileChange, handleAddNewSkill }) => {
             </div>
           </div>
           <hr />
+          <div className="row">
+            <div className="col-lg-3 col-sm-6">
+              <h5>Điện thoại</h5>
+            </div>
+            <div className="col-lg-9 col-sm-6">
+              <p>{user.DIENTHOAI}</p>
+            </div>
+          </div>
         </div>
       </div>
       {user.LOAI === 2 && (

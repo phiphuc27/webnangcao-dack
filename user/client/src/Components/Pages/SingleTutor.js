@@ -2,18 +2,21 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Spinner } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import { getTutorById } from '../../Actions/tutor';
 
 const SingleTutor = ({ match }) => {
-  const tutors = useSelector(state => state.tutor.tutors);
+  const tutor = useSelector(state => state.tutor.tutor);
   const fetching = useSelector(state => state.tutor.fetching);
   const dispatch = useDispatch();
+  const history = useHistory();
   const { id } = match.params;
-  if (tutors.length === 0) {
+  console.log(tutor);
+  if (tutor === '') {
     dispatch(getTutorById(parseInt(id, 10)));
   }
-  const { HO, TEN, DIACHI, GIA, KYNANG, GIOITINH, GIOITHIEU, AVATARURL } = tutors;
+  const { HO, TEN, DIACHI, GIA, KYNANG, GIOITINH, GIOITHIEU, AVATARURL, ID } = tutor;
   return (
     <div className="container">
       {fetching ? (
@@ -34,6 +37,15 @@ const SingleTutor = ({ match }) => {
               <div className="profile-image">
                 <img src={AVATARURL} alt="hình đại diện" />
               </div>
+            </div>
+            <div style={{ marginBlockStart: '1em' }}>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => history.push(`/request?id=${ID}`)}
+              >
+                Mời dạy
+              </button>
             </div>
           </div>
           <div className="profile-info">
@@ -120,7 +132,7 @@ const SingleTutor = ({ match }) => {
                 <div className="row">
                   <div className="col-12">
                     <ul className="profile-skill">
-                      {tutors.length !== 0 &&
+                      {tutor &&
                         KYNANG.map((item, index) => (
                           <li key={index}>
                             <span>{item.KYNANG}</span>
@@ -130,11 +142,6 @@ const SingleTutor = ({ match }) => {
                   </div>
                 </div>
               </div>
-            </div>
-            <div style={{ marginBlockStart: '1em' }}>
-              <button type="button" className="btn btn-primary">
-                Liên hệ gia sư
-              </button>
             </div>
           </div>
         </div>

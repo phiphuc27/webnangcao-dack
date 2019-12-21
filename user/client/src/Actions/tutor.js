@@ -9,6 +9,11 @@ export const successGetData = tutor => ({
   tutor
 });
 
+export const successGetOneData = tutor => ({
+  type: 'SUCCESS_GET_ONE_DATA',
+  tutor
+});
+
 export const successGetSkills = skills => ({
   type: 'SUCCESS_GET_SKILLS',
   skills
@@ -60,7 +65,7 @@ export const getTutorById = data => {
       url: `/tutors/${data}`
     })
       .then(response => {
-        dispatch(successGetData(response.data.tutor));
+        dispatch(successGetOneData(response.data.tutor));
       })
       .catch(err => {
         dispatch(errorGetData(err));

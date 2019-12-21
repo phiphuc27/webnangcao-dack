@@ -54,13 +54,13 @@ const index = ({ user, logout, history }) => {
                 {user.LOAI === 3 ? (
                   <>
                     <li>
-                      <Link to="/profile/contract">Lịch sử hợp đồng học</Link>
+                      <Link to="/profile/contract">Quản lí hợp đồng học</Link>
                     </li>
                   </>
                 ) : (
                   <>
                     <li>
-                      <Link to="/profile/class">Lịch sử yêu cầu học</Link>
+                      <Link to="/profile/class">Quản lí yêu cầu học</Link>
                     </li>
                     <li>
                       <Link to="/profile/revenue">Doanh thu</Link>

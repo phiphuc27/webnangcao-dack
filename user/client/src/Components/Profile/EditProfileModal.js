@@ -51,6 +51,7 @@ const EditProfile = ({ show, onHide, user, onProfileChange }) => {
   const [input, setInput] = useState({
     lastName: user.HO || '',
     firstName: user.TEN || '',
+    phone: user.DIENTHOAI || '',
     address: user.DIACHI || '',
     city:
       {
@@ -67,6 +68,7 @@ const EditProfile = ({ show, onHide, user, onProfileChange }) => {
     const data = {
       HO: input.lastName,
       TEN: input.firstName,
+      DIENTHOAI: input.phone,
       DIACHI: input.address,
       THANHPHO: input.city.value,
       GIOITINH: input.gender,
@@ -121,6 +123,24 @@ const EditProfile = ({ show, onHide, user, onProfileChange }) => {
                 ref={register({ required: 'Bắt buộc!' })}
               />
               {errors.firstName && <p className={classes.errorText}>{errors.firstName.message}</p>}
+            </Col>
+          </Form.Group>
+
+          <Form.Group as={Row} controlId="formBasicEmail">
+            <Form.Label column sm={3}>
+              Điện thoại <span style={{ color: 'red' }}>*</span>
+            </Form.Label>
+            <Col sm={9}>
+              <Form.Control
+                className={errors.phone && classes.errorInput}
+                type="text"
+                name="phone"
+                placeholder="Điện thoại"
+                defaultValue={input.phone}
+                onChange={e => setInput({ ...input, [e.target.name]: e.target.value })}
+                ref={register({ required: 'Bắt buộc!' })}
+              />
+              {errors.phone && <p className={classes.errorText}>{errors.phone.message}</p>}
             </Col>
           </Form.Group>
 

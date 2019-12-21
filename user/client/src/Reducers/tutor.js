@@ -3,7 +3,7 @@ const tutorState = {
   fetched: false,
   error: '',
   skills: [],
-  tutor: {},
+  tutor: '',
   tutors: [],
   sortTutors: [],
   sortSkill: []
@@ -27,6 +27,15 @@ const tutorManagement = (state = tutorState, action) => {
         fetched: true,
         tutors: action.tutor,
         sortTutors: action.tutor
+      };
+    }
+
+    case 'SUCCESS_GET_ONE_DATA': {
+      return {
+        ...state,
+        fetching: false,
+        fetched: true,
+        tutor: action.tutor
       };
     }
 

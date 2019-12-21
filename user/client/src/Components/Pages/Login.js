@@ -3,7 +3,7 @@ import { Form, Button, Spinner } from 'react-bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 
 import useForm from 'react-hook-form';
 
@@ -28,6 +28,8 @@ const Login = ({ isFetching, isFetched, login, loginGoogle, loginFacebook, error
 
   const { register, handleSubmit, errors } = useForm();
 
+  const location = useLocation();
+
   const classes = useStyles();
 
   const onSubmit = () => {
@@ -37,7 +39,7 @@ const Login = ({ isFetching, isFetched, login, loginGoogle, loginFacebook, error
 
   return (
     <div className="container form-account">
-      {isFetched && <Redirect to="/profile/account" />}
+      {isFetched && <Redirect to={location.state.from} />}
       <h2>Đăng nhập </h2>
       <div className="form-container">
         {error && <p className={classes.errorText}>{error}</p>}

@@ -903,3 +903,34 @@ ul {
   display: none !important;
 }
 /* end of profile */
+
+/* Request */
+
+.tutor-info {
+  display: flex;
+}
+
+.info-image {
+  border-radius: 8px;
+  padding: 5px;
+  margin: 0 2em 1em 1em;
+  border: var(--border);
+}
+
+.info-image img {
+  width: 100px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.info-detail .row + .row {
+  margin-block-start: 12px;
+}
+
+.form-radio {
+  display: grid;
+  grid-template-columns: repeat(4, 140px);
+  align-items: center;
+}
+
+/* end of request */

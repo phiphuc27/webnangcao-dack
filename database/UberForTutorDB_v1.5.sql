@@ -1,6 +1,9 @@
 DROP SCHEMA IF EXISTS `uberfortutordb`;
 
 CREATE SCHEMA IF NOT EXISTS `uberfortutordb` DEFAULT CHARACTER SET utf8;
+
+use `uberfortutordb`;
+
 CREATE TABLE IF NOT EXISTS `uberfortutordb`.`taikhoan` (
   `ID` INT(11) NOT NULL AUTO_INCREMENT,
   `EMAIL` VARCHAR(45) NULL,
@@ -57,6 +60,9 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`dangkyhoc` (
     `ID` INT(11) NOT NULL AUTO_INCREMENT,
     `IDNH` INT(11) NOT NULL,
     `IDND` INT(11) NOT NULL,
+    `TIEUDE` VARCHAR(255) NULL,
+    `DIACHI` VARCHAR(255) NULL,
+    `DIENTHOAI` VARCHAR(255) NULL,
     `NGAYBD` DATETIME NULL, -- ngay bat dau hoc
     `NGAYKT` DATETIME NULL, -- ngay ket thuc hoc
     `NOIDUNG` VARCHAR(255) NULL,
