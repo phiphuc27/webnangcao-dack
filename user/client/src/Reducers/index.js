@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import user from './user';
 import tutor from './tutor';
+import contract from './contract';
 
 const allReducer = combineReducers({
   user,
-  tutor
+  tutor,
+  contract
 });
 
 const rootReducer = (state, action) => {

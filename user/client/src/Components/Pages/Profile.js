@@ -12,6 +12,8 @@ import { FaEdit } from 'react-icons/fa';
 
 import AccountTab from '../Profile/AccountTab';
 import PasswordTab from '../Profile/PasswordTab';
+import RequestTab from '../Profile/RequestTab';
+import ContractTab from '../Profile/ContractTab';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -266,6 +268,8 @@ const Profile = ({
             />
           )}
           {tab === 'account' && subExpanded === 'password' && <PasswordTab user={user} />}
+          {tab === 'class' && <RequestTab tab={subExpanded} />}
+          {tab === 'contract' && <ContractTab tab={subExpanded} />}
         </div>
       )}
     </div>

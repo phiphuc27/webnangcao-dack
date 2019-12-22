@@ -10,11 +10,11 @@ const contract = {
     return db.load(sql);
   },
   getByTutorId(id) {
-    const sql = `select u.* from hopdonghoc u join dangkyhoc i on u.IDDK = i.ID where i.IDND='${id}'`;
+    const sql = `select u.*,k.HO,k.TEN from hopdonghoc u join dangkyhoc i join thongtin k on u.IDDK = i.ID && k.ID = i.IDNH where i.IDND='${id}'`;
     return db.load(sql);
   },
   getByStudentId(id) {
-    const sql = `select u.* from hopdonghoc u join dangkyhoc i on u.IDDK = i.ID where i.IDNH='${id}'`;
+    const sql = `select u.*,k.HO,k.TEN from hopdonghoc u join dangkyhoc i join thongtin k on u.IDDK = i.ID && k.ID = i.IDND where i.IDNH='${id}'`;
     return db.load(sql);
   },
   insert(value) {

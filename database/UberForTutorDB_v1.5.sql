@@ -61,13 +61,14 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`dangkyhoc` (
     `IDNH` INT(11) NOT NULL,
     `IDND` INT(11) NOT NULL,
     `TIEUDE` VARCHAR(255) NULL,
-    `DIACHI` VARCHAR(255) NULL,
-    `DIENTHOAI` VARCHAR(255) NULL,
+    `DIADIEM` VARCHAR(255) NULL,
+    `DTLIENHE` VARCHAR(255) NULL,
     `NGAYBD` DATETIME NULL, -- ngay bat dau hoc
     `NGAYKT` DATETIME NULL, -- ngay ket thuc hoc
-    `NOIDUNG` VARCHAR(255) NULL,
+    `NOIDUNG` text NULL,
     `SOBUOIDAY` int(2) NULL, -- so buoi day 1 tuan
     `SOGIODAY` int(2) NULL, -- so gio day 1 buoi
+    `TONGTIEN` INT(20) NULL,
     `TRANGTHAI` int(2) NULL, -- 0: da dang ki , 1: da chap nhan, 2:da tu choi
     PRIMARY KEY (`ID`),
     FOREIGN KEY (`IDNH`)
@@ -79,7 +80,6 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`dangkyhoc` (
 CREATE TABLE IF NOT EXISTS `uberfortutordb`.`hopdonghoc` (
     `ID` INT(11) NOT NULL AUTO_INCREMENT,
     `IDDK` INT(11) NOT NULL, -- id dangkyhoc
-    `TONGTIEN` INT(20) NULL,
     `NGAYBD` DATETIME NULL, -- ngay lap hop dong
     `NGAYKT` DATETIME NULL, -- ngay ket thuc hop dong
     `TRANGTHAI` int(2) NULL, -- 0: da lap , 1: da hoan tat chua thanh toan, 2: da thanh toan

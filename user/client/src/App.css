@@ -71,8 +71,8 @@ ul {
 .navbar {
   display: grid;
   grid-template:
-    'logo menu search user' /
-    150px 1.5fr 1fr auto;
+    'logo menu search notification user' /
+    150px 1fr 1fr auto auto;
   column-gap: 1em;
   padding: 0.8em 0;
 }
@@ -151,6 +151,25 @@ ul {
 
 .nav-search span svg {
   font-size: 1.2rem;
+}
+
+.nav-note {
+  grid-area: notification;
+}
+
+.nav-note a {
+  position: relative;
+}
+
+.nav-note span {
+  position: absolute;
+  top: -5px;
+  left: 10px;
+  font-size: 14px !important;
+  line-height: 16px;
+  background: #dc143c;
+  padding: 0 3px;
+  border-radius: 2px;
 }
 
 .nav-user {
@@ -927,10 +946,11 @@ ul {
   margin-block-start: 12px;
 }
 
-.form-radio {
-  display: grid;
-  grid-template-columns: repeat(4, 140px);
-  align-items: center;
+.request-title {
+  padding: 0 !important;
+}
+.request-title:hover {
+  text-decoration: underline;
 }
 
 /* end of request */

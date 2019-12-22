@@ -10,11 +10,11 @@ const registerTutor = {
     return db.load(sql);
   },
   getByTutorId(id) {
-    const sql = `select * from dangkyhoc where IDND='${id}'`;
+    const sql = `select u.*, i.HO, i.TEN from dangkyhoc u join thongtin i on u.IDNH = i.ID where IDND='${id}'`;
     return db.load(sql);
   },
   getByStudentId(id) {
-    const sql = `select * from dangkyhoc where IDNH='${id}'`;
+    const sql = `select u.*, i.HO, i.TEN from dangkyhoc u join thongtin i on u.IDND = i.ID where IDNH='${id}'`;
     return db.load(sql);
   },
   insert(value) {

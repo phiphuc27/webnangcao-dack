@@ -2,6 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
+const passport = require('passport');
+
 const TutorModel = require('../models/Tutor');
 const SkillModel = require('../models/Skill');
 const RegisterTutorModel = require('../models/RegisterTutor');
@@ -103,8 +105,15 @@ router.post('/registerTutor/update', async (req, res) => {
 // }
 router.post('/contract/getList', async (req, res) => {
   ContractModel.getByTutorId(req.body.id)
-    .then(result => {
-      res.status(200).send(result);
+    .then(async result => {
+      const data = await Promise.all(
+        result.map(async item => {
+          const detail = await RegisterTutorModel.getById(item.IDDK);
+          return { ...item, CHITIET: detail[0] };
+        })
+      );
+
+      res.status(200).send(data);
     })
     .catch(err => {
       res.status(500).send(err);
@@ -116,14 +125,17 @@ router.post('/contract/getList', async (req, res) => {
 // {
 //  value: {
 //    IDDK: , // id of row in table dangkyhoc in db you want to make contract
-//    TONGTIEN: ,
 //    NGAYBD: , // data type: Date (chua check neu khong vao db thi doi ve format: YYYY-MM-DD HH:MM:SS)
 //    NGAYKT: , // data type: Date
 //    TRANGTHAI:
 //  }
 // }
 router.post('/contract/accept', async (req, res) => {
-  ContractModel.insert(data)
+  await RegisterTutorModel.update(req.body.id, {
+    TRANGTHAI: 1
+  });
+
+  await ContractModel.insert(req.body.value)
     .then(result => {
       res.status(200).send(result);
     })
@@ -159,7 +171,7 @@ router.post('/contract/delete', async (req, res) => {
 //  }
 // }
 router.post('/contract/update', async (req, res) => {
-  RegisteContractModelrTutorModel.update(req.body.id, req.body.value)
+  ContractModel.update(req.body.id, req.body.value)
     .then(result => {
       res.status(200).send(result);
     })
