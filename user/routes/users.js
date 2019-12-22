@@ -7,6 +7,8 @@ const bcrypt = require('bcryptjs');
 
 const UsersModel = require('../models/Users');
 const SkillModel = require('../models/Skill');
+const RegisterTutorModel = require('../models/RegisterTutor');
+const ContractModel = require('../models/Contract');
 // const db = require('../db');
 
 router.get('/', (req, res) => {
@@ -34,8 +36,7 @@ router.post('/profile/changePassword', async (req, res) => {
     req.body.oldPassword,
     req.user.MATKHAU
   );
-  if (!checkPassword)
-    return res.status(400).send('Mật khẩu không chính xác!');
+  if (!checkPassword) return res.status(400).send('Mật khẩu không chính xác!');
   if (req.body.oldPassword === req.body.newPassword)
     return res
       .status(400)
@@ -135,5 +136,111 @@ router.post('/deleteUserSkill', async (req, res) => {
       res.status(500).send(err);
     });
 });
+
+// register tutor for student
+
+// get register data list for student
+// data send:
+// {
+//  id: , // id student
+// }
+router.post('/registerTutor/getList', async (req, res) => {
+  RegisterTutorModel.getByStudentId(req.body.id)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// user register a tutor
+// data send:
+// {
+//  value: {
+//    IDND: , // id nguoi day can dang ky
+//    TIEUDE: ,
+//    DIACHI: ,
+//    DIENTHOAI: ,
+//    NGAYBD: , // data type: Date (chua check neu khong vao db thi doi ve format: YYYY-MM-DD HH:MM:SS)
+//    NGAYKT: , // data type: Date
+//    NOIDUNG: ,
+//    SOBUOIDAY: ,
+//    SOGIODAY: ,
+//    TRANGTHAI:
+//  }
+// }
+router.post('/registerTutor/register', async (req, res) => {
+  const data = req.body.value;
+  if (data === undefined) res.status(500).send('No data received');
+  data.IDNH = req.user.ID; // khong can gui IDNH do co san trong luc check jwt
+  RegisterTutorModel.insert(data)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// delete
+// data send:
+// {
+//  id: ,
+// }
+router.post('/registerTutor/delete', async (req, res) => {
+  RegisterTutorModel.delete(req.body.id)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// update
+// data send:
+// {
+//  id: , // id of row in table of db
+//  value: {
+//    TIEUDE: ,
+//    DIACHI: ,
+//    DIENTHOAI: ,
+//    NGAYBD: , // data type: Date (chua check neu khong vao db thi doi ve string format: YYYY-MM-DD HH:MM:SS)
+//    NGAYKT: , // data type: Date
+//    NOIDUNG: ,
+//    SOBUOIDAY: ,
+//    SOGIODAY: ,
+//    TRANGTHAI:
+//  }
+// }
+router.post('/registerTutor/update', async (req, res) => {
+  RegisterTutorModel.update(req.body.id, req.body.value)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// contract for register
+
+// get contract data list for student (contract only)
+// data send:
+// {
+//  id: , // id student
+// }
+router.post('/contract/getList', async (req, res) => {
+  ContractModel.getByStudentId(req.body.id)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// end contract for register
 
 module.exports = router;

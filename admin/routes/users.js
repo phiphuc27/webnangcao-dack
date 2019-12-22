@@ -91,6 +91,10 @@ router.post('/profile/changePassword', async (req, res, next) => {
 });
 
 router.get('/getUserList', async (req, res, next) => {
+  // pagnition
+  // var numPerPage = req.body.npp || 1;
+  // var page = req.body.page || 0;
+  // var skip = page * numPerPage;
   const list = await UsersModel.getUsersOnly();
 
   res.json(list);
@@ -134,6 +138,16 @@ router.post('/updateUserSkill', async (req, res, next) => {
 });
 
 router.post('/deleteUserSkill', async (req, res, next) => {
+  SkillModel.delete(req.body.id)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+router.post('/changeStatusAccount', async (req, res, next) => {
   SkillModel.delete(req.body.id)
     .then(result => {
       res.status(200).send(result);

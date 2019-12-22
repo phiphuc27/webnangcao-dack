@@ -4,6 +4,8 @@ const router = express.Router();
 
 const TutorModel = require('../models/Tutor');
 const SkillModel = require('../models/Skill');
+const RegisterTutorModel = require('../models/RegisterTutor');
+const ContractModel = require('../models/Contract');
 
 router.get('/', async (req, res) => {
   let tutors = await TutorModel.getAllTutor();
@@ -31,5 +33,141 @@ router.get('/:id', async (req, res) => {
     res.json({ result: 'success', tutor: newTutor });
   }
 });
+
+// register tutor for tutor
+
+// get register data list for tutor
+// data send:
+// {
+//  id: , // id tutor
+// }
+router.post('/registerTutor/getList', async (req, res) => {
+  RegisterTutorModel.getByTutorId(req.body.id)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// delete
+// data send:
+// {
+//  id: ,
+// }
+router.post('/registerTutor/delete', async (req, res) => {
+  RegisterTutorModel.delete(req.body.id)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// update
+// data send:
+// {
+//  id: , // id of row in table of db
+//  value: {
+//    TIEUDE: ,
+//    DIACHI: ,
+//    DIENTHOAI: ,
+//    NGAYBD: , // data type: Date (chua check neu khong vao db thi doi ve string format: YYYY-MM-DD HH:MM:SS)
+//    NGAYKT: , // data type: Date
+//    NOIDUNG: ,
+//    SOBUOIDAY: ,
+//    SOGIODAY: ,
+//    TRANGTHAI:
+//  }
+// }
+router.post('/registerTutor/update', async (req, res) => {
+  RegisterTutorModel.update(req.body.id, req.body.value)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// end register tutor
+
+// contract for register
+
+// get contract data list for tutor (contract only)
+// data send:
+// {
+//  id: , // id tutor
+// }
+router.post('/contract/getList', async (req, res) => {
+  ContractModel.getByTutorId(req.body.id)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// tutor accept and make contract
+// data send:
+// {
+//  value: {
+//    IDDK: , // id of row in table dangkyhoc in db you want to make contract
+//    TONGTIEN: ,
+//    NGAYBD: , // data type: Date (chua check neu khong vao db thi doi ve format: YYYY-MM-DD HH:MM:SS)
+//    NGAYKT: , // data type: Date
+//    TRANGTHAI:
+//  }
+// }
+router.post('/contract/accept', async (req, res) => {
+  ContractModel.insert(data)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// delete
+// data send:
+// {
+//  id: ,
+// }
+router.post('/contract/delete', async (req, res) => {
+  ContractModel.delete(req.body.id)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// update
+// data send:
+// {
+//  id: , // id of row in table of db
+//  value: {
+//    TONGTIEN: ,
+//    NGAYBD: , // data type: Date (chua check neu khong vao db thi doi ve string format: YYYY-MM-DD HH:MM:SS)
+//    NGAYKT: , // data type: Date
+//    TRANGTHAI:
+//  }
+// }
+router.post('/contract/update', async (req, res) => {
+  RegisteContractModelrTutorModel.update(req.body.id, req.body.value)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// end contract for register
 
 module.exports = router;

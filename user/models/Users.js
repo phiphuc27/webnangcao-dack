@@ -54,6 +54,10 @@ const Users = {
   findProfileById(id) {
     const sql = `select * from taikhoan u join thongtin i on u.ID = i.ID where u.ID = ${id}`;
     return db.load(sql);
+  },
+  registerTutor(value) {
+    const sql = `insert into dangkyhoc set ? `;
+    return db.save(sql, value);
   }
 };
 module.exports = Users;
