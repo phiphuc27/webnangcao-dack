@@ -171,7 +171,7 @@ router.post('/registerTutor/getList', async (req, res) => {
 //  }
 // }
 router.post('/registerTutor/register', async (req, res) => {
-  const data = req.body.value;
+  const data = req.body;
   if (data === undefined) res.status(500).send('No data received');
   data.IDNH = req.user.ID; // khong can gui IDNH do co san trong luc check jwt
   RegisterTutorModel.insert(data)
@@ -233,6 +233,22 @@ router.post('/registerTutor/update', async (req, res) => {
 // }
 router.post('/contract/getList', async (req, res) => {
   ContractModel.getByStudentId(req.body.id)
+    .then(async result => {
+      const data = await Promise.all(
+        result.map(async item => {
+          const detail = await RegisterTutorModel.getById(item.IDDK);
+          return { ...item, CHITIET: detail[0] };
+        })
+      );
+      res.status(200).send(data);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+router.post('/contract/update', async (req, res) => {
+  ContractModel.update(req.body.id, req.body.value)
     .then(result => {
       res.status(200).send(result);
     })
