@@ -154,7 +154,7 @@ export const getStudentContract = id => {
   };
 };
 
-export const payContract = data => {
+export const finishContract = data => {
   return dispatch => {
     const token = window.sessionStorage.getItem('jwtToken');
     dispatch(startRequest);

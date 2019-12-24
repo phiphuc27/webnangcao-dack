@@ -141,7 +141,7 @@ const Profile = ({
                                 : undefined
                             }
                           >
-                            Đã đồng ý
+                            Đang dạy
                           </a>
                         </li>
                         <li>
@@ -194,7 +194,7 @@ const Profile = ({
                                 : undefined
                             }
                           >
-                            Đã chấp nhận
+                            Đang học
                           </a>
                         </li>
                         <li>
@@ -206,7 +206,7 @@ const Profile = ({
                                 : undefined
                             }
                           >
-                            Đã thanh toán
+                            Đã hoàn tất
                           </a>
                         </li>
                       </ul>
@@ -268,8 +268,8 @@ const Profile = ({
             />
           )}
           {tab === 'account' && subExpanded === 'password' && <PasswordTab user={user} />}
-          {tab === 'class' && <RequestTab tab={subExpanded} />}
-          {tab === 'contract' && <ContractTab tab={subExpanded} />}
+          {tab === 'class' && user.LOAI===2 && <RequestTab tab={subExpanded} />}
+          {tab === 'contract' && user.LOAI===3 && <ContractTab tab={subExpanded} />}
         </div>
       )}
     </div>

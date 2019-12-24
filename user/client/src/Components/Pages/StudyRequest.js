@@ -58,7 +58,11 @@ const StudyRequest = () => {
       .add(1, 'days')
       .format(format),
     daysOfWeek: '1',
-    hoursOfDay: '1'
+    hoursOfDay: '1',
+    cardNumber:'',
+    cardName:'',
+    cardDate:moment().format(format),
+    cardCVC:'',
   });
   const { startDate, endDate, daysOfWeek, hoursOfDay } = input;
   const [price, setPrice] = useState(GIA || '');
@@ -158,7 +162,7 @@ const StudyRequest = () => {
                   Tóm tắt yêu cầu <span style={{ color: 'red' }}>*</span>
                 </Form.Label>
                 <Col sm={9}>
-                  {errors.title && <p className={classes.errorText}>{errors.title.message}</p>}
+                  
                   <Form.Control
                     className={errors.title && classes.errorInput}
                     type="text"
@@ -174,6 +178,7 @@ const StudyRequest = () => {
                       }
                     })}
                   />
+                  {errors.title && <p className={classes.errorText}>{errors.title.message}</p>}
                 </Col>
               </Form.Group>
               <Form.Group as={Row} controlId="formBasicEmail">
@@ -181,7 +186,7 @@ const StudyRequest = () => {
                   Mô tả chi tiết yêu cầu <span style={{ color: 'red' }}>*</span>
                 </Form.Label>
                 <Col sm={9}>
-                  {errors.detail && <p className={classes.errorText}>{errors.detail.message}</p>}
+                  
                   <Form.Control
                     as="textarea"
                     row="5"
@@ -193,6 +198,7 @@ const StudyRequest = () => {
                     name="detail"
                     ref={register({ required: 'Bắt buộc!' })}
                   />
+                  {errors.detail && <p className={classes.errorText}>{errors.detail.message}</p>}
                 </Col>
               </Form.Group>
               <Form.Group as={Row} controlId="formBasicEmail">
@@ -200,7 +206,7 @@ const StudyRequest = () => {
                   Điện thoại liên hệ <span style={{ color: 'red' }}>*</span>
                 </Form.Label>
                 <Col sm={9}>
-                  {errors.phone && <p className={classes.errorText}>{errors.phone.message}</p>}
+                  
                   <Form.Control
                     className={errors.phone && classes.errorInput}
                     type="text"
@@ -210,6 +216,7 @@ const StudyRequest = () => {
                     name="phone"
                     ref={register({ required: 'Bắt buộc!' })}
                   />
+                  {errors.phone && <p className={classes.errorText}>{errors.phone.message}</p>}
                 </Col>
               </Form.Group>
               <Form.Group as={Row} controlId="formBasicEmail">
@@ -217,7 +224,7 @@ const StudyRequest = () => {
                   Đia điểm dạy <span style={{ color: 'red' }}>*</span>
                 </Form.Label>
                 <Col sm={9}>
-                  {errors.address && <p className={classes.errorText}>{errors.address.message}</p>}
+                  
                   <Form.Control
                     className={errors.address && classes.errorInput}
                     type="text"
@@ -227,6 +234,7 @@ const StudyRequest = () => {
                     onChange={e => setInput({ ...input, [e.target.name]: e.target.value })}
                     ref={register({ required: 'Bắt buộc!' })}
                   />
+                  {errors.address && <p className={classes.errorText}>{errors.address.message}</p>}
                 </Col>
               </Form.Group>
               <hr />
@@ -385,8 +393,80 @@ const StudyRequest = () => {
                 </Col>
               </Form.Group>
               <hr />
+              <h3 style={{ textAlign: 'center', margin:'0' }}>Thanh toán</h3>
+              <hr/>
 
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Form.Group as={Row} controlId="formBasicEmail">
+                <Form.Label column sm={3}>
+                  Số thẻ <span style={{ color: 'red' }}>*</span>
+                </Form.Label>
+                <Col sm={9}>
+                  <Form.Control
+                    className={errors.cardNumber && classes.errorInput}
+                    type="text"
+                    placeholder="Số thẻ"
+                    value={input.cardNumber}
+                    onChange={e => setInput({ ...input, [e.target.name]: e.target.value })}
+                    name="cardNumber"
+                    ref={register({ required: 'Bắt buộc!' })}
+                  />
+                  {errors.cardNumber && <p className={classes.errorText}>{errors.cardNumber.message}</p>}
+                </Col>
+              </Form.Group>
+
+              <Form.Group as={Row} controlId="formBasicEmail">
+                <Form.Label column sm={3}>
+                  Họ tên trên thẻ <span style={{ color: 'red' }}>*</span>
+                </Form.Label>
+                <Col sm={9}>
+                  
+                  <Form.Control
+                    className={errors.cardName && classes.errorInput}
+                    type="text"
+                    placeholder="Họ tên trên thẻ"
+                    value={input.cardName}
+                    onChange={e => setInput({ ...input, [e.target.name]: e.target.value })}
+                    name="cardName"
+                    ref={register({ required: 'Bắt buộc!' })}
+                  />
+                  {errors.cardName && <p className={classes.errorText}>{errors.cardName.message}</p>}
+                </Col>
+              </Form.Group>
+
+              <Form.Group as={Row} controlId="formBasicEmail">
+                <Form.Label column sm={3} style={{ lineHeight: '40px' }}>
+                  Ngày hết hạn <span style={{ color: 'red' }}>*</span>
+                </Form.Label>
+                <Col sm={3}>
+                  <KeyboardDatePicker
+                    autoOk
+                    variant="inline"
+                    inputVariant="outlined"
+                    format="DD/MM/YYYY"
+                    margin="dense"
+                    value={input.cardDate}
+                    onChange={value => setInput({ ...input, cardDate: value.format(format) })}
+                  />
+                </Col>
+                <Form.Label column sm={3} style={{ textAlign: 'right' }}>
+                  Mã bảo mật <span style={{ color: 'red' }}>*</span>
+                </Form.Label>
+                <Col sm={3}>
+                  
+                  <Form.Control
+                    className={errors.cardCVC && classes.errorInput}
+                    type="text"
+                    placeholder="Mã bảo mật"
+                    value={input.cardCVC}
+                    onChange={e => setInput({ ...input, [e.target.name]: e.target.value })}
+                    name="cardCVC"
+                    ref={register({ required: 'Bắt buộc!' })}
+                  />
+                  {errors.cardCSV && <p className={classes.errorText}>{errors.cardCSV.message}</p>}
+                </Col>
+              </Form.Group>
+
+              <div style={{ marginTop:'1.2em',display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {fetching ? (
                   <Button
                     className="disabled"
