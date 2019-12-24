@@ -21,7 +21,7 @@ const mapDispatchToProps = dispatch => ({
   getProfile: id => dispatch(getUserProfile(id)),
   updateSkill: (skill, skillId) => dispatch(updateSkill(skill, skillId)),
   addNewSkill: (id, skill) => dispatch(addNewSkill(id, skill)),
-  deleteSkill: id => dispatch(deleteSkill(id))
+  deleteSkill: (idkn, idnd) => dispatch(deleteSkill(idkn, idnd))
 });
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(Profile)

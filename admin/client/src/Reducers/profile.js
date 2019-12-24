@@ -44,10 +44,15 @@ const UserList = (state = InitialState, action) => {
     case 'GET_USER_SKILL_SUCCESS': {
       return {
         ...state,
+        fetching: false,
+        fetched: true,
         skill: action.value
       };
     }
     case 'GET_USER_SKILL_ERROR': {
+      return { ...state, fetching: false, fetched: false, error: action.error };
+    }
+    case 'NEW_USER_SKILL_ERROR': {
       return { ...state, fetching: false, fetched: false, error: action.error };
     }
     case 'ADD_NEW_SKILL_SUCCESS': {
@@ -56,19 +61,7 @@ const UserList = (state = InitialState, action) => {
         skill: state.skill ? state.skill.concat(action.value) : state.skill
       };
     }
-    case 'UPDATE_SKILL_SUCCESS': {
-      return {
-        ...state,
-        skill: state.skill
-          ? state.skill.map(skill =>
-              skill.ID === action.id
-                ? { ...skill, KYNANG: action.value }
-                : skill
-            )
-          : state.skill
-      };
-    }
-    case 'DELETE_SKILL_SUCCESS': {
+    case 'DELETE_USER_SKILL_SUCCESS': {
       var i = 0;
       for (i = 0; i < state.skill.length; i++) {
         if (state.skill[i].ID === action.id) break;

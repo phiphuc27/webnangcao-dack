@@ -2,7 +2,8 @@ const InitialState = {
   fetching: false,
   fetched: false,
   error: '',
-  userList: null
+  userList: null,
+  pagination: null
 };
 
 const UserList = (state = InitialState, action) => {
@@ -20,7 +21,8 @@ const UserList = (state = InitialState, action) => {
         ...state,
         fetching: false,
         fetched: true,
-        userList: action.value
+        userList: action.value.list,
+        pagination: action.value.pagination
       };
     }
     case 'GET_LIST_ERROR': {

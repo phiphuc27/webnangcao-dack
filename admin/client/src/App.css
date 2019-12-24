@@ -542,3 +542,13 @@ nav {
 }
 
 /* end of profile */
+
+/* user list*/
+.userlist-pagination {
+  text-align: right;
+}
+
+.userlist-table {
+  background: white;
+  margin-bottom: 20px;
+}

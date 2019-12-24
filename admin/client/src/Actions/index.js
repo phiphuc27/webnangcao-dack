@@ -161,19 +161,21 @@ export const errorGetList = error => ({
   error
 });
 
-export const getUserList = () => {
+export const getUserList = page => {
   return async dispatch => {
     await dispatch(startGetList);
     const token = window.sessionStorage.getItem('jwtToken');
 
     await axios({
-      method: 'get',
+      method: 'post',
       url: '/users/getUserList',
       headers: {
         Authorization: `Bearer ${token}`
-      }
+      },
+      data: { npp: 3, page: page }
     })
       .then(response => {
+        // console.log(response);
         dispatch(successGetList(response.data));
       })
       .catch(err => {
@@ -281,6 +283,11 @@ export const getUserSkill = id => {
   };
 };
 
+export const errorNewUserSkill = error => ({
+  type: 'NEW_USER_SKILL_ERROR',
+  error
+});
+
 export const addNewSkill = (id, skill) => {
   return async dispatch => {
     const token = window.sessionStorage.getItem('jwtToken');
@@ -294,14 +301,117 @@ export const addNewSkill = (id, skill) => {
       data: { id, skill }
     })
       .then(response => {
-        const data = { ID: response.data.insertId, IDND: id, KYNANG: skill };
+        const data = {
+          ID: response.data.newId,
+          IDND: id,
+          KYNANG: skill,
+          IDKN: response.data.newId
+        };
         dispatch({
           type: 'ADD_NEW_SKILL_SUCCESS',
           value: data
         });
       })
       .catch(err => {
-        dispatch(errorGetUserSkill(err.response.data));
+        dispatch(errorNewUserSkill(err.response.data));
+      });
+  };
+};
+
+export const deleteUserSkill = (idkn, idnd) => {
+  return async dispatch => {
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'post',
+      url: '/users/deleteUserSkill',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { idkn, idnd }
+    })
+      .then(response => {
+        dispatch({
+          type: 'DELETE_USER_SKILL_SUCCESS',
+          id: idkn
+        });
+      })
+      .catch(err => {
+        dispatch(errorNewUserSkill(err.response.data));
+      });
+  };
+};
+
+/* End User profile */
+
+/* Manage skill */
+
+export const startGetSkill = {
+  type: 'GET_SKILL_START'
+};
+
+export const successGetSkill = value => ({
+  type: 'GET_SKILL_SUCCESS',
+  value
+});
+
+export const errorGetSkill = error => ({
+  type: 'GET_SKILL_ERROR',
+  error
+});
+
+export const getSkill = page => {
+  return async dispatch => {
+    await dispatch(startGetSkill);
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'post',
+      url: '/users/getSkillList',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { npp: 10, page: page }
+    })
+      .then(response => {
+        // console.log(response);
+        dispatch(successGetSkill(response.data));
+      })
+      .catch(err => {
+        dispatch(errorGetSkill(err.response.data));
+      });
+  };
+};
+
+export const errorEditSkill = error => ({
+  type: 'EDIT_SKILL_ERROR',
+  error
+});
+
+export const newSkill = skill => {
+  return async dispatch => {
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'post',
+      url: '/users/insertSkill',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { skill }
+    })
+      .then(response => {
+        const data = {
+          ID: response.data.insertId,
+          KYNANG: skill
+        };
+        dispatch({
+          type: 'NEW_SKILL_SUCCESS',
+          value: data
+        });
+      })
+      .catch(err => {
+        dispatch(errorEditSkill(err.response.data));
       });
   };
 };
@@ -312,7 +422,7 @@ export const updateSkill = (skill, skillId) => {
 
     await axios({
       method: 'post',
-      url: '/users/updateUserSkill',
+      url: '/users/updateSkill',
       headers: {
         Authorization: `Bearer ${token}`
       },
@@ -326,7 +436,7 @@ export const updateSkill = (skill, skillId) => {
         });
       })
       .catch(err => {
-        dispatch(errorGetUserSkill(err.response.data));
+        dispatch(errorEditSkill(err.response.data));
       });
   };
 };
@@ -337,7 +447,7 @@ export const deleteSkill = id => {
 
     await axios({
       method: 'post',
-      url: '/users/deleteUserSkill',
+      url: '/users/deleteSkill',
       headers: {
         Authorization: `Bearer ${token}`
       },
@@ -350,9 +460,9 @@ export const deleteSkill = id => {
         });
       })
       .catch(err => {
-        dispatch(errorGetUserSkill(err.response.data));
+        dispatch(errorEditSkill(err.response.data));
       });
   };
 };
 
-/* End User profile */
+/* End manage skill */
