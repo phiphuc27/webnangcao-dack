@@ -52,7 +52,8 @@ const ContractTab = ({ tab }) => {
                 </div>
               </div>
               <hr />
-              {sent && sent.length > 0 &&
+              {sent &&
+                sent.length > 0 &&
                 sent.map(item => (
                   <>
                     <div key={item.ID} className="row">
@@ -99,7 +100,8 @@ const ContractTab = ({ tab }) => {
                 </div>
               </div>
               <hr />
-              {onGoing && onGoing.length > 0 &&
+              {onGoing &&
+                onGoing.length > 0 &&
                 onGoing.map(item => (
                   <>
                     <div key={item.ID} className="row">
@@ -110,11 +112,11 @@ const ContractTab = ({ tab }) => {
                           onClick={() =>
                             setModalEdit({
                               data: {
-                                    ...item.CHITIET,
-                                  ID: item.ID,
+                                ...item.CHITIET,
+                                ID: item.ID,
                                 HO: item.HO,
                                 TEN: item.TEN,
-                                TRANGTHAI: item.TRANGTHAI
+                                TRANGTHAIHD: item.TRANGTHAI
                               },
                               show: true
                             })
@@ -135,7 +137,7 @@ const ContractTab = ({ tab }) => {
                         <p>{moment(item.NGAYKT).format('DD/MM/YYYY')}</p>
                       </div>
                       <div className="col-lg-2 col-sm-4">
-                        <p style={{ color: 'red' }}>Chưa thanh toán</p>
+                        <p style={{ color: 'red' }}>Đang học...</p>
                       </div>
                     </div>
                     <hr />
@@ -161,7 +163,8 @@ const ContractTab = ({ tab }) => {
                 </div>
               </div>
               <hr />
-              {paid && paid.length > 0 &&
+              {paid &&
+                paid.length > 0 &&
                 paid.map(item => (
                   <>
                     <div key={item.ID} className="row">
@@ -172,11 +175,11 @@ const ContractTab = ({ tab }) => {
                           onClick={() =>
                             setModalEdit({
                               data: {
-                                    ...item.CHITIET,
-                                    ID: item.ID,
+                                ...item.CHITIET,
+                                ID: item.ID,
                                 HO: item.HO,
                                 TEN: item.TEN,
-                                TRANGTHAI: item.TRANGTHAI
+                                TRANGTHAIHD: item.TRANGTHAI
                               },
                               show: true
                             })
@@ -187,7 +190,7 @@ const ContractTab = ({ tab }) => {
                       </div>
                       <div className="col-lg-3 col-sm-4">
                         <p>
-                          {item.CHITIET.HO} {item.CHITIET.TEN}
+                          {item.HO} {item.TEN}
                         </p>
                       </div>
                       <div className="col-lg-3 col-sm-4">
