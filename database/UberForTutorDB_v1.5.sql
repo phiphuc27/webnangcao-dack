@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`dangkyhoc` (
     FOREIGN KEY (`IDNH`)
         REFERENCES `taikhoan` (`ID`),
     FOREIGN KEY (`IDND`)
-        REFERENCES `kynang` (`ID`)
+        REFERENCES `taikhoan` (`ID`)
 )  ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS `uberfortutordb`.`hopdonghoc` (
