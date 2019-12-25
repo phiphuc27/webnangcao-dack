@@ -1,6 +1,7 @@
 const contractState = {
   fetching: false,
   fetched: false,
+  successContract: false,
   error: '',
   request: {
     all: null,
@@ -30,6 +31,16 @@ const contractManagement = (state = contractState, action) => {
         ...state,
         fetching: false,
         fetched: true,
+        error: ''
+      };
+    }
+
+    case 'CONTRACT_SUCCESS': {
+      return {
+        ...state,
+        fetching: false,
+        fetched: false,
+        successContract: true,
         error: ''
       };
     }

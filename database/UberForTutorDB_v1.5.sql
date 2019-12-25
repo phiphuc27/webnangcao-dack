@@ -90,11 +90,25 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`hopdonghoc` (
 
 CREATE TABLE IF NOT EXISTS `uberfortutordb`.`danhgia` (
   `ID` INT(11) NOT NULL AUTO_INCREMENT,
-  `IDND` INT(11) NOT NULL,-- id nguoi hoc danh gia
-  `IDDK` INT(11) NOT NULL,-- id mon dang ky
+  `IDND` INT(11) NOT NULL,-- id nguoi day
+  `IDNH` INT(11) NOT NULL,-- id nguoi hoc danh gia
   `DANHGIA` INT NOT NULL,-- so sao danh gia
   `NOIDUNG` NVARCHAR(150) NOT NULL,-- noi dung danh gia
-  PRIMARY KEY (`ID`))
+  PRIMARY KEY (`ID`),
+  foreign key (`IDND`) references `taikhoan`(`ID`),
+  foreign key (`IDNH`) references `taikhoan`(`ID`))
+
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `uberfortutordb`.`khieunai` (
+  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `IDND` INT(11) NOT NULL,-- id nguoi day
+  `IDNH` INT(11) NOT NULL,-- id nguoi hoc khieunai
+  `TIEUDE` INT NOT NULL,
+  `NOIDUNG` NVARCHAR(150) NOT NULL,-- noi dung khieunai
+  PRIMARY KEY (`ID`),
+  foreign key (`IDND`) references `taikhoan`(`ID`),
+  foreign key (`IDNH`) references `taikhoan`(`ID`))
 
 ENGINE = InnoDB;
 

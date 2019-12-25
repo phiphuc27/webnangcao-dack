@@ -6,10 +6,10 @@ import RequestModal from './RequestModal';
 
 const RequestTab = ({ tab }) => {
   const request = useSelector(state => state.contract.request);
-  const { sent, accepted } = request;
+  const { sent } = request;
 
   const contract = useSelector(state => state.contract.contract);
-  const { paid } = contract;
+  const { onGoing, paid } = contract;
 
   const [modalEdit, setModalEdit] = useState({
     request: null,
@@ -100,18 +100,29 @@ const RequestTab = ({ tab }) => {
                 </div>
               </div>
               <hr />
-              {accepted &&
-                accepted.length > 0 &&
-                accepted.map(item => (
+              {onGoing &&
+                onGoing.length > 0 &&
+                onGoing.map(item => (
                   <>
                     <div key={item.ID} className="row">
                       <div className="col-lg-3 col-sm-4">
                         <button
                           type="button"
                           className="btn request-title"
-                          onClick={() => setModalEdit({ request: item, show: true })}
+                          onClick={() =>
+                            setModalEdit({
+                              request: {
+                                ...item.CHITIET,
+                                ID: item.ID,
+                                HO: item.HO,
+                                TEN: item.TEN,
+                                TRANGTHAIHD: item.TRANGTHAI
+                              },
+                              show: true
+                            })
+                          }
                         >
-                          {item.TIEUDE}
+                          {item.CHITIET.TIEUDE}
                         </button>
                       </div>
                       <div className="col-lg-3 col-sm-4">
@@ -120,10 +131,10 @@ const RequestTab = ({ tab }) => {
                         </p>
                       </div>
                       <div className="col-lg-2 col-sm-4">
-                        <p>{moment(item.NGAYBD).format('DD/MM/YYYY')}</p>
+                        <p>{moment(item.CHITIET.NGAYBD).format('DD/MM/YYYY')}</p>
                       </div>
                       <div className="col-lg-2 col-sm-4">
-                        <p>{moment(item.NGAYKT).format('DD/MM/YYYY')}</p>
+                        <p>{moment(item.CHITIET.NGAYKT).format('DD/MM/YYYY')}</p>
                       </div>
                       <div className="col-lg-2 col-sm-4">
                         <p style={{ color: 'green' }}>Đã nhận</p>
@@ -168,7 +179,7 @@ const RequestTab = ({ tab }) => {
                                 ID: item.ID,
                                 HO: item.HO,
                                 TEN: item.TEN,
-                                TRANGTHAI: item.TRANGTHAI
+                                TRANGTHAIHD: item.TRANGTHAI
                               },
                               show: true
                             })

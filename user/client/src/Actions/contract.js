@@ -8,6 +8,10 @@ export const successRequest = {
   type: 'REQUEST_SUCCESS'
 };
 
+export const successContract = {
+  type: 'CONTRACT_SUCCESS'
+};
+
 export const successGetRequest = request => ({
   type: 'GET_REQUEST_SUCCESS',
   request
@@ -161,6 +165,62 @@ export const finishContract = data => {
     axios({
       method: 'post',
       url: '/users/contract/update',
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(() => {
+        dispatch(successContract);
+      })
+      .catch(err => {
+        dispatch(errorRequest(err.response.data));
+      });
+  };
+};
+
+/** Chua viet
+ * data= {
+ *  IDND,
+ *  IDNH,
+ *  DANHGIA,
+ *  NOIDUNG
+ * } */
+export const sendReview = data => {
+  return dispatch => {
+    const token = window.sessionStorage.getItem('jwtToken');
+    dispatch(startRequest);
+    axios({
+      method: 'post',
+      url: '/users/review/send',
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(() => {
+        dispatch(successRequest);
+      })
+      .catch(err => {
+        dispatch(errorRequest(err.response.data));
+      });
+  };
+};
+
+/** Chua viet
+ * data= {
+ *  IDND,
+ *  IDNH,
+ *  TIEUDE,
+ *  NOIDUNG
+ * } */
+export const sendRefund = data => {
+  return dispatch => {
+    const token = window.sessionStorage.getItem('jwtToken');
+    dispatch(startRequest);
+    axios({
+      method: 'post',
+      url: '/users/refund/send',
       data,
       headers: {
         Authorization: `Bearer ${token}`
