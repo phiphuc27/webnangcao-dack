@@ -35,7 +35,7 @@ const Tutors = () => {
   };
 
   return (
-    <div style={{ marginBlockEnd: '5em' }} className="container-lg">
+    <div style={{ marginBlockEnd: '5em', padding: '0' }} className="container">
       <br />
       <Breadcrumbs aria-label="breadcrumb">
         <a href="/">Trang chủ</a>

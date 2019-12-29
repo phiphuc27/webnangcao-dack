@@ -3,6 +3,7 @@ import moment from 'moment';
 import 'moment/locale/en-gb';
 import { useSelector } from 'react-redux';
 import ContractModal from './ContractModal';
+import Pagination from '../Other/Pagination';
 
 const ContractTab = ({ tab }) => {
   const request = useSelector(state => state.contract.request);
@@ -15,6 +16,29 @@ const ContractTab = ({ tab }) => {
     data: null,
     show: false
   });
+
+  let currentItems;
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemPerPage] = useState(10);
+
+  const indexOfLastItem = currentPage * itemPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemPerPage;
+  if (!tab && sent) {
+    currentItems = sent.slice(indexOfFirstItem, indexOfLastItem);
+  }
+  if (tab === 'accepted' && onGoing) {
+    currentItems = onGoing.slice(indexOfFirstItem, indexOfLastItem);
+  }
+  if (tab === 'paid' && paid) {
+    currentItems = paid.slice(indexOfFirstItem, indexOfLastItem);
+  }
+
+  const paginate = pageNumber => {
+    setCurrentPage(pageNumber);
+    window.scrollTo(0, 0);
+  };
+
   return (
     <div className="profile-info">
       <div className="info-container">
@@ -52,9 +76,8 @@ const ContractTab = ({ tab }) => {
                 </div>
               </div>
               <hr />
-              {sent &&
-                sent.length > 0 &&
-                sent.map(item => (
+              {currentItems &&
+                currentItems.map(item => (
                   <>
                     <div key={item.ID} className="row">
                       <div className="col-lg-5 col-sm-4">
@@ -100,9 +123,8 @@ const ContractTab = ({ tab }) => {
                 </div>
               </div>
               <hr />
-              {onGoing &&
-                onGoing.length > 0 &&
-                onGoing.map(item => (
+              {currentItems &&
+                currentItems.map(item => (
                   <>
                     <div key={item.ID} className="row">
                       <div className="col-lg-3 col-sm-4">
@@ -163,9 +185,8 @@ const ContractTab = ({ tab }) => {
                 </div>
               </div>
               <hr />
-              {paid &&
-                paid.length > 0 &&
-                paid.map(item => (
+              {currentItems &&
+                currentItems.map(item => (
                   <>
                     <div key={item.ID} className="row">
                       <div className="col-lg-3 col-sm-4">
@@ -205,6 +226,13 @@ const ContractTab = ({ tab }) => {
                 ))}
             </>
           )}
+          <Pagination
+            size="sm"
+            itemPerPage={itemPerPage}
+            totalItems={currentItems && currentItems.length}
+            currentPage={currentPage}
+            paginate={paginate}
+          />
         </div>
       </div>
       {modalEdit.data && (

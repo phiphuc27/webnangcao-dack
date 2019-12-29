@@ -107,15 +107,17 @@ const ContractModal = ({ contract, show, onHide }) => {
                       {HO} {TEN}
                     </p>
                   </div>
-                  <div className="col-lg-3 col-sm-6">
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      onClick={() => setReviewModal(true)}
-                    >
-                      Đánh giá
-                    </button>
-                  </div>
+                  {TRANGTHAIHD === 2 && (
+                    <div className="col-lg-3 col-sm-6">
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={() => setReviewModal(true)}
+                      >
+                        Đánh giá
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <hr />
                 <div className="row">

@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`thongtin` (
   `ID` INT(11) NOT NULL PRIMARY KEY,
   `TEN` NVARCHAR(100) NULL,
   `HO` NVARCHAR(100) NULL,
-  `DIENTHOAI` varchar(10) NULL,
+  `DIENTHOAI` nvarchar(20) NULL,
   `DIACHI` NVARCHAR(255) NULL,
   `THANHPHO` NVARCHAR(150) NULL,
   `GIOITINH` NVARCHAR(3) NULL,
@@ -149,3 +149,8 @@ INSERT INTO `uberfortutordb`.`kynang` (`KYNANG`) VALUES
 
 INSERT INTO `uberfortutordb`.`kynang_nguoidung` (`IDKN`,`IDND`) VALUES
 ('1','4'),('2','4'),('3','4'),('1','2'),('6','2'),('7','3'),('5','3');
+
+INSERT INTO `uberfortutordb`.`danhgia` (`IDND`,`IDNH`,`DANHGIA`,`NOIDUNG`) VALUES
+('2','8','4','tốt'),
+('2','6','5','tốt'),
+('2','7','2','dở');

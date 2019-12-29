@@ -16,7 +16,11 @@ router.get('/', async (req, res) => {
       tutors.map(async tutor => {
         const tmpTutor = { ...tutor };
         const skills = await SkillModel.getSkillByUserId(tmpTutor.ID);
-        const newTutor = { ...tmpTutor, KYNANG: [...skills] };
+
+        const newTutor = {
+          ...tmpTutor,
+          KYNANG: [...skills]
+        };
 
         return newTutor;
       })
@@ -30,7 +34,8 @@ router.get('/:id', async (req, res) => {
   if (tutor) {
     const tmpTutor = { ...tutor[0] };
     const skills = await SkillModel.getSkillByUserId(tmpTutor.ID);
-    const newTutor = { ...tmpTutor, KYNANG: [...skills] };
+    const review = await TutorModel.getReviewByTutorID(tmpTutor.ID);
+    const newTutor = { ...tmpTutor, KYNANG: [...skills], DANHGIA: [...review] };
 
     res.json({ result: 'success', tutor: newTutor });
   }

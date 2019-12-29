@@ -1,10 +1,12 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
+import Ratings from 'react-ratings-declarative';
 import { getTutorById } from '../../Actions/tutor';
+import Pagination from '../Other/Pagination';
 
 const SingleTutor = ({ match }) => {
   const tutor = useSelector(state => state.tutor.tutor);
@@ -12,11 +14,48 @@ const SingleTutor = ({ match }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = match.params;
-  console.log(tutor);
   if (tutor === '') {
     dispatch(getTutorById(parseInt(id, 10)));
   }
-  const { HO, TEN, DIACHI, GIA, KYNANG, GIOITINH, GIOITHIEU, AVATARURL, ID } = tutor;
+  const {
+    HO,
+    TEN,
+    DIACHI,
+    THANHPHO,
+    GIA,
+    KYNANG,
+    GIOITINH,
+    GIOITHIEU,
+    AVATARURL,
+    ID,
+    DANHGIA
+  } = tutor;
+
+  let sum = 0;
+  let currentItems;
+  let totalItems;
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemPerPage] = useState(10);
+
+  const indexOfLastItem = currentPage * itemPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemPerPage;
+  if (tutor) {
+    DANHGIA.map(item => {
+      sum += parseInt(item.DANHGIA, 10);
+    });
+    totalItems = DANHGIA;
+    currentItems = DANHGIA.slice(indexOfFirstItem, indexOfLastItem);
+  }
+
+  const rating = tutor ? sum / DANHGIA.length : 0;
+
+  const paginate = pageNumber => {
+    setCurrentPage(pageNumber);
+    window.scrollTo(0, 0);
+  };
+  console.log(currentItems);
+
   return (
     <div className="container">
       {fetching ? (
@@ -39,13 +78,15 @@ const SingleTutor = ({ match }) => {
               </div>
             </div>
             <div style={{ marginBlockStart: '1em' }}>
-              <button
+              <Button
+                block
+                size="lg"
                 type="button"
                 className="btn btn-primary"
                 onClick={() => history.push(`/request?id=${ID}`)}
               >
                 Mời dạy
-              </button>
+              </Button>
             </div>
           </div>
           <div className="profile-info">
@@ -90,10 +131,20 @@ const SingleTutor = ({ match }) => {
                 <hr />
                 <div className="row">
                   <div className="col-lg-3 col-sm-6">
+                    <h5>Thành phố</h5>
+                  </div>
+                  <div className="col-lg-9 col-sm-6">
+                    <p>{THANHPHO}</p>
+                  </div>
+                </div>
+                <hr />
+
+                <div className="row">
+                  <div className="col-lg-3 col-sm-6">
                     <h5>Giá theo giờ</h5>
                   </div>
                   <div className="col-lg-9 col-sm-6">
-                    <p>
+                    <p style={{ color: 'red', fontWeight: '600' }}>
                       <NumberFormat value={GIA} displayType="text" thousandSeparator suffix="₫" />
                     </p>
                   </div>
@@ -141,6 +192,71 @@ const SingleTutor = ({ match }) => {
                     </ul>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div className="info-container">
+              <div className="profile-header">
+                <div className="row">
+                  <div className="col-10">
+                    <h3>Đánh giá</h3>
+                  </div>
+                </div>
+              </div>
+              <div className="profile-body">
+                <div className="row">
+                  <div className="col-12" style={{ display: 'flex' }}>
+                    <Ratings rating={rating} widgetDimensions="30px" widgetRatedColors="#FFD700">
+                      <Ratings.Widget />
+                      <Ratings.Widget />
+                      <Ratings.Widget />
+                      <Ratings.Widget />
+                      <Ratings.Widget />
+                    </Ratings>
+                    <p style={{ lineHeight: '30px', paddingInlineStart: '5px' }}>
+                      {rating.toFixed(2)} sao ( {DANHGIA && DANHGIA.length} đánh giá )
+                    </p>
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <ul className="review-list">
+                    {DANHGIA &&
+                      currentItems.map(item => (
+                        <li key={item.ID} className="review-item">
+                          <div className="review-info">
+                            <img src={item.AVATARURL} alt="anh dai dien" />
+                            <p>
+                              {item.HO} {item.TEN}
+                            </p>
+                          </div>
+                          <div className="review-star">
+                            <Ratings
+                              rating={item.DANHGIA}
+                              widgetDimensions="20px"
+                              widgetRatedColors="#FFD700"
+                              widgetSpacings="2px"
+                            >
+                              <Ratings.Widget />
+                              <Ratings.Widget />
+                              <Ratings.Widget />
+                              <Ratings.Widget />
+                              <Ratings.Widget />
+                            </Ratings>
+                          </div>
+                          <div className="review-detail">
+                            <p>{item.NOIDUNG}</p>
+                          </div>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+                <Pagination
+                  size="sm"
+                  itemPerPage={itemPerPage}
+                  totalItems={totalItems && totalItems.length}
+                  currentPage={currentPage}
+                  paginate={paginate}
+                />
               </div>
             </div>
           </div>
