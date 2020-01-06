@@ -4,11 +4,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
-import { getTutorById } from '../../Actions/tutor';
+import { getTutorById, openChat, getChatHistory } from '../../Actions/tutor';
 
 const SingleTutor = ({ match }) => {
+  const user = useSelector(state => state.user.user);
   const tutor = useSelector(state => state.tutor.tutor);
   const fetching = useSelector(state => state.tutor.fetching);
+  const loggedIn = useSelector(state => state.user.loggedIn);
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = match.params;
@@ -41,10 +43,24 @@ const SingleTutor = ({ match }) => {
             <div style={{ marginBlockStart: '1em' }}>
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-primary tutor-btn-chat"
                 onClick={() => history.push(`/request?id=${ID}`)}
               >
                 Mời dạy
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary tutor-btn-chat"
+                onClick={e => {
+                  if (!loggedIn) {
+                    history.push('/login');
+                    return;
+                  }
+                  dispatch(openChat());
+                  dispatch(getChatHistory(user.ID, tutor));
+                }}
+              >
+                Chat
               </button>
             </div>
           </div>

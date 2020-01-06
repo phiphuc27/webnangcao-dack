@@ -2,11 +2,13 @@ import { combineReducers } from 'redux';
 import user from './user';
 import tutor from './tutor';
 import contract from './contract';
+import chat from './Chat';
 
 const allReducer = combineReducers({
   user,
   tutor,
-  contract
+  contract,
+  chat
 });
 
 const rootReducer = (state, action) => {

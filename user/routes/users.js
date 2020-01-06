@@ -9,6 +9,7 @@ const UsersModel = require('../models/Users');
 const SkillModel = require('../models/Skill');
 const RegisterTutorModel = require('../models/RegisterTutor');
 const ContractModel = require('../models/Contract');
+const ChatModel = require('../models/Chat');
 // const db = require('../db');
 
 router.get('/', (req, res) => {
@@ -258,5 +259,20 @@ router.post('/contract/update', async (req, res) => {
 });
 
 // end contract for register
+
+// chat
+
+// get chat history
+router.post('/chat/get', async (req, res) => {
+  ChatModel.getById(req.user.ID, req.body.id)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// end chat
 
 module.exports = router;

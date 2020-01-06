@@ -11,6 +11,7 @@ import Error from './Components/Pages/Error';
 import Login from './Containers/LoginContainer';
 import Register from './Containers/RegisterContainer';
 import Profile from './Containers/ProfileContainer';
+import Chat from './Containers/ChatContainer';
 import Navbar from './Components/Navbar/Navbar';
 import Footer from './Components/Other/Footer';
 import Tutors from './Components/Pages/Tutors';
@@ -19,7 +20,7 @@ import StudyRequest from './Components/Pages/StudyRequest';
 
 import { logout } from './Actions/user';
 
-const App = ({ isLoading, loggedIn, user, logOut, history }) => {
+const App = ({ isLoading, loggedIn, user, logOut, history, isOpenChat }) => {
   const PrivateRoute = ({ component: Component, ...path }) => (
     <Route
       {...path}
@@ -65,6 +66,7 @@ const App = ({ isLoading, loggedIn, user, logOut, history }) => {
             <Route component={Error} />
           </Switch>
           <Footer />
+          {isOpenChat ? <Chat /> : null}
         </>
       )}
     </>
@@ -74,7 +76,8 @@ const App = ({ isLoading, loggedIn, user, logOut, history }) => {
 const mapStateToProps = state => ({
   isLoading: state.user.fetching,
   loggedIn: state.user.loggedIn,
-  user: state.user.user
+  user: state.user.user,
+  isOpenChat: state.chat.isOpen
 });
 const mapDispatchToProps = dispatch => ({
   logOut: () => {

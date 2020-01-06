@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import socket from './socket';
+
 export const startGetData = {
   type: 'START_GET_DATA'
 };
@@ -88,3 +90,62 @@ export const searchSkill = search => ({
   type: 'SEARCH_SKILL',
   search
 });
+
+// chat
+export const toggleChat = () => ({
+  type: 'TOGGLE_CHAT'
+});
+
+export const openChat = () => ({
+  type: 'OPEN_CHAT'
+});
+
+export const closeChat = () => ({
+  type: 'CLOSE_CHAT'
+});
+
+export const startGetChat = {
+  type: 'START_GET_CHAT'
+};
+
+export const successGetChat = value => ({
+  type: 'SUCCESS_GET_CHAT',
+  value
+});
+
+export const errorGetChat = error => ({
+  type: 'ERROR_GET_CHAT',
+  error
+});
+
+export const addOneChat = value => ({
+  type: 'SUCCESS_GET_ONE_MESSAGE',
+  value
+});
+
+export const getChatHistory = (userID, tutor) => {
+  return async dispatch => {
+    await dispatch(startGetChat);
+    const token = window.sessionStorage.getItem('jwtToken');
+    await axios({
+      method: 'post',
+      url: '/users/chat/get',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { id: tutor.ID }
+    })
+      .then(response => {
+        const value = {
+          receiver: tutor,
+          history: response.data,
+          socket: socket(userID, tutor.ID, value => dispatch(addOneChat(value)))
+        };
+        console.log(value.socket);
+        dispatch(successGetChat(value));
+      })
+      .catch(err => {
+        dispatch(errorGetChat(err));
+      });
+  };
+};
