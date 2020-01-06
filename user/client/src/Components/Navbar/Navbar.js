@@ -59,15 +59,25 @@ const Navbar = ({ user, logout, history }) => {
           <>
             <div className="nav-note">
               {user.LOAI === 2 ? (
-                <a href="/profile/class">
-                  <GoBell />
-                  {sent && sent.length > 0 && <span>{sent.length}</span>}
-                </a>
+                <>
+                  <a href="/profile/class">
+                    <GoBell />
+                    {sent && sent.length > 0 && <span>{sent.length}</span>}
+                  </a>
+                  <div className="dropdown-menu, note-menu">
+                    <p>{sent && <span>{sent.length}</span>} yêu cầu chưa duyệt</p>
+                  </div>
+                </>
               ) : (
-                <a href="/profile/contract?tab=accepted">
-                  <GoBell />
-                  {onGoing && onGoing.length > 0 && <span>{onGoing.length}</span>}
-                </a>
+                <>
+                  <a href="/profile/contract?tab=accepted">
+                    <GoBell />
+                    {onGoing && onGoing.length > 0 && <span>{onGoing.length}</span>}
+                  </a>
+                  <div className="dropdown-menu note-menu">
+                    <p>{onGoing && <span>{onGoing.length}</span>} hợp đồng chưa hoàn tất</p>
+                  </div>
+                </>
               )}
             </div>
             <div className="nav-user">

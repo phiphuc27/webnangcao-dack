@@ -3,18 +3,46 @@ import moment from 'moment';
 import 'moment/locale/en-gb';
 import { useSelector } from 'react-redux';
 import RequestModal from './RequestModal';
+import Pagination from '../Other/Pagination';
 
 const RequestTab = ({ tab }) => {
   const request = useSelector(state => state.contract.request);
-  const { sent, accepted } = request;
+  const { sent } = request;
 
   const contract = useSelector(state => state.contract.contract);
-  const { paid } = contract;
+  const { onGoing, paid } = contract;
 
   const [modalEdit, setModalEdit] = useState({
     request: null,
     show: false
   });
+
+  let currentItems;
+  let totalItems;
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemPerPage] = useState(10);
+
+  const indexOfLastItem = currentPage * itemPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemPerPage;
+  if (!tab && sent) {
+    totalItems = sent;
+    currentItems = sent.slice(indexOfFirstItem, indexOfLastItem);
+  }
+  if (tab === 'accepted' && onGoing) {
+    totalItems = onGoing;
+    currentItems = onGoing.slice(indexOfFirstItem, indexOfLastItem);
+  }
+  if (tab === 'finished' && paid) {
+    totalItems = paid;
+    currentItems = paid.slice(indexOfFirstItem, indexOfLastItem);
+  }
+
+  const paginate = pageNumber => {
+    setCurrentPage(pageNumber);
+    window.scrollTo(0, 0);
+  };
+
   return (
     <div className="profile-info">
       <div className="info-container">
@@ -52,9 +80,8 @@ const RequestTab = ({ tab }) => {
                 </div>
               </div>
               <hr />
-              {sent &&
-                sent.length > 0 &&
-                sent.map(item => (
+              {currentItems &&
+                currentItems.map(item => (
                   <>
                     <div key={item.ID} className="row">
                       <div className="col-lg-5 col-sm-4">
@@ -100,18 +127,28 @@ const RequestTab = ({ tab }) => {
                 </div>
               </div>
               <hr />
-              {accepted &&
-                accepted.length > 0 &&
-                accepted.map(item => (
+              {currentItems &&
+                currentItems.map(item => (
                   <>
                     <div key={item.ID} className="row">
                       <div className="col-lg-3 col-sm-4">
                         <button
                           type="button"
                           className="btn request-title"
-                          onClick={() => setModalEdit({ request: item, show: true })}
+                          onClick={() =>
+                            setModalEdit({
+                              request: {
+                                ...item.CHITIET,
+                                ID: item.ID,
+                                HO: item.HO,
+                                TEN: item.TEN,
+                                TRANGTHAIHD: item.TRANGTHAI
+                              },
+                              show: true
+                            })
+                          }
                         >
-                          {item.TIEUDE}
+                          {item.CHITIET.TIEUDE}
                         </button>
                       </div>
                       <div className="col-lg-3 col-sm-4">
@@ -120,10 +157,10 @@ const RequestTab = ({ tab }) => {
                         </p>
                       </div>
                       <div className="col-lg-2 col-sm-4">
-                        <p>{moment(item.NGAYBD).format('DD/MM/YYYY')}</p>
+                        <p>{moment(item.CHITIET.NGAYBD).format('DD/MM/YYYY')}</p>
                       </div>
                       <div className="col-lg-2 col-sm-4">
-                        <p>{moment(item.NGAYKT).format('DD/MM/YYYY')}</p>
+                        <p>{moment(item.CHITIET.NGAYKT).format('DD/MM/YYYY')}</p>
                       </div>
                       <div className="col-lg-2 col-sm-4">
                         <p style={{ color: 'green' }}>Đã nhận</p>
@@ -152,9 +189,8 @@ const RequestTab = ({ tab }) => {
                 </div>
               </div>
               <hr />
-              {paid &&
-                paid.length > 0 &&
-                paid.map(item => (
+              {currentItems &&
+                currentItems.map(item => (
                   <>
                     <div key={item.ID} className="row">
                       <div className="col-lg-3 col-sm-4">
@@ -168,7 +204,7 @@ const RequestTab = ({ tab }) => {
                                 ID: item.ID,
                                 HO: item.HO,
                                 TEN: item.TEN,
-                                TRANGTHAI: item.TRANGTHAI
+                                TRANGTHAIHD: item.TRANGTHAI
                               },
                               show: true
                             })
@@ -194,6 +230,13 @@ const RequestTab = ({ tab }) => {
                 ))}
             </>
           )}
+          <Pagination
+            size="sm"
+            itemPerPage={itemPerPage}
+            totalItems={totalItems && totalItems.length}
+            currentPage={currentPage}
+            paginate={paginate}
+          />
         </div>
       </div>
       {modalEdit.request && (

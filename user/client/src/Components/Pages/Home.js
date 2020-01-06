@@ -9,7 +9,7 @@ import {
 } from 'react-icons/fa';
 import Banner from '../Other/Banner';
 import Tutor from '../Tutor/Tutor';
-import TutorList from '../Tutor/TutorList';
+import TutorSlide from '../Tutor/TutorSlide';
 import Title from '../Other/Title';
 
 const Home = ({ tutors, getAllTutors }) => {
@@ -84,7 +84,7 @@ const Home = ({ tutors, getAllTutors }) => {
             </div>
           </div>
         </section>
-        <TutorList title="Gia sư nổi bật" tutors={tutorList} />
+        <TutorSlide title="Gia sư nổi bật" tutors={tutorList} />
       </div>
     </div>
   );

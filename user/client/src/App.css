@@ -154,13 +154,14 @@ ul {
 
 .nav-note {
   grid-area: notification;
+  position: relative;
 }
 
 .nav-note a {
   position: relative;
 }
 
-.nav-note span {
+.nav-note a > span {
   position: absolute;
   top: -5px;
   left: 10px;
@@ -168,6 +169,26 @@ ul {
   line-height: 16px;
   background: #dc143c;
   padding: 0 3px;
+  border-radius: 2px;
+}
+
+.nav-note:hover > .note-menu,
+.dropdown-menu:hover .note-menu {
+  display: block;
+}
+
+.note-menu {
+  width: 240px !important;
+}
+
+.note-menu p {
+  padding-top: 1em;
+}
+
+.note-menu span {
+  background: #dc143c;
+  padding: 0 3px;
+  color: white;
   border-radius: 2px;
 }
 
@@ -206,7 +227,8 @@ ul {
   margin-left: 0.5em;
 }
 
-.user-menu {
+.user-menu,
+.note-menu {
   display: none;
   z-index: 1000 !important;
 }
@@ -214,7 +236,7 @@ ul {
 .dropdown-menu {
   cursor: default;
   position: absolute;
-  top: calc(100% + 10px);
+  top: calc(100% + 12px);
   left: 0;
   width: 200px;
   height: auto;
@@ -552,7 +574,17 @@ ul {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   justify-items: center;
-  column-gap: 40px;
+  column-gap: 10px;
+  row-gap: 2rem;
+}
+
+.featured-tutors-slide {
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  justify-items: center;
+  column-gap: 10px;
   row-gap: 2rem;
 }
 /* end of feature tutors*/
@@ -614,7 +646,7 @@ ul {
 /* TUTOR CARD */
 
 .card {
-  padding: 20px 10px 30px;
+  padding: 20px 1em 30px;
   box-shadow: var(--box-shadow);
   height: 100%;
 }
@@ -638,7 +670,7 @@ ul {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr auto auto;
 
-  gap: 1.2em;
+  row-gap: 1.2em;
   grid-template-areas:
     'avatar avatar'
     'name name'
@@ -861,11 +893,15 @@ ul {
 .profile-skill > li {
   margin: 0 5px 5px 0;
   border: var(--border);
-  padding: 5px 10px;
+  padding: 0 10px;
   border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.profile-skill span {
+  font-size: 0.8rem;
 }
 
 .skill-group {
@@ -1103,3 +1139,52 @@ ul {
 }
 
 /* end chat */
+
+/* Review */
+.review-list {
+  padding: 1rem 1rem 0 1rem;
+  list-style: none;
+  width: 100%;
+}
+.review-item {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: 30px 1fr;
+  grid-template-areas:
+    'info star'
+    'info detail';
+}
+
+.review-item + .review-item {
+  margin-block-start: 2em;
+}
+
+.review-info {
+  grid-area: info;
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+}
+
+.review-info img {
+  border-radius: 50%;
+  width: 60px;
+  height: auto;
+}
+
+.review-info p {
+  font-size: 0.8rem;
+}
+.review-star {
+  grid-area: star;
+}
+
+.review-detail {
+  border-radius: 8px;
+  background: #f3f3f3;
+  padding: 1em;
+  grid-area: detail;
+}
+/* end of review */

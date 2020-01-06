@@ -3,7 +3,7 @@ import React from 'react';
 import NumberFormat from 'react-number-format';
 
 const Product = ({ tutor }) => {
-  const { ID, HO, TEN, DIACHI, AVATARURL, GIA, KYNANG } = tutor;
+  const { ID, HO, TEN, THANHPHO, AVATARURL, GIA, KYNANG } = tutor;
   const link = `/tutors/${ID}`;
   return (
     <div>
@@ -26,7 +26,7 @@ const Product = ({ tutor }) => {
             <span>/h</span>
           </div>
           <div className="card-address">
-            <p>{DIACHI}</p>
+            <p>{THANHPHO}</p>
           </div>
         </div>
         <div className="card-skill">

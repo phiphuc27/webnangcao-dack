@@ -18,17 +18,17 @@ function Banner() {
   return (
     <Carousel activeIndex={index} direction={direction} onSelect={handleSelect} wrap="true">
       <Carousel.Item>
-        <Link to="/products">
+        <Link to="/tutors">
           <img className="d-block w-100 " src={banner1} alt="First slide" />
         </Link>
       </Carousel.Item>
       <Carousel.Item>
-        <Link to="/products">
+        <Link to="/tutors">
           <img className="d-block w-100 " src={banner2} alt="Second slide" />
         </Link>
       </Carousel.Item>
       <Carousel.Item>
-        <Link to="/products">
+        <Link to="/tutors">
           <img className="d-block w-100 " src={banner3} alt="Third slide" />
         </Link>
       </Carousel.Item>

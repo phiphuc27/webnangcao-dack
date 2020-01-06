@@ -126,7 +126,7 @@ const StudyRequest = () => {
                       </h5>
                     </div>
                     <div className="col-3">
-                      <p>
+                      <p style={{color:'red',fontWeight:'600'}}>
                         <NumberFormat value={GIA} displayType="text" thousandSeparator suffix="₫" />
                         /h
                       </p>

@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`thongtin` (
   `ID` INT(11) NOT NULL PRIMARY KEY,
   `TEN` NVARCHAR(100) NULL,
   `HO` NVARCHAR(100) NULL,
-  `DIENTHOAI` varchar(10) NULL,
+  `DIENTHOAI` nvarchar(20) NULL,
   `DIACHI` NVARCHAR(255) NULL,
   `THANHPHO` NVARCHAR(150) NULL,
   `GIOITINH` NVARCHAR(3) NULL,
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`dangkyhoc` (
     FOREIGN KEY (`IDNH`)
         REFERENCES `taikhoan` (`ID`),
     FOREIGN KEY (`IDND`)
-        REFERENCES `kynang` (`ID`)
+        REFERENCES `taikhoan` (`ID`)
 )  ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS `uberfortutordb`.`hopdonghoc` (
@@ -104,11 +104,25 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`chat` (
 
 CREATE TABLE IF NOT EXISTS `uberfortutordb`.`danhgia` (
   `ID` INT(11) NOT NULL AUTO_INCREMENT,
-  `IDND` INT(11) NOT NULL,-- id nguoi hoc danh gia
-  `IDDK` INT(11) NOT NULL,-- id mon dang ky
+  `IDND` INT(11) NOT NULL,-- id nguoi day
+  `IDNH` INT(11) NOT NULL,-- id nguoi hoc danh gia
   `DANHGIA` INT NOT NULL,-- so sao danh gia
   `NOIDUNG` NVARCHAR(150) NOT NULL,-- noi dung danh gia
-  PRIMARY KEY (`ID`))
+  PRIMARY KEY (`ID`),
+  foreign key (`IDND`) references `taikhoan`(`ID`),
+  foreign key (`IDNH`) references `taikhoan`(`ID`))
+
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `uberfortutordb`.`khieunai` (
+  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `IDND` INT(11) NOT NULL,-- id nguoi day
+  `IDNH` INT(11) NOT NULL,-- id nguoi hoc khieunai
+  `TIEUDE` INT NOT NULL,
+  `NOIDUNG` NVARCHAR(150) NOT NULL,-- noi dung khieunai
+  PRIMARY KEY (`ID`),
+  foreign key (`IDND`) references `taikhoan`(`ID`),
+  foreign key (`IDNH`) references `taikhoan`(`ID`))
 
 ENGINE = InnoDB;
 
@@ -149,3 +163,8 @@ INSERT INTO `uberfortutordb`.`kynang` (`KYNANG`) VALUES
 
 INSERT INTO `uberfortutordb`.`kynang_nguoidung` (`IDKN`,`IDND`) VALUES
 ('1','4'),('2','4'),('3','4'),('1','2'),('6','2'),('7','3'),('5','3');
+
+INSERT INTO `uberfortutordb`.`danhgia` (`IDND`,`IDNH`,`DANHGIA`,`NOIDUNG`) VALUES
+('2','8','4','tốt'),
+('2','6','5','tốt'),
+('2','7','2','dở');
