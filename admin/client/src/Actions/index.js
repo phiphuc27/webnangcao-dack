@@ -562,3 +562,44 @@ export const getContractList = page => {
 };
 
 /* End contract */
+
+/* complain */
+
+export const startGetComplain = {
+  type: 'GET_COMPLAIN_START'
+};
+
+export const successGetComplain = value => ({
+  type: 'GET_COMPLAIN_SUCCESS',
+  value
+});
+
+export const errorGetComplain = error => ({
+  type: 'GET_COMPLAIN_ERROR',
+  error
+});
+
+export const getComplainList = page => {
+  return async dispatch => {
+    await dispatch(startGetComplain);
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'post',
+      url: '/users/complain/getList',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { npp: 5, page: page }
+    })
+      .then(response => {
+        console.log(response);
+        dispatch(successGetComplain(response.data));
+      })
+      .catch(err => {
+        dispatch(errorGetComplain(err.response.data));
+      });
+  };
+};
+
+/* End complain */

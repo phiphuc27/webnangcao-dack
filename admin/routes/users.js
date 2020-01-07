@@ -10,6 +10,7 @@ var UsersModel = require('../models/Users');
 var SkillModel = require('../models/Skill');
 var ContractModel = require('../models/Contract');
 var RegisterTutorModel = require('../models/RegisterTutor');
+var ComplainModel = require('../models/Complain');
 //const db = require('../db');
 
 router.get('/', (req, res, next) => {
@@ -320,10 +321,11 @@ router.post('/unlock', async (req, res, next) => {
     });
 });
 
-// get contract data list for student (contract only)
+// get contract data list
 // data send:
 // {
-//  id: , // id student
+//  nnp: ,
+//  page: ,
 // }
 router.post('/contract/getList', async (req, res) => {
   // pagnition
@@ -350,6 +352,69 @@ router.post('/contract/getList', async (req, res) => {
               return {
                 ...item,
                 CHITIET: detail[0],
+                GIASU: { HO: tutor[0].HO, TEN: tutor[0].TEN },
+                HOCSINH: { HO: student[0].HO, TEN: student[0].TEN }
+              };
+            })
+          );
+          var responsePayload = {
+            list: data
+          };
+
+          if (page < numPages) {
+            responsePayload.pagination = {
+              current: page,
+              perPage: numPerPage,
+              previous: page > 0 ? page - 1 : undefined,
+              next: page < numPages - 1 ? page + 1 : undefined,
+              numPages: numPages
+            };
+          } else
+            responsePayload.pagination = {
+              err:
+                'queried page ' +
+                page +
+                ' is >= to maximum page number ' +
+                numPages
+            };
+          res.json(responsePayload);
+        })
+    )
+    .catch(err => {
+      // console.error(err);
+      res.json({ err: err });
+    });
+});
+
+// get complain data list
+// data send:
+// {
+//  nnp: ,
+//  page: ,
+// }
+router.post('/complain/getList', async (req, res) => {
+  // pagnition
+  var numRows;
+  var numPerPage = req.body.npp || 1;
+  var page = req.body.page || 0;
+  var numPages;
+  var skip = page * numPerPage;
+  var limit = skip + ',' + numPerPage;
+  await ComplainModel.count()
+    .then(result => {
+      numRows = result[0].numRows;
+      numPages = Math.ceil(numRows / numPerPage);
+    })
+    .then(
+      async () =>
+        await ComplainModel.getAllPagination(limit).then(async result => {
+          // console.log(result);
+          const data = await Promise.all(
+            result.map(async item => {
+              const tutor = await UsersModel.getUserInfoById(item.IDND);
+              const student = await UsersModel.getUserInfoById(item.IDNH);
+              return {
+                ...item,
                 GIASU: { HO: tutor[0].HO, TEN: tutor[0].TEN },
                 HOCSINH: { HO: student[0].HO, TEN: student[0].TEN }
               };
