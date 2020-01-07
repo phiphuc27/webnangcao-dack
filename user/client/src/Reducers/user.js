@@ -2,6 +2,7 @@ const registerState = {
   fetching: false,
   fetched: false,
   loggedIn: false,
+  successJoinTutor: false,
   error: '',
   user: null,
   skill: null,
@@ -53,6 +54,13 @@ const accountManagement = (state = registerState, action) => {
         loggedIn: true,
         error: null,
         user: action.user
+      };
+    }
+
+    case 'SUCCESS_JOIN_TUTOR': {
+      return {
+        ...state,
+        successJoinTutor: true
       };
     }
 

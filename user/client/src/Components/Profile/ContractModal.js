@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import 'moment/locale/vi';
 import { Modal, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import NumberFormat from 'react-number-format';
 import { finishContract } from '../../Actions/contract';
 import ReviewModal from './ReviewModal';
 import RefundModal from './RefundModal';
 
 const ContractModal = ({ contract, show, onHide }) => {
-  const { fetched } = useSelector(state => state.contract);
   const dispatch = useDispatch();
   const {
     ID,

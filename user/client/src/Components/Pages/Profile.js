@@ -14,6 +14,7 @@ import AccountTab from '../Profile/AccountTab';
 import PasswordTab from '../Profile/PasswordTab';
 import RequestTab from '../Profile/RequestTab';
 import ContractTab from '../Profile/ContractTab';
+import RevenueTab from '../Profile/RevenueTab';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -33,7 +34,7 @@ const Profile = ({
   const { tab } = match.params;
 
   const [expanded, setExpanded] = useState(tab);
-  const [subExpanded, setSubExpanded] = useState(query.get('tab'));
+  const [subExpanded] = useState(query.get('tab'));
 
   const { fetching } = profile;
 
@@ -268,8 +269,9 @@ const Profile = ({
             />
           )}
           {tab === 'account' && subExpanded === 'password' && <PasswordTab user={user} />}
-          {tab === 'class' && user.LOAI===2 && <RequestTab tab={subExpanded} />}
-          {tab === 'contract' && user.LOAI===3 && <ContractTab tab={subExpanded} />}
+          {tab === 'class' && user.LOAI === 2 && <RequestTab tab={subExpanded} />}
+          {tab === 'contract' && user.LOAI === 3 && <ContractTab tab={subExpanded} />}
+          {tab === 'revenue' && user.LOAI === 2 && <RevenueTab tab={subExpanded} />}
         </div>
       )}
     </div>

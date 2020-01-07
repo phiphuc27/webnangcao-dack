@@ -5,7 +5,7 @@ import { Modal, Button, Form, Row, Col, InputGroup } from 'react-bootstrap';
 import useForm from 'react-hook-form';
 import Select from 'react-select';
 import { makeStyles } from '@material-ui/core/styles';
-import { getAllSkills, searchSkill } from '../../Actions/tutor';
+import { getAllSkills } from '../../Actions/tutor';
 
 const useStyles = makeStyles({
   errorInput: {
@@ -43,10 +43,6 @@ const EditProfile = ({ show, onHide, onSubmitNewSkill, user }) => {
   useEffect(() => {
     setSkill('');
   }, [skills]);
-
-  useEffect(() => {
-    dispatch(searchSkill(skill));
-  }, [skill, dispatch]);
 
   const classes = useStyles();
 

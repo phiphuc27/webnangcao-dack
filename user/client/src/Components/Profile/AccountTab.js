@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import NumberFormat from 'react-number-format';
 import EditProfileModal from './EditProfileModal';
 import EditSkillModal from './EditSkillModal';
 
@@ -76,6 +77,17 @@ const AccountTab = ({ user, handleProfileChange, handleAddNewSkill }) => {
             </div>
             <div className="col-lg-9 col-sm-6">
               <p>{user.DIENTHOAI}</p>
+            </div>
+          </div>
+          <hr />
+          <div className="row">
+            <div className="col-lg-3 col-sm-6">
+              <h5>Giá theo giờ</h5>
+            </div>
+            <div className="col-lg-9 col-sm-6">
+              <p style={{ color: 'red', fontWeight: '600' }}>
+                <NumberFormat value={user.GIA} displayType="text" thousandSeparator suffix="₫" />
+              </p>
             </div>
           </div>
         </div>
