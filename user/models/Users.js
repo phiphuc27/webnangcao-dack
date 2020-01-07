@@ -17,6 +17,10 @@ const Users = {
     const sql = `insert into taikhoan set ? `;
     return db.save(sql, user);
   },
+  updateStatus(id, status) {
+    const sql = `update taikhoan set TRANGTHAI='${status}' where ID='${id}'`;
+    return db.save(sql);
+  },
   deleteUser(id) {
     const sql = `delete from taikhoan where ID='${id}'`;
     return db.save(sql);

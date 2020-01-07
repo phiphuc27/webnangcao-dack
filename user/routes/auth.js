@@ -1,4 +1,5 @@
 const express = require('express');
+const nodeMailer = require('nodemailer');
 
 const router = express.Router();
 
@@ -33,7 +34,8 @@ router.post('/register', async (req, res) => {
     const user = {
       EMAIL: req.body.email,
       MATKHAU: hashedPassword,
-      LOAI: req.body.type
+      LOAI: req.body.type,
+      TRANGTHAI: 2
     };
 
     const savedUser = await UsersModel.insert(user);
@@ -41,10 +43,63 @@ router.post('/register', async (req, res) => {
       ID: savedUser.insertId,
       AVATARURL: 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png'
     });
+
+    // send email to verify
+    const transporter = nodeMailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_SENDER,
+        pass: process.env.PASS_SENDER
+      }
+    });
+
+    // hash id
+    const mailOptions = {
+      from: '"Đỗ Hồng Phúc" <dohongphuc1997@gmail.com>', // sender address
+      to: req.body.email, // list of receivers
+      subject: 'Xác nhận email <Uber For Tutor>', // Subject line
+      text: 'Vui lòng nhấn link bên dưới để xác nhận email.', // plain text body
+      html: `<p>Vui lòng nhấn link bên dưới để xác nhận email.</p>
+      <a href="${process.env.USER_SERVER_HOST}/auth/verify?hash=${hashedPassword}&id=${savedUser.insertId}">Link xác nhận</a>` // html body
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.log(error);
+      }
+      console.log('Message %s sent: %s', info.messageId, info.response);
+    });
+
     return res.json({ userId: savedUser.insertId });
   } catch (err) {
     console.log(err);
     return res.status(400).send(err);
+  }
+});
+
+// verify email
+router.get('/verify', async (req, res) => {
+  // get user from id
+  const id = parseInt(req.query.id);
+  const user = await UsersModel.getUserById(id);
+
+  if (user.length <= 0) {
+    return res.status(400).send('Không tìm thấy người dùng');
+  }
+
+  // check status
+  if (user[0].TRANGTHAI !== 2) {
+    return res.status(400).send('Email đã xác nhận');
+  }
+  // checking password
+  if (user[0].MATKHAU === req.query.hash) {
+    // set status to 0
+    await UsersModel.updateStatus(id, 0).then(result => {
+      return res.render('verifySuccess', { title: 'Uber For Tutor' });
+    });
+  } else {
+    return res.status(400).send('Sai hash');
   }
 });
 
@@ -60,6 +115,24 @@ router.post('/login', async (req, res) => {
         user
       });
     }
+    // if not verify of lock send error
+    if (user.TRANGTHAI === 2) {
+      return res.send({
+        message: 'Tài khoản chưa xác nhận email'
+      });
+    }
+    if (user.TRANGTHAI === 1) {
+      return res.send({
+        message: 'Tài khoản đã bị khóa'
+      });
+    }
+    // lock admin login
+    if (user.LOAI === 0 || user.LOAI === 1) {
+      return res.send({
+        message: 'Không thể đăng nhập admin'
+      });
+    }
+
     return req.login(user, { session: false }, error => {
       if (err) {
         return res.send(error);
