@@ -5,11 +5,75 @@ import { Link } from 'react-router-dom';
 
 // import useForm from 'react-hook-form';
 
-const UserList = ({ isFetching, isFetched, userList, getList, pagination }) => {
+const UserList = ({
+  isFetching,
+  isFetched,
+  userList,
+  getList,
+  pagination,
+  lock,
+  unlock
+}) => {
   var list = null;
   if (userList !== null && userList !== undefined) {
     // console.log(userList);
     list = userList.map((user, index) => {
+      let status = (
+        <>
+          <span>Bình thường </span>
+          <i
+            className="fas fa-lock status-edit-icon"
+            onClick={e => {
+              lock(user.ID);
+            }}
+          ></i>
+        </>
+      );
+      switch (user.TRANGTHAI) {
+        case 0:
+          status = (
+            <>
+              <span>Bình thường </span>
+              <i
+                className="fas fa-lock status-edit-icon"
+                onClick={e => {
+                  lock(user.ID);
+                }}
+              ></i>
+            </>
+          );
+          break;
+        case 1:
+          status = (
+            <>
+              <span>Khóa</span>
+              <i
+                className="fas fa-lock-open status-edit-icon"
+                onClick={e => {
+                  unlock(user.ID);
+                }}
+              ></i>
+            </>
+          );
+          break;
+        case 2:
+          status = 'Email chưa xác nhận';
+          break;
+
+        default:
+          status = (
+            <>
+              <span>Bình thường </span>
+              <i
+                className="fas fa-lock status-edit-icon"
+                onClick={e => {
+                  lock(user.ID);
+                }}
+              ></i>
+            </>
+          );
+          break;
+      }
       return (
         <tr key={index}>
           <td>
@@ -18,6 +82,7 @@ const UserList = ({ isFetching, isFetched, userList, getList, pagination }) => {
             </Link>
           </td>
           <td>{user.LOAI === 2 ? 'Người dạy' : 'Người học'}</td>
+          <td>{status}</td>
         </tr>
       );
     });
@@ -81,6 +146,7 @@ const UserList = ({ isFetching, isFetched, userList, getList, pagination }) => {
                   <tr>
                     <th>Tên tài khoản</th>
                     <th>Loại</th>
+                    <th>Trạng thái</th>
                   </tr>
                 </thead>
                 <tbody>{list}</tbody>

@@ -1,9 +1,11 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Form, Spinner, Button } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import useForm from 'react-hook-form';
+import NumberFormat from 'react-number-format';
 import {
+  Breadcrumbs,
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
@@ -69,6 +71,13 @@ const Profile = ({
 
   return (
     <div className="container">
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link to="/">Trang chủ</Link>
+        <Link to="/userlist">Danh sách tài khoản</Link>
+        <Typography color="textPrimary">
+          {user ? user.EMAIL : 'Tài khoản'}
+        </Typography>
+      </Breadcrumbs>
       <div className="profile">
         <div className="profile-sidebar">
           <div className="sidebar-container">
@@ -144,6 +153,15 @@ const Profile = ({
               <hr />
               <div className="row">
                 <div className="col-lg-3 col-sm-6">
+                  <h5>Điện thoại</h5>
+                </div>
+                <div className="col-lg-9 col-sm-6">
+                  <p>{user ? user.DIENTHOAI : null}</p>
+                </div>
+              </div>
+              <hr />
+              <div className="row">
+                <div className="col-lg-3 col-sm-6">
                   <h5>Địa chỉ</h5>
                 </div>
                 <div className="col-lg-9 col-sm-6">
@@ -160,6 +178,28 @@ const Profile = ({
                 </div>
               </div>
               <hr />
+              {user ? (
+                user.LOAI === 2 ? (
+                  <>
+                    <div className="row">
+                      <div className="col-lg-3 col-sm-6">
+                        <h5>Giá theo giờ</h5>
+                      </div>
+                      <div className="col-lg-9 col-sm-6">
+                        <p style={{ color: 'red', fontWeight: '600' }}>
+                          <NumberFormat
+                            value={user.GIA}
+                            displayType="text"
+                            thousandSeparator
+                            suffix="₫"
+                          />
+                        </p>
+                      </div>
+                    </div>
+                    <hr />
+                  </>
+                ) : null
+              ) : null}
             </div>
           </div>
           {user

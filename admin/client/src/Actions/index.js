@@ -172,7 +172,7 @@ export const getUserList = page => {
       headers: {
         Authorization: `Bearer ${token}`
       },
-      data: { npp: 3, page: page }
+      data: { npp: 5, page: page }
     })
       .then(response => {
         // console.log(response);
@@ -180,6 +180,61 @@ export const getUserList = page => {
       })
       .catch(err => {
         dispatch(errorGetList(err.response.data));
+      });
+  };
+};
+
+export const successChangeStatus = (id, status) => ({
+  type: 'CHANGE_STATUS_SUCCESS',
+  id,
+  status
+});
+
+export const errorChangeStatus = error => ({
+  type: 'CHANGE_STATUS_ERROR',
+  error
+});
+
+export const lockAccount = id => {
+  return async dispatch => {
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'post',
+      url: '/users/lock',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { id }
+    })
+      .then(response => {
+        // console.log(response);
+        dispatch(successChangeStatus(id, 1));
+      })
+      .catch(err => {
+        dispatch(errorChangeStatus(err.response.data));
+      });
+  };
+};
+
+export const unlockAccount = id => {
+  return async dispatch => {
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'post',
+      url: '/users/unlock',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { id }
+    })
+      .then(response => {
+        // console.log(response);
+        dispatch(successChangeStatus(id, 0));
+      })
+      .catch(err => {
+        dispatch(errorChangeStatus(err.response.data));
       });
   };
 };

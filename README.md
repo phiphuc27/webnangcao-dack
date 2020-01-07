@@ -12,11 +12,7 @@ trong đó folder 'client' là giao diện.
 
 ### `npm start`
 
-Chạy frontend trong các folder client.<br />
-
-### `npm run server`
-
-Chạy server backend user, admin.<br />
+Chạy lệnh trên tại user, admin để project phân biệt chạy cho user, admin.<br />
 
 Mở [http://localhost:5000] để mở server api cho quản trị.<br />
 Mở [http://localhost:5001] để mở server api cho người dùng.<br />

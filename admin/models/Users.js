@@ -37,6 +37,10 @@ var Users = {
     var sql = `update taikhoan set MATKHAU='${password}' where ID='${id}'`;
     return db.save(sql);
   },
+  updateStatus(id, status) {
+    const sql = `update taikhoan set TRANGTHAI='${status}' where ID='${id}'`;
+    return db.save(sql);
+  },
   isExist: function(email, password) {
     var sql = `Select * from taikhoan where EMAIL='${email}' and MATKHAU='${password}'`;
     return db.load(sql);

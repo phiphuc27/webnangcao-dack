@@ -296,4 +296,26 @@ router.post('/deleteSkill', async (req, res, next) => {
   });
 });
 
+// lock  acc
+router.post('/lock', async (req, res, next) => {
+  await UsersModel.updateStatus(req.body.id, 1)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// unlock  acc
+router.post('/unlock', async (req, res, next) => {
+  await UsersModel.updateStatus(req.body.id, 0)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
 module.exports = router;

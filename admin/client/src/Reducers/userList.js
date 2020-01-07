@@ -25,8 +25,23 @@ const UserList = (state = InitialState, action) => {
         pagination: action.value.pagination
       };
     }
+    case 'CHANGE_STATUS_SUCCESS': {
+      return {
+        ...state,
+        userList: state.userList
+          ? state.userList.map(user =>
+              user.ID === action.id
+                ? { ...user, TRANGTHAI: action.status }
+                : user
+            )
+          : state.userList
+      };
+    }
     case 'GET_LIST_ERROR': {
       return { ...state, fetching: false, fetched: false, error: action.error };
+    }
+    case 'CHANGE_STATUS_ERROR': {
+      return { ...state, error: action.error };
     }
     default:
       return state;
