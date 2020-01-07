@@ -70,7 +70,7 @@ ul {
 .navbar {
   display: grid;
   grid-template:
-    'logo menu search notification user' /
+    'logo menu search chatnoti notification user' /
     150px 1fr 1fr auto auto;
   column-gap: 1em;
   padding: 0.8em 0;
@@ -150,6 +150,48 @@ ul {
 
 .nav-search span svg {
   font-size: 1.2rem;
+}
+
+.nav-chat-noti {
+  grid-area: chatnoti;
+  position: relative;
+}
+
+.nav-chat-noti .show > .btn-chat-noti {
+  background: none;
+  border: none;
+}
+
+.nav-chat-noti .show > .btn-chat-noti:focus {
+  box-shadow: none;
+}
+
+.btn-chat-noti {
+  background: none;
+  border: none;
+  color: white;
+  transition: none;
+}
+
+.btn-chat-noti:hover {
+  background: none;
+}
+
+.btn-chat-noti:focus {
+  background: none;
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+.btn-chat-noti:focus > .note-menu {
+  display: block;
+}
+
+.noti-item img {
+  width: 28px;
+  height: auto;
+  border-radius: 50%;
 }
 
 .nav-note {
@@ -1080,6 +1122,7 @@ ul {
 .chat img {
   display: block;
   width: 100%;
+  border: 1px solid black;
 }
 .chat .avatar {
   position: relative;

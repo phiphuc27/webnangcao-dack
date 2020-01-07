@@ -460,5 +460,41 @@ export const deleteSkill = id => {
 };
 
 /* end of profile */
+/* chat notification */
 
+export const startGetChatNotification = {
+  type: 'GET_CHAT_NOTIFICATION_START'
+};
 
+export const successGetChatNotification = value => ({
+  type: 'GET_CHAT_NOTIFICATION_SUCCESS',
+  value
+});
+
+export const errorGetChatNotification = error => ({
+  type: 'GET_CHAT_NOTIFICATION_ERROR',
+  error
+});
+
+export const getChatNotification = () => {
+  return async dispatch => {
+    await dispatch(startGetChatNotification);
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'get',
+      url: '/users/chat/getRecently',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(response => {
+        dispatch(successGetChatNotification(response.data));
+      })
+      .catch(err => {
+        dispatch(errorGetChatNotification(err));
+      });
+  };
+};
+
+/* end chat notification */

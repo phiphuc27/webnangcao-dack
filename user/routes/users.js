@@ -264,9 +264,31 @@ router.post('/contract/update', async (req, res) => {
 
 // get chat history
 router.post('/chat/get', async (req, res) => {
+  const receive = await UsersModel.getUserInfoById(req.body.id);
   ChatModel.getById(req.user.ID, req.body.id)
     .then(result => {
-      res.status(200).send(result);
+      const value = {
+        receiver: receive[0],
+        history: result
+      };
+      res.status(200).send(value);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// get recently chat with
+router.get('/chat/getRecently', async (req, res) => {
+  ChatModel.getRecently(req.user.ID)
+    .then(async result => {
+      const data = await Promise.all(
+        result.map(async item => {
+          const user = await UsersModel.getUserInfoById(item.IDG);
+          return user[0];
+        })
+      );
+      res.status(200).send(data.reverse());
     })
     .catch(err => {
       res.status(500).send(err);

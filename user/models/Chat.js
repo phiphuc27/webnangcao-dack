@@ -20,6 +20,10 @@ const chat = {
   update(id, value) {
     const sql = `update chat set ? where ID='${id}'`;
     return db.save(sql, value);
+  },
+  getRecently(id) {
+    const sql = `select distinct IDG, IDN from chat where IDN='${id}'`;
+    return db.load(sql);
   }
 };
 module.exports = chat;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import 'moment/locale/en-gb';
-// import { Form, Button, Spinner } from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 // import { makeStyles } from '@material-ui/core/styles';
 // import { Link } from 'react-router-dom';
 // import useForm from 'react-hook-form';
@@ -97,7 +97,7 @@ const Chat = ({ isFetching, isFetched, error, receiver, history, user, socket, c
                 scrollPanel = panel;
               }}
             >
-              {History}
+              {!isFetching ? History : <Spinner style={{ width: '100px', height: '100px' }} variant="dark" animation="border" />}
             </div>
             <div className="panel-footer">
               <div className="input-group">

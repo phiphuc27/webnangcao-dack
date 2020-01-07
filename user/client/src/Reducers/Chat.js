@@ -5,7 +5,13 @@ const InitialState = {
   isOpen: false,
   receiver: null,
   history: [],
-  socket: null
+  socket: null,
+  notification: {
+    list: [],
+    fetching: false,
+    fetched: false,
+    error: ''
+  }
 };
 
 const Chat = (state = InitialState, action) => {
@@ -59,6 +65,42 @@ const Chat = (state = InitialState, action) => {
 
     case 'ERROR_GET_CHAT': {
       return { ...state, fetching: false, fetched: false, error: action.error };
+    }
+
+    case 'GET_CHAT_NOTIFICATION_START': {
+      return {
+        ...state,
+        notification: {
+          ...state.notification,
+          fetching: true,
+          fetched: false,
+          error: ''
+        }
+      };
+    }
+
+    case 'GET_CHAT_NOTIFICATION_SUCCESS': {
+      return {
+        ...state,
+        notification: {
+          ...state.notification,
+          fetching: false,
+          fetched: true,
+          list: action.value
+        }
+      };
+    }
+
+    case 'GET_CHAT_NOTIFICATION_ERROR': {
+      return {
+        ...state,
+        notification: {
+          ...state.notification,
+          fetching: false,
+          fetched: false,
+          error: action.error
+        }
+      };
     }
 
     default:

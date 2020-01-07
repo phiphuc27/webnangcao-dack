@@ -90,6 +90,7 @@ const SingleTutor = ({ match }) => {
                 Mời dạy
               </Button>
               <Button
+                block
                 size="lg"
                 type="button"
                 className="btn btn-primary tutor-btn-chat"
@@ -99,7 +100,7 @@ const SingleTutor = ({ match }) => {
                     return;
                   }
                   dispatch(openChat());
-                  dispatch(getChatHistory(user.ID, tutor));
+                  dispatch(getChatHistory(user.ID, ID));
                 }}
               >
                 Chat

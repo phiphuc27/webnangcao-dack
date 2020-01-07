@@ -123,7 +123,7 @@ export const addOneChat = value => ({
   value
 });
 
-export const getChatHistory = (userID, tutor) => {
+export const getChatHistory = (userID, tutorID) => {
   return async dispatch => {
     await dispatch(startGetChat);
     const token = window.sessionStorage.getItem('jwtToken');
@@ -133,15 +133,14 @@ export const getChatHistory = (userID, tutor) => {
       headers: {
         Authorization: `Bearer ${token}`
       },
-      data: { id: tutor.ID }
+      data: { id: tutorID }
     })
       .then(response => {
         const value = {
-          receiver: tutor,
-          history: response.data,
-          socket: socket(userID, tutor.ID, value => dispatch(addOneChat(value)))
+          ...response.data,
+          socket: socket(userID, tutorID, value => dispatch(addOneChat(value)))
         };
-        console.log(value.socket);
+        // console.log(value.socket);
         dispatch(successGetChat(value));
       })
       .catch(err => {
@@ -149,3 +148,5 @@ export const getChatHistory = (userID, tutor) => {
       });
   };
 };
+
+// end chat
