@@ -10,6 +10,7 @@ const SkillModel = require('../models/Skill');
 const RegisterTutorModel = require('../models/RegisterTutor');
 const ContractModel = require('../models/Contract');
 const ChatModel = require('../models/Chat');
+const TutorModel = require('../models/Tutor');
 // const db = require('../db');
 
 router.get('/', (req, res) => {
@@ -296,5 +297,35 @@ router.get('/chat/getRecently', async (req, res) => {
 });
 
 // end chat
+
+// review
+
+// send review
+router.post('/review/send', async (req, res) => {
+  await TutorModel.insertReview(req.body)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// end review
+
+// refund
+
+// send refund
+router.post('/refund/send', async (req, res) => {
+  await TutorModel.insertReview(req.body)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// end refund
 
 module.exports = router;
