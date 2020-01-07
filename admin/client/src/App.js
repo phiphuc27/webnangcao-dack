@@ -13,6 +13,7 @@ import Login from './Containers/LoginContainer';
 import UserList from './Containers/UserListContainer';
 import Profile from './Containers/ProfileContainer';
 import Skill from './Containers/SkillContainer';
+import Contract from './Containers/ContractContainer';
 
 import Navbar from './Components/Navbar';
 import Footer from './Components/Other/Footer';
@@ -64,6 +65,7 @@ const App = ({ isLoading, loggedIn, user, logOut, history }) => {
             <PrivateRoute exact path="/" component={Home} />
             <PrivateRoute exact path="/userlist" component={UserList} />
             <PrivateRoute exact path="/skill" component={Skill} />
+            <PrivateRoute exact path="/contract" component={Contract} />
             <PrivateRoute exact path="/register" component={Register} />
             <PrivateRoute exact path="/user/:id" component={Profile} />
             <Route component={Error} />

@@ -3,12 +3,14 @@ import user from './user';
 import userList from './userList';
 import profile from './profile';
 import skill from './Skill';
+import contract from './contract';
 
 const allReducer = combineReducers({
   user,
   userList,
   profile,
-  skill
+  skill,
+  contract
 });
 
 const rootReducer = (state, action) => {

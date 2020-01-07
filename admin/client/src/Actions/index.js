@@ -521,3 +521,44 @@ export const deleteSkill = id => {
 };
 
 /* End manage skill */
+
+/* contract */
+
+export const startGetContract = {
+  type: 'GET_CONTRACT_START'
+};
+
+export const successGetContract = value => ({
+  type: 'GET_CONTRACT_SUCCESS',
+  value
+});
+
+export const errorGetContract = error => ({
+  type: 'GET_CONTRACT_ERROR',
+  error
+});
+
+export const getContractList = page => {
+  return async dispatch => {
+    await dispatch(startGetContract);
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'post',
+      url: '/users/contract/getList',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { npp: 5, page: page }
+    })
+      .then(response => {
+        // console.log(response);
+        dispatch(successGetContract(response.data));
+      })
+      .catch(err => {
+        dispatch(errorGetContract(err.response.data));
+      });
+  };
+};
+
+/* End contract */

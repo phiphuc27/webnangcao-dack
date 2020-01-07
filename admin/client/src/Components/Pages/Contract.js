@@ -1,59 +1,67 @@
-import React from 'react';
-import { Spinner, Pagination, Table, Form, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Spinner, Pagination, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import Modal from 'react-bootstrap/Modal';
-import useForm from 'react-hook-form';
+import moment from 'moment';
+import 'moment/locale/en-gb';
+
+import ContractModal from '../Modal/ContractModal';
 // import { makeStyles } from '@material-ui/core/styles';
 
 // import useForm from 'react-hook-form';
 
-const Contract = ({
-  isFetching,
-  isFetched,
-  skills,
-  getSkill,
-  pagination,
-  newSkill,
-  updateSkill,
-  deleteSkill
-}) => {
-  const [newSkillModalShow, setNewSkillModalShow] = React.useState(false);
-  const [updateSkillModalShow, setUpdateSkillModalShow] = React.useState(false);
-  const [updateSkillText, setUpdateSkillText] = React.useState('');
-  const [skillIndex, setSkillIndex] = React.useState(null);
-  const [newSkillText, setNewSkillText] = React.useState('');
+const Contract = ({ isFetching, isFetched, list, pagination, getList }) => {
+  const [modalEdit, setModalEdit] = useState({
+    data: null,
+    show: false
+  });
 
-  const { register, handleSubmit } = useForm();
-  var list = null;
-  if (skills !== null && skills !== undefined) {
+  var List = null;
+  if (list !== null && list !== undefined) {
     // console.log(userList);
-    list = skills.map((skill, index) => {
+    List = list.map((item, index) => {
       return (
-        <tr key={skill.ID}>
-          <td>{index + 1}</td>
-          <td>{skill.KYNANG}</td>
+        <tr key={item.ID}>
           <td>
-            <i
-              className="fas fa-edit skill-edit-btn"
-              onClick={e => {
-                setSkillIndex(skill.ID);
-                setUpdateSkillModalShow(true);
-              }}
-            ></i>
-            {'  '}
-            <i
-              className="far fa-trash-alt skill-delete-btn"
-              onClick={e => {
-                deleteSkill(skill.ID);
-              }}
-            ></i>
+            <button
+              type="button"
+              className="btn request-title"
+              onClick={() =>
+                setModalEdit({
+                  data: {
+                    ...item.CHITIET,
+                    ID: item.ID,
+                    GIASU: item.GIASU,
+                    HOCSINH: item.HOCSINH,
+                    TRANGTHAIHD: item.TRANGTHAI
+                  },
+                  show: true
+                })
+              }
+            >
+              {item.CHITIET.TIEUDE}
+            </button>
+          </td>
+          <td>
+            {item.GIASU.HO} {item.GIASU.TEN}
+          </td>
+          <td>
+            {item.HOCSINH.HO} {item.HOCSINH.TEN}
+          </td>
+          <td>{moment(item.NGAYBD).format('DD/MM/YYYY')}</td>
+          <td>{moment(item.NGAYKT).format('DD/MM/YYYY')}</td>
+          <td>
+            {item.TRANGTHAI === 0
+              ? 'Đã lập'
+              : item.TRANGTHAI === 1
+              ? 'Đã hoàn thành chưa thanh toán'
+              : 'Đã thanh toán'}
           </td>
         </tr>
       );
     });
   } else {
     if (!isFetching && !isFetched) {
-      getSkill(0);
+      getList(0);
     }
   }
 
@@ -68,7 +76,7 @@ const Contract = ({
           active={number === active}
           onClick={e => {
             if (number === active) return;
-            getSkill(number - 1);
+            getList(number - 1);
           }}
         >
           {number}
@@ -76,20 +84,6 @@ const Contract = ({
       );
     }
   }
-
-  const onSubmit = e => {
-    //console.log(e);
-    if (newSkillText === '') return;
-    newSkill(newSkillText);
-    setNewSkillModalShow(false);
-  };
-
-  const onSubmitUpdate = e => {
-    //console.log(e);
-    if (updateSkillText === '') return;
-    updateSkill(updateSkillText, skillIndex);
-    setUpdateSkillModalShow(false);
-  };
 
   return (
     <div className="container">
@@ -99,10 +93,10 @@ const Contract = ({
             <Link to="/userlist" className="list-group-item">
               Danh sách tài khoản
             </Link>
-            <Link to="/skill" className="list-group-item active">
+            <Link to="/skill" className="list-group-item">
               Quản lý tag kỹ năng
             </Link>
-            <Link to="/contract" className="list-group-item">
+            <Link to="/contract" className="list-group-item active">
               Quản lý hợp đồng
             </Link>
             <Link to="/complain" className="list-group-item">
@@ -123,108 +117,28 @@ const Contract = ({
               <Table striped bordered hover size="sm" responsive>
                 <thead>
                   <tr>
-                    <th>#</th>
-                    <th>Tên kỹ năng</th>
-                    <th>
-                      <Button
-                        variant="link"
-                        onClick={() => setNewSkillModalShow(true)}
-                      >
-                        Thêm mới
-                      </Button>
-                    </th>
+                    <th>Tiêu đề</th>
+                    <th>Người dạy</th>
+                    <th>Người học</th>
+                    <th>Ngày bắt đầu</th>
+                    <th>Ngày kết thúc</th>
+                    <th>Trạng thái</th>
                   </tr>
                 </thead>
-                <tbody>{list}</tbody>
+                <tbody>{List}</tbody>
               </Table>
-              <Modal
-                show={updateSkillModalShow}
-                onHide={() => setUpdateSkillModalShow(false)}
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title id="contained-modal-title-vcenter">
-                    Chỉnh sửa kỹ năng
-                  </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Form
-                    onSubmit={handleSubmit(onSubmitUpdate)}
-                    id="update-form"
-                  >
-                    <Form.Group controlId="exampleForm.ControlInput1">
-                      <Form.Label>Kỹ năng</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Kỹ năng"
-                        name="skill-input"
-                        onChange={e => setUpdateSkillText(e.target.value)}
-                        ref={register({
-                          required: 'Vui lòng nhập kỹ năng !'
-                        })}
-                      />
-                    </Form.Group>
-                  </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button
-                    variant="secondary"
-                    onClick={() => setUpdateSkillModalShow(false)}
-                  >
-                    Close
-                  </Button>
-                  <Button variant="primary" type="submit" form="update-form">
-                    Xác nhận
-                  </Button>
-                </Modal.Footer>
-              </Modal>
             </div>
           )}
-          <Modal
-            show={newSkillModalShow}
-            onHide={() => setNewSkillModalShow(false)}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-          >
-            <Modal.Header closeButton>
-              <Modal.Title id="contained-modal-title-vcenter">
-                Thêm kỹ năng mới
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form onSubmit={handleSubmit(onSubmit)} id="new-skill-form">
-                <Form.Group controlId="exampleForm.ControlInput1">
-                  <Form.Label>Kỹ năng</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Kỹ năng"
-                    name="skill-input"
-                    onChange={e => setNewSkillText(e.target.value)}
-                    ref={register({
-                      required: 'Vui lòng nhập kỹ năng !'
-                    })}
-                  />
-                </Form.Group>
-              </Form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button
-                variant="secondary"
-                onClick={() => setNewSkillModalShow(false)}
-              >
-                Close
-              </Button>
-              <Button variant="primary" type="submit" form="new-skill-form">
-                Xác nhận
-              </Button>
-            </Modal.Footer>
-          </Modal>
           <div className="userlist-pagination">
             <Pagination>{paginationList}</Pagination>
           </div>
+          {modalEdit.data && (
+            <ContractModal
+              contract={modalEdit.data}
+              show={modalEdit.show}
+              onHide={() => setModalEdit({ ...modalEdit, show: false })}
+            />
+          )}
         </div>
       </div>
     </div>

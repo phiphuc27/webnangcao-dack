@@ -165,6 +165,6 @@ INSERT INTO `uberfortutordb`.`kynang_nguoidung` (`IDKN`,`IDND`) VALUES
 ('1','4'),('2','4'),('3','4'),('1','2'),('6','2'),('7','3'),('5','3');
 
 INSERT INTO `uberfortutordb`.`danhgia` (`IDND`,`IDNH`,`DANHGIA`,`NOIDUNG`) VALUES
-('2','8','4','tốt'),
+('2','5','4','tốt'),
 ('2','6','5','tốt'),
 ('2','7','2','dở');

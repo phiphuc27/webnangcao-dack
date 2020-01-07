@@ -543,7 +543,7 @@ ul {
 
 /* end of profile */
 
-/* user list*/
+/* user list */
 .status-edit-icon {
   cursor: pointer;
 }
@@ -560,3 +560,16 @@ ul {
   background: white;
   margin-bottom: 20px;
 }
+
+/* end user list */
+
+/* contract */
+
+.request-title {
+  padding: 0 !important;
+}
+
+.request-title:hover {
+  text-decoration: underline;
+}
+/* end contract */
