@@ -1,9 +1,11 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Form, Spinner, Button } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import useForm from 'react-hook-form';
+import NumberFormat from 'react-number-format';
 import {
+  Breadcrumbs,
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
@@ -14,19 +16,16 @@ import { ExpandMore } from '@material-ui/icons';
 const Profile = ({
   isFetching,
   user,
+  error,
   match,
   getProfile,
   skill,
   addNewSkill,
-  updateSkill,
   deleteSkill
 }) => {
   const [newSkillModalShow, setNewSkillModalShow] = React.useState(false);
-  const [updateSkillModalShow, setUpdateSkillModalShow] = React.useState(false);
   const [expanded, setExpanded] = React.useState(match.params.tabindex);
   const [newSkillText, setNewSkillText] = React.useState('');
-  const [updateSkillText, setUpdateSkillText] = React.useState('');
-  const [skillIndex, setSkillIndex] = React.useState(null);
 
   const { register, handleSubmit } = useForm();
 
@@ -49,17 +48,9 @@ const Profile = ({
           {value.KYNANG}
           {'  '}
           <i
-            className="fas fa-edit skill-edit-btn"
-            onClick={e => {
-              setSkillIndex(value.ID);
-              setUpdateSkillModalShow(true);
-            }}
-          ></i>
-          {'  '}
-          <i
             className="far fa-trash-alt skill-delete-btn"
             onClick={e => {
-              deleteSkill(value.ID);
+              deleteSkill(value.ID, user.ID);
             }}
           ></i>
         </li>
@@ -78,15 +69,15 @@ const Profile = ({
     setNewSkillModalShow(false);
   };
 
-  const onSubmitUpdate = e => {
-    //console.log(e);
-    if (updateSkillText === '') return;
-    updateSkill(updateSkillText, skillIndex);
-    setUpdateSkillModalShow(false);
-  };
-
   return (
     <div className="container">
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link to="/">Trang chủ</Link>
+        <Link to="/userlist">Danh sách tài khoản</Link>
+        <Typography color="textPrimary">
+          {user ? user.EMAIL : 'Tài khoản'}
+        </Typography>
+      </Breadcrumbs>
       <div className="profile">
         <div className="profile-sidebar">
           <div className="sidebar-container">
@@ -162,6 +153,15 @@ const Profile = ({
               <hr />
               <div className="row">
                 <div className="col-lg-3 col-sm-6">
+                  <h5>Điện thoại</h5>
+                </div>
+                <div className="col-lg-9 col-sm-6">
+                  <p>{user ? user.DIENTHOAI : null}</p>
+                </div>
+              </div>
+              <hr />
+              <div className="row">
+                <div className="col-lg-3 col-sm-6">
                   <h5>Địa chỉ</h5>
                 </div>
                 <div className="col-lg-9 col-sm-6">
@@ -169,6 +169,37 @@ const Profile = ({
                 </div>
               </div>
               <hr />
+              <div className="row">
+                <div className="col-lg-3 col-sm-6">
+                  <h5>Thành Phố</h5>
+                </div>
+                <div className="col-lg-9 col-sm-6">
+                  <p>{user ? user.THANHPHO : null}</p>
+                </div>
+              </div>
+              <hr />
+              {user ? (
+                user.LOAI === 2 ? (
+                  <>
+                    <div className="row">
+                      <div className="col-lg-3 col-sm-6">
+                        <h5>Giá theo giờ</h5>
+                      </div>
+                      <div className="col-lg-9 col-sm-6">
+                        <p style={{ color: 'red', fontWeight: '600' }}>
+                          <NumberFormat
+                            value={user.GIA}
+                            displayType="text"
+                            thousandSeparator
+                            suffix="₫"
+                          />
+                        </p>
+                      </div>
+                    </div>
+                    <hr />
+                  </>
+                ) : null
+              ) : null}
             </div>
           </div>
           {user
@@ -277,55 +308,6 @@ const Profile = ({
                                 style={{ marginRight: '10px' }}
                               />
                             )}
-                            <Modal
-                              show={updateSkillModalShow}
-                              onHide={() => setUpdateSkillModalShow(false)}
-                              size="lg"
-                              aria-labelledby="contained-modal-title-vcenter"
-                              centered
-                            >
-                              <Modal.Header closeButton>
-                                <Modal.Title id="contained-modal-title-vcenter">
-                                  Chỉnh sửa kỹ năng
-                                </Modal.Title>
-                              </Modal.Header>
-                              <Modal.Body>
-                                <Form
-                                  onSubmit={handleSubmit(onSubmitUpdate)}
-                                  id="update-form"
-                                >
-                                  <Form.Group controlId="exampleForm.ControlInput1">
-                                    <Form.Label>Kỹ năng</Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      placeholder="Kỹ năng"
-                                      name="skill-input"
-                                      onChange={e =>
-                                        setUpdateSkillText(e.target.value)
-                                      }
-                                      ref={register({
-                                        required: 'Vui lòng nhập kỹ năng !'
-                                      })}
-                                    />
-                                  </Form.Group>
-                                </Form>
-                              </Modal.Body>
-                              <Modal.Footer>
-                                <Button
-                                  variant="secondary"
-                                  onClick={() => setUpdateSkillModalShow(false)}
-                                >
-                                  Close
-                                </Button>
-                                <Button
-                                  variant="primary"
-                                  type="submit"
-                                  form="update-form"
-                                >
-                                  Xác nhận
-                                </Button>
-                              </Modal.Footer>
-                            </Modal>
                           </ul>
                         </div>
                       </div>

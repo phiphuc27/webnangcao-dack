@@ -2,13 +2,13 @@ const InitialState = {
   fetching: false,
   fetched: false,
   error: '',
-  userList: null,
+  list: null,
   pagination: null
 };
 
 const UserList = (state = InitialState, action) => {
   switch (action.type) {
-    case 'GET_LIST_START': {
+    case 'GET_CONTRACT_START': {
       return {
         ...state,
         fetching: true,
@@ -16,32 +16,17 @@ const UserList = (state = InitialState, action) => {
         error: ''
       };
     }
-    case 'GET_LIST_SUCCESS': {
+    case 'GET_CONTRACT_SUCCESS': {
       return {
         ...state,
         fetching: false,
         fetched: true,
-        userList: action.value.list,
+        list: action.value.list,
         pagination: action.value.pagination
       };
     }
-    case 'CHANGE_STATUS_SUCCESS': {
-      return {
-        ...state,
-        userList: state.userList
-          ? state.userList.map(user =>
-              user.ID === action.id
-                ? { ...user, TRANGTHAI: action.status }
-                : user
-            )
-          : state.userList
-      };
-    }
-    case 'GET_LIST_ERROR': {
+    case 'GET_CONTRACT_ERROR': {
       return { ...state, fetching: false, fetched: false, error: action.error };
-    }
-    case 'CHANGE_STATUS_ERROR': {
-      return { ...state, error: action.error };
     }
     default:
       return state;

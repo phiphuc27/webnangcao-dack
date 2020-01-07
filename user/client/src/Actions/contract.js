@@ -179,7 +179,7 @@ export const finishContract = data => {
   };
 };
 
-/** Chua viet
+/**
  * data= {
  *  IDND,
  *  IDNH,
@@ -207,7 +207,7 @@ export const sendReview = data => {
   };
 };
 
-/** Chua viet
+/**
  * data= {
  *  IDND,
  *  IDNH,

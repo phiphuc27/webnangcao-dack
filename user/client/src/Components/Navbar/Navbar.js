@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Spinner, Dropdown } from 'react-bootstrap';
 import { HomeRounded } from '@material-ui/icons';
 import { GoSearch, GoBell } from 'react-icons/go';
+
 import {
   getTutorRequest,
   getTutorContract,
   getStudentRequest,
   getStudentContract
 } from '../../Actions/contract';
-
-import { updateType } from '../../Actions/user';
+import { getChatNotification, updateType } from '../../Actions/user';
+import { openChat, getChatHistory } from '../../Actions/tutor';
 
 const Navbar = ({ user, logout, history }) => {
   const dispatch = useDispatch();
   const { all, sent } = useSelector(state => state.contract.request);
   const { onGoing } = useSelector(state => state.contract.contract);
+  const { notification } = useSelector(state => state.chat);
+  let listChatNoti = [];
 
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState('');
@@ -40,6 +43,29 @@ const Navbar = ({ user, logout, history }) => {
     }
     window.location = `/tutors?search=${search}`;
   };
+
+  if (notification.fetched) {
+    listChatNoti = notification.list.map((item, index) => {
+      return (
+        <Dropdown.Item
+          key={item.ID}
+          onClick={() => {
+            if (user) {
+              dispatch(openChat());
+              dispatch(getChatHistory(user.ID, item.ID));
+            } else {
+              history.push('/login');
+            }
+          }}
+        >
+          <div className="noti-item">
+            <img src={item.AVATARURL} alt="" />
+            <span>{`${item.HO} ${item.TEN}`}</span>
+          </div>
+        </Dropdown.Item>
+      );
+    });
+  }
 
   const handleLogout = e => {
     e.preventDefault();
@@ -87,6 +113,34 @@ const Navbar = ({ user, logout, history }) => {
 
         {user ? (
           <>
+            <div className="nav-chat-noti">
+              <Dropdown>
+                <div
+                  role="presentation"
+                  onClick={() => {
+                    if (!notification.fetching) {
+                      dispatch(getChatNotification());
+                    }
+                  }}
+                >
+                  <Dropdown.Toggle
+                    variant="success"
+                    id="dropdown-chat-noti"
+                    className="btn-chat-noti"
+                  >
+                    <i className="fas fa-comment" />
+                  </Dropdown.Toggle>
+                </div>
+                <Dropdown.Menu className="noti-list">
+                  {notification.fetching && <Spinner variant="dark" animation="border" />}
+                  {notification.fetched && listChatNoti.length > 0 ? (
+                    listChatNoti
+                  ) : (
+                    <Dropdown.Item href="#/action-1">Không có tin nhắn</Dropdown.Item>
+                  )}
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
             <div className="nav-note">
               {user.LOAI === 2 ? (
                 <>

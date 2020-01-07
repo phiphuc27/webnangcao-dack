@@ -12,6 +12,14 @@ const Tutor = {
   getReviewByTutorID(id) {
     const sql = `select u.*, i.HO, i.TEN, i.AVATARURL from danhgia u join thongtin i on u.IDNH = i.ID where u.IDND='${id}'`;
     return db.load(sql);
+  },
+  insertReview(review) {
+    const sql = `insert into danhgia set ? `;
+    return db.save(sql, review);
+  },
+  insertRefund(refund) {
+    const sql = `insert into khieunai set ? `;
+    return db.save(sql, refund);
   }
 };
 

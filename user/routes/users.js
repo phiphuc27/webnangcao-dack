@@ -9,6 +9,8 @@ const UsersModel = require('../models/Users');
 const SkillModel = require('../models/Skill');
 const RegisterTutorModel = require('../models/RegisterTutor');
 const ContractModel = require('../models/Contract');
+const ChatModel = require('../models/Chat');
+const TutorModel = require('../models/Tutor');
 // const db = require('../db');
 
 router.get('/', (req, res) => {
@@ -258,5 +260,72 @@ router.post('/contract/update', async (req, res) => {
 });
 
 // end contract for register
+
+// chat
+
+// get chat history
+router.post('/chat/get', async (req, res) => {
+  const receive = await UsersModel.getUserInfoById(req.body.id);
+  ChatModel.getById(req.user.ID, req.body.id)
+    .then(result => {
+      const value = {
+        receiver: receive[0],
+        history: result
+      };
+      res.status(200).send(value);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// get recently chat with
+router.get('/chat/getRecently', async (req, res) => {
+  ChatModel.getRecently(req.user.ID)
+    .then(async result => {
+      const data = await Promise.all(
+        result.map(async item => {
+          const user = await UsersModel.getUserInfoById(item.IDG);
+          return user[0];
+        })
+      );
+      res.status(200).send(data.reverse());
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// end chat
+
+// review
+
+// send review
+router.post('/review/send', async (req, res) => {
+  await TutorModel.insertReview(req.body)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// end review
+
+// refund
+
+// send refund
+router.post('/refund/send', async (req, res) => {
+  await TutorModel.insertReview(req.body)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
+// end refund
 
 module.exports = router;

@@ -2,11 +2,17 @@ import { combineReducers } from 'redux';
 import user from './user';
 import userList from './userList';
 import profile from './profile';
+import skill from './Skill';
+import contract from './contract';
+import complain from './complain';
 
 const allReducer = combineReducers({
   user,
   userList,
-  profile
+  profile,
+  skill,
+  contract,
+  complain
 });
 
 const rootReducer = (state, action) => {

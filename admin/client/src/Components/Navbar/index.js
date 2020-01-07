@@ -11,7 +11,7 @@ const index = ({ user, logout, history, loggedIn }) => {
     history.push('/');
   };
   return (
-    <nav>
+    <nav className="nav-header">
       <div className="container navbar">
         <div className="nav-logo">
           <Link to="/">
@@ -49,7 +49,7 @@ const index = ({ user, logout, history, loggedIn }) => {
 
         {user ? (
           <div className="nav-user">
-            <p>{user.EMAIL}</p>
+            <span>{user.EMAIL}</span>
             <button
               type="button"
               className="btn btn-primary"

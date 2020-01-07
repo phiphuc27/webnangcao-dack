@@ -6,13 +6,14 @@ import { Breadcrumbs, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import Ratings from 'react-ratings-declarative';
-import { getTutorById } from '../../Actions/tutor';
+import { getTutorById, openChat, getChatHistory } from '../../Actions/tutor';
 import Pagination from '../Other/Pagination';
 
 const SingleTutor = ({ match }) => {
   const user = useSelector(state => state.user.user);
   const tutor = useSelector(state => state.tutor.tutor);
   const fetching = useSelector(state => state.tutor.fetching);
+  const loggedIn = useSelector(state => state.user.loggedIn);
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = match.params;
@@ -92,19 +93,35 @@ const SingleTutor = ({ match }) => {
                   <img src={AVATARURL} alt="hình đại diện" />
                 </div>
               </div>
-              <div style={{ marginBlockStart: '1em' }}>
-                {((user && user.LOAI !== 2) || !user) && (
+              {((user && user.LOAI !== 2) || !user) && (
+                <div style={{ marginBlockStart: '1em' }}>
                   <Button
                     block
                     size="lg"
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-primary tutor-btn-chat"
                     onClick={() => history.push(`/request?id=${ID}`)}
                   >
                     Mời dạy
                   </Button>
-                )}
-              </div>
+                  <Button
+                    block
+                    size="lg"
+                    type="button"
+                    className="btn btn-primary tutor-btn-chat"
+                    onClick={e => {
+                      if (!loggedIn) {
+                        history.push('/login');
+                        return;
+                      }
+                      dispatch(openChat());
+                      dispatch(getChatHistory(user.ID, ID));
+                    }}
+                  >
+                    Chat
+                  </Button>
+                </div>
+              )}
             </div>
             <div className="profile-info">
               <div className="info-container">
@@ -154,8 +171,8 @@ const SingleTutor = ({ match }) => {
                       <p>{THANHPHO}</p>
                     </div>
                   </div>
-                    <hr />
-                    <div className="row">
+                  <hr />
+                  <div className="row">
                     <div className="col-lg-3 col-sm-6">
                       <h5>Liên hệ</h5>
                     </div>

@@ -5,8 +5,16 @@ var Users = {
     var sql = `Select * from taikhoan`;
     return db.load(sql);
   },
+  countUsersOnly: function() {
+    var sql = `Select count(*) as numRows from taikhoan where LOAI=2 or LOAI=3`;
+    return db.load(sql);
+  },
   getUsersOnly: function() {
     var sql = `Select * from taikhoan where LOAI=2 or LOAI=3`;
+    return db.load(sql);
+  },
+  getUsersOnlyPagination: function(limit) {
+    var sql = `Select * from taikhoan where LOAI=2 or LOAI=3 ORDER BY ID ASC LIMIT ${limit}`;
     return db.load(sql);
   },
   getUserById: function(id) {
@@ -27,6 +35,10 @@ var Users = {
   },
   updatePassword: function(id, password) {
     var sql = `update taikhoan set MATKHAU='${password}' where ID='${id}'`;
+    return db.save(sql);
+  },
+  updateStatus(id, status) {
+    const sql = `update taikhoan set TRANGTHAI='${status}' where ID='${id}'`;
     return db.save(sql);
   },
   isExist: function(email, password) {

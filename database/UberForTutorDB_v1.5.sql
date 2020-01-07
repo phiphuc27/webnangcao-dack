@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`taikhoan` (
   `EMAIL` VARCHAR(45) NULL,
   `MATKHAU` VARCHAR(100) NULL,
   `LOAI` INT(2) NOT NULL,-- 0 - admin root; 1 - admin; 2 - tutor; 3 - student
+  `TRANGTHAI` INT(2) NULL,-- 0 - binh thuong; 1 - khoa; 2 - chua xac nhan email
   PRIMARY KEY (`ID`),
   UNIQUE INDEX `EMAIL_UNIQUE` (`EMAIL` ASC))
   
@@ -88,6 +89,19 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`hopdonghoc` (
         REFERENCES `dangkyhoc` (`ID`)
 )  ENGINE=INNODB;
 
+CREATE TABLE IF NOT EXISTS `uberfortutordb`.`chat` (
+    `ID` INT(11) NOT NULL AUTO_INCREMENT,
+    `IDG` INT(11) NOT NULL, -- id nguoi gui
+    `IDN` INT(11) NOT NULL, -- id nguoi nhan
+    `NGAYGUI` DATETIME NULL, -- ngay nhan tin nhan
+    `NOIDUNG` text NOT NULL,-- noi dung danh gia
+    PRIMARY KEY (`ID`),
+    FOREIGN KEY (`IDG`)
+        REFERENCES `taikhoan` (`ID`),
+	FOREIGN KEY (`IDN`)
+        REFERENCES `taikhoan` (`ID`)
+)  ENGINE=INNODB;
+
 CREATE TABLE IF NOT EXISTS `uberfortutordb`.`danhgia` (
   `ID` INT(11) NOT NULL AUTO_INCREMENT,
   `IDND` INT(11) NOT NULL,-- id nguoi day
@@ -151,6 +165,6 @@ INSERT INTO `uberfortutordb`.`kynang_nguoidung` (`IDKN`,`IDND`) VALUES
 ('1','4'),('2','4'),('3','4'),('1','2'),('6','2'),('7','3'),('5','3');
 
 INSERT INTO `uberfortutordb`.`danhgia` (`IDND`,`IDNH`,`DANHGIA`,`NOIDUNG`) VALUES
-('2','8','4','tốt'),
+('2','5','4','tốt'),
 ('2','6','5','tốt'),
 ('2','7','2','dở');

@@ -63,7 +63,7 @@ ul {
 }
 
 /* Navbar */
-nav {
+.nav-header {
   background: var(--main-bg-color);
   color: var(--main-text-color);
   margin-block-end: 3em;
@@ -542,3 +542,34 @@ nav {
 }
 
 /* end of profile */
+
+/* user list */
+.status-edit-icon {
+  cursor: pointer;
+}
+
+.status-edit-icon:hover {
+  color: #ea4c89;
+}
+
+.userlist-pagination {
+  text-align: right;
+}
+
+.userlist-table {
+  background: white;
+  margin-bottom: 20px;
+}
+
+/* end user list */
+
+/* contract */
+
+.request-title {
+  padding: 0 !important;
+}
+
+.request-title:hover {
+  text-decoration: underline;
+}
+/* end contract */
