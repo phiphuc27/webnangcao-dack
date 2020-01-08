@@ -19,17 +19,15 @@ const useStyles = makeStyles({
   }
 });
 
-const Register = ({ isFetching, isFetched, signup, error }) => {
+const Register = ({ isFetching, isFetched, signup, error, confirmEmail }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userType, setUserType] = useState('3');
-
   const { register, handleSubmit, errors } = useForm();
 
   const classes = useStyles();
 
-  const onSubmit = e => {
-    console.log(e);
+  const onSubmit = () => {
     const data = { email, password, type: userType };
     signup(data);
   };
@@ -38,7 +36,10 @@ const Register = ({ isFetching, isFetched, signup, error }) => {
     <div className="container form-account">
       {isFetched ? (
         <>
-          <h2>Đăng kí tài khoản thành công</h2>
+          <h2>Đăng kí tài khoản thành công.</h2>
+          <p>
+            Một email xác nhận đã được gửi đến <b>{confirmEmail}</b>
+          </p>
           <a href="/">Quay về trang chủ</a>
         </>
       ) : (

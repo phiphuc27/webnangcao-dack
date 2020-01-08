@@ -17,6 +17,7 @@ import Footer from './Components/Other/Footer';
 import Tutors from './Components/Pages/Tutors';
 import SingleTutor from './Components/Pages/SingleTutor';
 import StudyRequest from './Components/Pages/StudyRequest';
+import ForgotPassword from './Components/Pages/ForgotPassword';
 
 import { logout } from './Actions/user';
 
@@ -61,6 +62,7 @@ const App = ({ isLoading, loggedIn, user, logOut, history, isOpenChat }) => {
             <Route exact path="/tutors/:id" component={SingleTutor} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/reset-password" component={ForgotPassword} />
             <PrivateRoute exact path="/profile/:tab" component={Profile} />
             <PrivateRoute exact path="/request" component={StudyRequest} />
             <Route component={Error} />

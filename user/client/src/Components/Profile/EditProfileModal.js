@@ -146,23 +146,25 @@ const EditProfile = ({ show, onHide, user, onProfileChange }) => {
             </Col>
           </Form.Group>
 
-          <Form.Group as={Row} controlId="formBasicEmail">
-            <Form.Label column sm={3}>
-              Điện thoại <span style={{ color: 'red' }}>*</span>
-            </Form.Label>
-            <Col sm={9}>
-              <Form.Control
-                className={errors.phone && classes.errorInput}
-                type="text"
-                name="phone"
-                placeholder="Điện thoại"
-                defaultValue={input.phone}
-                onChange={e => setInput({ ...input, [e.target.name]: e.target.value })}
-                ref={register({ required: 'Bắt buộc!' })}
-              />
-              {errors.phone && <p className={classes.errorText}>{errors.phone.message}</p>}
-            </Col>
-          </Form.Group>
+          {user.LOAI === 2 && (
+            <Form.Group as={Row} controlId="formBasicEmail">
+              <Form.Label column sm={3}>
+                Điện thoại <span style={{ color: 'red' }}>*</span>
+              </Form.Label>
+              <Col sm={9}>
+                <Form.Control
+                  className={errors.phone && classes.errorInput}
+                  type="text"
+                  name="phone"
+                  placeholder="Điện thoại"
+                  defaultValue={input.phone}
+                  onChange={e => setInput({ ...input, [e.target.name]: e.target.value })}
+                  ref={register({ required: 'Bắt buộc!' })}
+                />
+                {errors.phone && <p className={classes.errorText}>{errors.phone.message}</p>}
+              </Col>
+            </Form.Group>
+          )}
 
           <Form.Group as={Row} controlId="formBasicEmail">
             <Form.Label column sm={3}>

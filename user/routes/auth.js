@@ -68,7 +68,7 @@ router.post('/register', async (req, res) => {
       if (error) {
         return console.log(error);
       }
-      console.log('Message %s sent: %s', info.messageId, info.response);
+      return console.log('Message %s sent: %s', info.messageId, info.response);
     });
 
     return res.json({ userId: savedUser.insertId });
@@ -78,10 +78,53 @@ router.post('/register', async (req, res) => {
   }
 });
 
+router.post('/forgot', async (req, res) => {
+  const user = await UsersModel.findByEmail(req.body.email);
+  if (user.length <= 0) {
+    return res.status(400).send({ message: 'Không tìm thấy tài khoản' });
+  }
+
+  if (user[0].TRANGTHAI === 2) {
+    console.log(user[0]);
+    return res.status(400).send({ message: 'Tài khoản chưa được xác nhận' });
+  }
+  try {
+    const token = utils.generateToken(user[0].ID);
+    // send email to verify
+    const transporter = nodeMailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_SENDER,
+        pass: process.env.PASS_SENDER
+      }
+    });
+
+    // hash id
+    const mailOptions = {
+      from: '"Đỗ Hồng Phúc" <dohongphuc1997@gmail.com>', // sender address
+      to: req.body.email, // list of receivers
+      subject: 'Lấy lại mật khẩu <Uber For Tutor>', // Subject line
+      text: 'Vui lòng nhấn link bên dưới để thay đổi mật khẩu.', // plain text body
+      html: `<p>Vui lòng nhấn link bên dưới để thay đổi mật khẩu.</p>
+    <a href="${process.env.USER_CLIENT_HOST}/reset-password?token=${token}">Đổi mật khẩu</a>` // html body
+    };
+    return transporter.sendMail(mailOptions, error => {
+      if (error) {
+        return res.status(400).send(error);
+      }
+      return res.json({ result: 'success' });
+    });
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+});
+
 // verify email
 router.get('/verify', async (req, res) => {
   // get user from id
-  const id = parseInt(req.query.id);
+  const id = parseInt(req.query.id, 10);
   const user = await UsersModel.getUserById(id);
 
   if (user.length <= 0) {
@@ -93,15 +136,32 @@ router.get('/verify', async (req, res) => {
     return res.status(400).send('Email đã xác nhận');
   }
   // checking password
-  if (user[0].MATKHAU === req.query.hash) {
-    // set status to 0
-    await UsersModel.updateStatus(id, 0).then(result => {
-      return res.render('verifySuccess', { title: 'Uber For Tutor' });
-    });
-  } else {
+  if (user[0].MATKHAU !== req.query.hash) {
     return res.status(400).send('Sai hash');
   }
+  // set status to 0
+  return UsersModel.updateStatus(id, 0).then(() => {
+    return res.render('verifySuccess', { title: 'Uber For Tutor' });
+  });
 });
+
+router.post(
+  '/reset-password',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.newPassword, salt);
+    try {
+      const result = await UsersModel.updatePassword(
+        req.user.ID,
+        hashedPassword
+      );
+      return res.status(200).send(result);
+    } catch (err) {
+      return res.status(500).send(err);
+    }
+  }
+);
 
 /* POST login user */
 router.post('/login', async (req, res) => {
@@ -117,25 +177,25 @@ router.post('/login', async (req, res) => {
     }
     // if not verify of lock send error
     if (user.TRANGTHAI === 2) {
-      return res.send({
+      return res.status(400).send({
         message: 'Tài khoản chưa xác nhận email'
       });
     }
     if (user.TRANGTHAI === 1) {
-      return res.send({
+      return res.status(400).send({
         message: 'Tài khoản đã bị khóa'
       });
     }
     // lock admin login
     if (user.LOAI === 0 || user.LOAI === 1) {
-      return res.send({
+      return res.status(400).send({
         message: 'Không thể đăng nhập admin'
       });
     }
 
     return req.login(user, { session: false }, error => {
       if (err) {
-        return res.send(error);
+        return res.status(400).send(error);
       }
       // generate a signed son web token with the contents of user object and return it in the response
       const token = utils.generateToken(user.ID);
@@ -176,7 +236,8 @@ router.post('/google', async (req, res) => {
     // create new user
     const user = {
       EMAIL: req.body.email,
-      LOAI: req.body.type
+      LOAI: req.body.type,
+      TRANGTHAI: 0
     };
     try {
       const savedUser = await UsersModel.insert(user);
@@ -226,7 +287,8 @@ router.post('/facebook', async (req, res) => {
     // create new user
     const user = {
       EMAIL: req.body.email,
-      LOAI: req.body.type
+      LOAI: req.body.type,
+      TRANGTHAI: 0
     };
     try {
       const savedUser = await UsersModel.insert(user);

@@ -5,7 +5,8 @@ import { register } from '../Actions/user';
 const mapStateToProps = state => ({
   isFetching: state.user.fetching,
   isFetched: state.user.fetched,
-  error: state.user.error
+  error: state.user.error,
+  confirmEmail: state.user.confirmEmail
 });
 const mapDispatchToProps = dispatch => ({
   signup: data => dispatch(register(data))

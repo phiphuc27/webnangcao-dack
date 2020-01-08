@@ -1,7 +1,6 @@
 const express = require('express');
 
 const router = express.Router();
-const passport = require('passport');
 
 const bcrypt = require('bcryptjs');
 
@@ -33,7 +32,6 @@ router.post('/profile', (req, res) => {
 });
 
 router.post('/profile/changePassword', async (req, res) => {
-  console.log(req.body);
   const checkPassword = await bcrypt.compare(
     req.body.oldPassword,
     req.user.MATKHAU
