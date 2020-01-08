@@ -28,6 +28,10 @@ const contract = {
   update(id, value) {
     const sql = `update khieunai set ? where ID='${id}'`;
     return db.save(sql, value);
+  },
+  updateStatus(id, status) {
+    const sql = `update khieunai set TRANGTHAI='${status}' where ID='${id}'`;
+    return db.save(sql);
   }
 };
 module.exports = contract;

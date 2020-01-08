@@ -331,7 +331,8 @@ router.post('/review/send', async (req, res) => {
 
 // send refund
 router.post('/refund/send', async (req, res) => {
-  await TutorModel.insertReview(req.body)
+  const data = { ...req.body, TRANGTHAI: 0 };
+  await TutorModel.insertReview(data)
     .then(result => {
       res.status(200).send(result);
     })

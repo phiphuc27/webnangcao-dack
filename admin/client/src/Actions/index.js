@@ -607,6 +607,36 @@ export const getComplainList = page => {
   };
 };
 
+export const errorEditComplain = error => ({
+  type: 'EDIT_COMPLAIN_ERROR',
+  error
+});
+
+export const updateComplainStatus = (id, status) => {
+  return async dispatch => {
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'post',
+      url: '/users/complain/updateStatus',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { id, status }
+    })
+      .then(response => {
+        dispatch({
+          type: 'UPDATE_COMPLAIN_SUCCESS',
+          id,
+          status
+        });
+      })
+      .catch(err => {
+        dispatch(errorEditComplain(err.response.data));
+      });
+  };
+};
+
 /* End complain */
 
 /* revenue */
@@ -650,7 +680,7 @@ export const getRevenue = id => {
 
 /* End contract */
 
-/* top contract */
+/* top revenue */
 
 export const startGetTopRevenue = {
   type: 'GET_TOP_REVENUE_START'
@@ -689,4 +719,4 @@ export const getTopRevenue = (type, by) => {
   };
 };
 
-/* end top contract */
+/* end top revenue */

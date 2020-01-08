@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spinner, Pagination, Table } from 'react-bootstrap';
+import { Spinner, Pagination, Table, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 // import moment from 'moment';
 // import 'moment/locale/en-gb';
@@ -7,7 +7,14 @@ import { Link } from 'react-router-dom';
 
 // import useForm from 'react-hook-form';
 
-const Complain = ({ isFetching, isFetched, list, pagination, getList }) => {
+const Complain = ({
+  isFetching,
+  isFetched,
+  list,
+  pagination,
+  getList,
+  changeStatus
+}) => {
   var List = null;
   if (list !== null && list !== undefined) {
     // console.log(userList);
@@ -22,6 +29,18 @@ const Complain = ({ isFetching, isFetched, list, pagination, getList }) => {
             {item.HOCSINH.HO} {item.HOCSINH.TEN}
           </td>
           <td>{item.NOIDUNG}</td>
+          <td>
+            <Form.Control
+              as="select"
+              value={item.TRANGTHAI}
+              onChange={e => {
+                changeStatus(item.ID, e.target.value);
+              }}
+            >
+              <option value={0}>Chưa xử lý</option>
+              <option value={1}>Đã xử lý</option>
+            </Form.Control>
+          </td>
         </tr>
       );
     });
@@ -90,6 +109,7 @@ const Complain = ({ isFetching, isFetched, list, pagination, getList }) => {
                     <th>Người dạy</th>
                     <th>Người học</th>
                     <th>Nội dung</th>
+                    <th>Trạng thái</th>
                   </tr>
                 </thead>
                 <tbody>{List}</tbody>

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Complain from '../Components/Pages/Complain';
-import { getComplainList } from '../Actions';
+import { getComplainList, updateComplainStatus } from '../Actions';
 
 const mapStateToProps = state => ({
   isFetching: state.complain.fetching,
@@ -10,6 +10,7 @@ const mapStateToProps = state => ({
   pagination: state.complain.pagination
 });
 const mapDispatchToProps = dispatch => ({
-  getList: page => dispatch(getComplainList(page))
+  getList: page => dispatch(getComplainList(page)),
+  changeStatus: (id, status) => dispatch(updateComplainStatus(id, status))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Complain);

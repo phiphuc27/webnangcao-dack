@@ -25,8 +25,23 @@ const UserList = (state = InitialState, action) => {
         pagination: action.value.pagination
       };
     }
+    case 'UPDATE_COMPLAIN_SUCCESS': {
+      return {
+        ...state,
+        list: state.list
+          ? state.list.map(item =>
+              item.ID === action.id
+                ? { ...item, TRANGTHAI: action.status }
+                : item
+            )
+          : state.list
+      };
+    }
     case 'GET_COMPLAIN_ERROR': {
       return { ...state, fetching: false, fetched: false, error: action.error };
+    }
+    case 'EDIT_COMPLAIN_ERROR': {
+      return { ...state, error: action.error };
     }
     default:
       return state;

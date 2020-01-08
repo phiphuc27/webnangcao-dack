@@ -118,8 +118,9 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`khieunai` (
   `ID` INT(11) NOT NULL AUTO_INCREMENT,
   `IDND` INT(11) NOT NULL,-- id nguoi day
   `IDNH` INT(11) NOT NULL,-- id nguoi hoc khieunai
-  `TIEUDE` INT NOT NULL,
+  `TIEUDE` NVARCHAR(150) NOT NULL,
   `NOIDUNG` NVARCHAR(150) NOT NULL,-- noi dung khieunai
+  `TRANGTHAI` int(2) NULL, -- 0: da lap , 1: da xu ly
   PRIMARY KEY (`ID`),
   foreign key (`IDND`) references `taikhoan`(`ID`),
   foreign key (`IDNH`) references `taikhoan`(`ID`))

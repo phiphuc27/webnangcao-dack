@@ -471,6 +471,17 @@ router.post('/complain/getList', async (req, res) => {
     });
 });
 
+// update complain status
+router.post('/complain/updateStatus', async (req, res, next) => {
+  await ComplainModel.updateStatus(req.body.id, req.body.status)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
 // get top revenue return list tutor or skill
 router.post('/topRevenue', async (req, res) => {
   if (req.body.by === 'tutor') {
