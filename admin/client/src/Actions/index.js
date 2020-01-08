@@ -593,7 +593,7 @@ export const getComplainList = page => {
       data: { npp: 5, page: page }
     })
       .then(response => {
-        console.log(response);
+        // console.log(response);
         dispatch(successGetComplain(response.data));
       })
       .catch(err => {
