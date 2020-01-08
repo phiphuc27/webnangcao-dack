@@ -55,8 +55,8 @@ const Revenue = ({ match, history }) => {
   const [month, setMonth] = useState(`${moment().month() + 1}`);
   const [yearData, setYearData] = useState([]);
   const [year, setYear] = useState(moment().year());
-  const tab = match.params.tab;
-  const id = match.params.id;
+  const { tab } = match.params;
+  const { id } = match.params;
   if (id === undefined || id === null) {
     history.push('/error');
   }
@@ -65,7 +65,7 @@ const Revenue = ({ match, history }) => {
   }
 
   if (!fetching) {
-    const ID = parseInt(id);
+    const ID = parseInt(id, 10);
     if (userID) {
       if (userID !== ID) {
         dispatch(getRevenue(ID));
@@ -81,7 +81,7 @@ const Revenue = ({ match, history }) => {
         moment()
           .month(month - 1)
           .endOf('month')
-          .dates()
+          .date()
       )
     ].map((e, i) => {
       const data = {
@@ -127,7 +127,7 @@ const Revenue = ({ match, history }) => {
       <Breadcrumbs aria-label="breadcrumb">
         <Link to="/">Trang chủ</Link>
         <Link to="/userlist">Danh sách tài khoản</Link>
-        <Link to={'/user/' + id}>Người dùng</Link>
+        <Link to={`/user/${id}`}>Người dùng</Link>
         <Typography color="textPrimary">Doanh thu</Typography>
       </Breadcrumbs>
       <div className="profile-info">
@@ -163,8 +163,8 @@ const Revenue = ({ match, history }) => {
                     autoOk
                     variant="inline"
                     inputVariant="outlined"
-                    views={['year']}
                     margin="dense"
+                    views={['year']}
                     value={moment().year(year)}
                     onChange={value => setYear(value.year())}
                   />
