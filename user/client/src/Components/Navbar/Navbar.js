@@ -88,7 +88,7 @@ const Navbar = ({ user, logout, history }) => {
             </li>
             {user && user.LOAI === 3 && (
               <li>
-                <button type="button" className="btn btn-primary" onClick={() => handleShow(true)}>
+                <button type="button" className="btn" onClick={() => handleShow(true)}>
                   Trở thành gia sư
                 </button>
               </li>

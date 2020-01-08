@@ -482,7 +482,7 @@ export const updateSkill = (skill, skillId) => {
   };
 };
 
-export const deleteSkill = id => {
+export const deleteSkill = data => {
   return async dispatch => {
     const token = window.sessionStorage.getItem('jwtToken');
 
@@ -492,13 +492,13 @@ export const deleteSkill = id => {
       headers: {
         Authorization: `Bearer ${token}`
       },
-      data: { id }
+      data
     })
       .then(response => {
         if (response.statusText === 'OK') {
           dispatch({
             type: 'DELETE_SKILL_SUCCESS',
-            id
+            id: data.id
           });
         }
       })

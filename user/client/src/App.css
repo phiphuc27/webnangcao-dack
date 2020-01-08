@@ -1,5 +1,5 @@
 :root {
-  --main-bg-color: #000000;
+  --main-bg-color: #263f60;
   --main-text-color: #ffffff;
   --white-bg: #ffffff;
   --black-text: #000000;
@@ -110,6 +110,14 @@ ul {
   grid-template-columns: repeat(auto-fit, 150px);
   align-items: center;
   column-gap: 20px;
+}
+
+.nav-menu button {
+  color: white;
+}
+
+.nav-menu button:hover {
+  color: var(--text-hover-color);
 }
 
 .nav-menu a:hover {
@@ -892,7 +900,7 @@ ul {
 }
 
 .active {
-  color: #0a579d !important;
+  color: var(--main-bg-color) !important;
 }
 
 .active-link {

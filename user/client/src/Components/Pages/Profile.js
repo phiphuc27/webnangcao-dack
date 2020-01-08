@@ -27,7 +27,8 @@ const Profile = ({
   handleProfileChange,
   handlePhotoChange,
   profile,
-  handleAddNewSkill
+  handleAddNewSkill,
+  deleteSkill
 }) => {
   const query = useQuery();
 
@@ -266,6 +267,7 @@ const Profile = ({
               user={user}
               handleAddNewSkill={handleAddNewSkill}
               handleProfileChange={handleProfileChange}
+              deleteSkill={deleteSkill}
             />
           )}
           {tab === 'account' && subExpanded === 'password' && <PasswordTab user={user} />}

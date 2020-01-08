@@ -247,16 +247,7 @@ const accountManagement = (state = registerState, action) => {
       };
     }
     case 'DELETE_SKILL_SUCCESS': {
-      let i = 0;
-      for (i = 0; i < state.skill.length; i += 1) {
-        if (state.skill[i].ID === action.id) break;
-      }
-      return {
-        ...state,
-        fetching: false,
-        fetched: false,
-        skill: [...state.skill.slice(0, i), ...state.skill.slice(i + 1)]
-      };
+      return state;
     }
 
     case 'RESET_PASSWORD_START': {
