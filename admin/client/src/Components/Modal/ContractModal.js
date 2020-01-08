@@ -2,16 +2,10 @@ import React from 'react';
 import moment from 'moment';
 import 'moment/locale/vi';
 import { Modal } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
 import NumberFormat from 'react-number-format';
 
 const ContractModal = ({ contract, show, onHide }) => {
-  const { fetched } = useSelector(state => state.contract);
-  const dispatch = useDispatch();
   const {
-    ID,
-    IDND,
-    IDNH,
     TIEUDE,
     GIASU,
     HOCSINH,
@@ -22,7 +16,6 @@ const ContractModal = ({ contract, show, onHide }) => {
     NGAYKT,
     SOBUOIDAY,
     SOGIODAY,
-    TRANGTHAI,
     TRANGTHAIHD,
     TONGTIEN
   } = contract;

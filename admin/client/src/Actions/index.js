@@ -69,13 +69,18 @@ export const getLoginUser = token => {
       }
     })
       .then(response => {
+        console.log(response);
         window.sessionStorage.setItem('jwtToken', response.data.token);
         // console.log(response.data.token);
         dispatch(successLogin(response.data.user));
       })
       .catch(err => {
         window.sessionStorage.removeItem('jwtToken');
-        dispatch(errorLogin(err.response.data));
+        dispatch(
+          errorLogin(
+            err ? (err.response ? err.response.data : err.response) : err
+          )
+        );
       });
   };
 };
@@ -603,3 +608,85 @@ export const getComplainList = page => {
 };
 
 /* End complain */
+
+/* revenue */
+
+export const startGetRevenue = {
+  type: 'GET_REVENUE_START'
+};
+
+export const successGetRevenue = value => ({
+  type: 'GET_REVENUE_SUCCESS',
+  value
+});
+
+export const errorGetRevenue = error => ({
+  type: 'GET_REVENUE_ERROR',
+  error
+});
+
+export const getRevenue = id => {
+  return async dispatch => {
+    await dispatch(startGetRevenue);
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'post',
+      url: '/users/contract/getAll',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { id }
+    })
+      .then(response => {
+        // console.log(response);
+        dispatch(successGetRevenue({ id, contract: response.data }));
+      })
+      .catch(err => {
+        dispatch(errorGetRevenue(err.response.data));
+      });
+  };
+};
+
+/* End contract */
+
+/* top contract */
+
+export const startGetTopRevenue = {
+  type: 'GET_TOP_REVENUE_START'
+};
+
+export const successGetTopRevenue = value => ({
+  type: 'GET_TOP_REVENUE_SUCCESS',
+  value
+});
+
+export const errorGetTopRevenue = error => ({
+  type: 'GET_TOP_REVENUE_ERROR',
+  error
+});
+
+export const getTopRevenue = (type, by) => {
+  return async dispatch => {
+    await dispatch(startGetTopRevenue);
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'post',
+      url: '/users/topRevenue',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { type, by }
+    })
+      .then(response => {
+        // console.log(response);
+        dispatch(successGetTopRevenue({ list: response.data, type, by }));
+      })
+      .catch(err => {
+        dispatch(errorGetTopRevenue(err.response.data));
+      });
+  };
+};
+
+/* end top contract */
