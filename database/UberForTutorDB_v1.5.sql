@@ -118,8 +118,8 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`khieunai` (
   `ID` INT(11) NOT NULL AUTO_INCREMENT,
   `IDND` INT(11) NOT NULL,-- id nguoi day
   `IDNH` INT(11) NOT NULL,-- id nguoi hoc khieunai
-  `TIEUDE` INT NOT NULL,
-  `NOIDUNG` NVARCHAR(150) NOT NULL,-- noi dung khieunai
+  `TIEUDE` NVARCHAR(150) NOT NULL,
+  `NOIDUNG` NVARCHAR(250) NOT NULL,-- noi dung khieunai
   PRIMARY KEY (`ID`),
   foreign key (`IDND`) references `taikhoan`(`ID`),
   foreign key (`IDNH`) references `taikhoan`(`ID`))
@@ -197,3 +197,8 @@ INSERT INTO `uberfortutordb`.`danhgia` (`IDND`,`IDNH`,`DANHGIA`,`NOIDUNG`) VALUE
 ('4','5','1','tệ'),
 ('4','6','4','tốt'),
 ('4','7','2','dở');
+
+INSERT INTO `uberfortutordb`.`khieunai` (`IDND`,`IDNH`,`TIEUDE`,`NOIDUNG`) VALUES
+('2','5','Dạy trể','Giáo viên luôn đi dạy trễ'),
+('2','6','test','test'),
+('2','7','Dạy không hay','Giáo viên dạy không đúng mục tiêu');
