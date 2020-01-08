@@ -408,6 +408,17 @@ router.post('/contract/getList', async (req, res) => {
     });
 });
 
+// update complain status
+router.post('/contract/updateStatus', async (req, res, next) => {
+  await ContractModel.updateStatus(req.body.id, req.body.status)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
 // get complain data list
 // data send:
 // {

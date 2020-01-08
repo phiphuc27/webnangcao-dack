@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Contract from '../Components/Pages/Contract';
-import { getContractList } from '../Actions';
+import { getContractList, updateContractStatus } from '../Actions';
 
 const mapStateToProps = state => ({
   isFetching: state.contract.fetching,
@@ -10,6 +10,7 @@ const mapStateToProps = state => ({
   pagination: state.contract.pagination
 });
 const mapDispatchToProps = dispatch => ({
-  getList: page => dispatch(getContractList(page))
+  getList: page => dispatch(getContractList(page)),
+  changeStatus: (id, status) => dispatch(updateContractStatus(id, status))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Contract);

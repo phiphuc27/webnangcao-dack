@@ -69,6 +69,21 @@ const UserList = (state = InitialState, action) => {
         }
       };
     }
+    case 'EDIT_CONTRACT_ERROR': {
+      return { ...state, error: action.error };
+    }
+    case 'UPDATE_CONTRACT_SUCCESS': {
+      return {
+        ...state,
+        list: state.list
+          ? state.list.map(item =>
+              item.ID === action.id
+                ? { ...item, TRANGTHAI: action.status }
+                : item
+            )
+          : state.list
+      };
+    }
     default:
       return state;
   }

@@ -566,6 +566,36 @@ export const getContractList = page => {
   };
 };
 
+export const errorEditContract = error => ({
+  type: 'EDIT_CONTRACT_ERROR',
+  error
+});
+
+export const updateContractStatus = (id, status) => {
+  return async dispatch => {
+    const token = window.sessionStorage.getItem('jwtToken');
+
+    await axios({
+      method: 'post',
+      url: '/users/contract/updateStatus',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: { id, status }
+    })
+      .then(response => {
+        dispatch({
+          type: 'UPDATE_CONTRACT_SUCCESS',
+          id,
+          status
+        });
+      })
+      .catch(err => {
+        dispatch(errorEditComplain(err.response.data));
+      });
+  };
+};
+
 /* End contract */
 
 /* complain */

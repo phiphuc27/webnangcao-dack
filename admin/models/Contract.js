@@ -36,6 +36,10 @@ const contract = {
   update(id, value) {
     const sql = `update hopdonghoc set ? where ID='${id}'`;
     return db.save(sql, value);
+  },
+  updateStatus(id, status) {
+    const sql = `update hopdonghoc set TRANGTHAI='${status}' where ID='${id}'`;
+    return db.save(sql);
   }
 };
 module.exports = contract;

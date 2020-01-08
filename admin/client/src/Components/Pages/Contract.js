@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Spinner, Pagination, Table } from 'react-bootstrap';
+import { Spinner, Pagination, Table, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import 'moment/locale/en-gb';
@@ -9,7 +9,14 @@ import ContractModal from '../Modal/ContractModal';
 
 // import useForm from 'react-hook-form';
 
-const Contract = ({ isFetching, isFetched, list, pagination, getList }) => {
+const Contract = ({
+  isFetching,
+  isFetched,
+  list,
+  pagination,
+  getList,
+  changeStatus
+}) => {
   const [modalEdit, setModalEdit] = useState({
     data: null,
     show: false
@@ -50,11 +57,17 @@ const Contract = ({ isFetching, isFetched, list, pagination, getList }) => {
           <td>{moment(item.NGAYBD).format('DD/MM/YYYY')}</td>
           <td>{moment(item.NGAYKT).format('DD/MM/YYYY')}</td>
           <td>
-            {item.TRANGTHAI === 0
-              ? 'Đã lập'
-              : item.TRANGTHAI === 1
-              ? 'Đã hoàn thành chưa thanh toán'
-              : 'Đã thanh toán'}
+            <Form.Control
+              as="select"
+              value={item.TRANGTHAI}
+              onChange={e => {
+                changeStatus(item.ID, e.target.value);
+              }}
+            >
+              <option value={0}>Đã lập</option>
+              <option value={1}>Đã hoàn thành chưa thanh toán</option>
+              <option value={2}>Đã thanh toán</option>
+            </Form.Control>
           </td>
         </tr>
       );
