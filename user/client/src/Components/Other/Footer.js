@@ -64,7 +64,7 @@ function Footer() {
         <div className="row">
           <div className="col-md-8 col-sm-6 col-xs-12">
             <p className="copyright-text">
-              Copyright &copy; 2019 All Rights Reserved by <a href="#">Nhom 20</a>.
+              Copyright &copy; 2019 All Rights Reserved by <a href="#">Nhom P2P</a>.
             </p>
           </div>
 
