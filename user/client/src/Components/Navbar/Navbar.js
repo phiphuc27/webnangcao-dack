@@ -76,7 +76,7 @@ const Navbar = ({ user, logout, history }) => {
     <nav className="nav">
       <div className="container navbar">
         <div className="nav-logo">
-          <a href="/">
+          <a href="/" style={{ fontSize: '1.5rem' }}>
             <HomeRounded />
             <span>Logo</span>
           </a>
