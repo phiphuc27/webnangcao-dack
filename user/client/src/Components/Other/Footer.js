@@ -7,23 +7,20 @@ function Footer() {
     <footer className="site-footer">
       <div className="container" style={{ marginBlockEnd: '3rem' }}>
         <div className="row">
-          <div className="col-sm-12 col-md-12">
+          <div className="col-sm-6 col-md-6">
             <h6>Giới thiệu</h6>
             <p className="text-justify">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat nihil dolores ducimus
-              beatae ut, eos necessitatibus natus, mollitia nisi, enim minima. Voluptatum est odit,
-              dolores impedit architecto obcaecati cupiditate dolor minima accusantium. Minima,
-              voluptate ipsum. Quis maxime sit cupiditate est porro obcaecati fugit ipsam, id nam
-              enim odio commodi, eos voluptate blanditiis facere quibusdam, ad quaerat accusantium!
-              Perspiciatis distinctio hic provident quaerat magni pariatur qui vel accusamus
-              consequatur repellendus a doloremque quidem at necessitatibus, modi soluta eligendi
-              illo officiis deleniti quasi explicabo vero sequi tempore assumenda! Praesentium quam
-              sapiente impedit, perferendis repellat tempore molestiae illum repudiandae qui
-              consequatur. Molestiae, officiis molestias cumque tenetur dolores dolor? Cumque
-              explicabo et at consequatur dignissimos dolore exercitationem doloribus veritatis
-              reprehenderit illo, quibusdam laboriosam eaque repudiandae commodi adipisci corrupti
-              eum, obcaecati blanditiis animi quas! Tempore, optio voluptas. Aperiam, amet. Non
-              veniam nisi excepturi saepe adipisci!
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat aliquid perferendis
+              dolore iure fugit maxime adipisci mollitia, voluptatum temporibus accusamus quaerat
+              cum ex, beatae pariatur libero sint, natus porro consectetur?
+            </p>
+          </div>
+          <div className="col-sm-6 col-md-6">
+            <h6>Bản đồ</h6>
+            <p className="text-justify">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quisquam fuga quia esse
+              ducimus, explicabo non possimus! Cupiditate officia velit obcaecati ut similique dolor
+              eligendi. Aspernatur, sit. Delectus veniam suscipit dolorem!
             </p>
           </div>
         </div>
@@ -35,16 +32,7 @@ function Footer() {
                 <a href="#">Trang chủ</a>
               </li>
               <li>
-                <a href="#">Thời trang nam</a>
-              </li>
-              <li>
-                <a href="#">Thời trang nữ</a>
-              </li>
-              <li>
-                <a href="#">Phụ kiện</a>
-              </li>
-              <li>
-                <a href="#">Ưu đãi</a>
+                <a href="#">Danh sách gia sư</a>
               </li>
             </ul>
           </div>
@@ -76,7 +64,7 @@ function Footer() {
         <div className="row">
           <div className="col-md-8 col-sm-6 col-xs-12">
             <p className="copyright-text">
-              Copyright &copy; 2019 All Rights Reserved by <a href="#">Nhom 20</a>.
+              Copyright &copy; 2019 All Rights Reserved by <a href="#">Nhom P2P</a>.
             </p>
           </div>
 

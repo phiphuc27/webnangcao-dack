@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`thongtin` (
   `DIACHI` NVARCHAR(255) NULL,
   `THANHPHO` NVARCHAR(150) NULL,
   `GIOITINH` NVARCHAR(3) NULL,
-  `AVATARURL` VARCHAR(255) NULL,
+  `AVATARURL` text NULL,
   `GIOITHIEU` NVARCHAR(150) NULL,
   `GIA` INT NULL,-- gia tien hoc VND/h
   `GOOGLEID` nvarchar(255) NULL,
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`danhgia` (
   `IDND` INT(11) NOT NULL,-- id nguoi day
   `IDNH` INT(11) NOT NULL,-- id nguoi hoc danh gia
   `DANHGIA` INT NOT NULL,-- so sao danh gia
-  `NOIDUNG` NVARCHAR(150) NOT NULL,-- noi dung danh gia
+  `NOIDUNG` NVARCHAR(250) NOT NULL,-- noi dung danh gia
   PRIMARY KEY (`ID`),
   foreign key (`IDND`) references `taikhoan`(`ID`),
   foreign key (`IDNH`) references `taikhoan`(`ID`))
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`khieunai` (
   `IDND` INT(11) NOT NULL,-- id nguoi day
   `IDNH` INT(11) NOT NULL,-- id nguoi hoc khieunai
   `TIEUDE` NVARCHAR(150) NOT NULL,
-  `NOIDUNG` NVARCHAR(150) NOT NULL,-- noi dung khieunai
+  `NOIDUNG` NVARCHAR(250) NOT NULL,-- noi dung khieunai
   `TRANGTHAI` int(2) NULL, -- 0: da lap , 1: da xu ly
   PRIMARY KEY (`ID`),
   foreign key (`IDND`) references `taikhoan`(`ID`),
@@ -198,3 +198,8 @@ INSERT INTO `uberfortutordb`.`danhgia` (`IDND`,`IDNH`,`DANHGIA`,`NOIDUNG`) VALUE
 ('4','5','1','tệ'),
 ('4','6','4','tốt'),
 ('4','7','2','dở');
+
+INSERT INTO `uberfortutordb`.`khieunai` (`IDND`,`IDNH`,`TIEUDE`,`NOIDUNG`) VALUES
+('2','5','Dạy trể','Giáo viên luôn đi dạy trễ'),
+('2','6','test','test'),
+('2','7','Dạy không hay','Giáo viên dạy không đúng mục tiêu');

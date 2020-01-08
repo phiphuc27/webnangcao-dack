@@ -109,7 +109,7 @@ ul {
 .nav-menu ul {
   list-style-type: none;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 100px);
+  grid-template-columns: repeat(auto-fit, 120px);
   column-gap: 20px;
 }
 
