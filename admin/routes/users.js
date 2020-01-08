@@ -321,6 +321,28 @@ router.post('/unlock', async (req, res, next) => {
     });
 });
 
+// get contract data list for tutor (contract only)
+// data send:
+// {
+//  id: , // id tutor
+// }
+router.post('/contract/getAll', async (req, res) => {
+  ContractModel.getByTutorId(req.body.id)
+    .then(async result => {
+      const data = await Promise.all(
+        result.map(async item => {
+          const detail = await RegisterTutorModel.getById(item.IDDK);
+          return { ...item, CHITIET: detail[0] };
+        })
+      );
+
+      res.status(200).send(data);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+});
+
 // get contract data list
 // data send:
 // {
@@ -447,6 +469,127 @@ router.post('/complain/getList', async (req, res) => {
       // console.error(err);
       res.json({ err: err });
     });
+});
+
+// get top revenue return list tutor or skill
+router.post('/topRevenue', async (req, res) => {
+  if (req.body.by === 'tutor') {
+    UsersModel.getTutorOnlyInfo()
+      .then(async result => {
+        var data = await Promise.all(
+          result.map(async (tutor, index) => {
+            const list = await ContractModel.getByTutorId(tutor.ID);
+
+            var contracts = await Promise.all(
+              list.map(async item => {
+                const detail = await RegisterTutorModel.getById(item.IDDK);
+                return { ...item, CHITIET: detail[0] };
+              })
+            );
+            contracts = contracts.filter(item => item.TRANGTHAI === 2);
+            // tính doanh thu cho tháng hoặc năm
+            // const type = req.body.type; // type === month tính theo tháng (year là năm)
+
+            if (req.body.type === 'month') {
+              // get current month
+              const now = new Date();
+              const currMonth = now.getMonth();
+              var revenue = 0;
+
+              contracts.map(item => {
+                if (item.NGAYKT.getMonth() === currMonth)
+                  revenue += item.CHITIET.TONGTIEN;
+              });
+
+              // return tutor và doanh thu
+              return { tutor, revenue };
+            } else {
+              // get current year
+              const now = new Date();
+              const currYear = now.getYear();
+              var revenue = 0;
+
+              contracts.map(item => {
+                if (item.NGAYKT.getYear() === currYear)
+                  revenue += item.CHITIET.TONGTIEN;
+              });
+
+              // return tutor và doanh thu
+              return { tutor, revenue };
+            }
+          })
+        );
+
+        data.sort((a, b) => b.revenue - a.revenue);
+        res.status(200).send(data.slice(0, 5));
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  } else {
+    try {
+      const skill = await SkillModel.getAllSkill();
+      // get tutor have skill
+      var data = await Promise.all(
+        skill.map(async item => {
+          const tutor = await SkillModel.getTutorBySkillId(item.ID);
+          var contracts = [];
+          await Promise.all(
+            tutor.map(async t => {
+              const list = await ContractModel.getByTutorId(t.ID);
+
+              var c = await Promise.all(
+                list.map(async item => {
+                  const detail = await RegisterTutorModel.getById(item.IDDK);
+                  return { ...item, CHITIET: detail[0] };
+                })
+              );
+              c = c.filter(item => item.TRANGTHAI === 2);
+              contracts = contracts.concat(c);
+            })
+          );
+
+          // tính doanh thu cho tháng hoặc năm
+          // const type = req.body.type; // type === month tính theo tháng (year là năm)
+
+          if (req.body.type === 'month') {
+            // get current month
+            const now = new Date();
+            const currMonth = now.getMonth();
+            var revenue = 0;
+
+            contracts.map(item => {
+              // console.log(item);
+              if (item.NGAYKT.getMonth() === currMonth)
+                revenue += item.CHITIET.TONGTIEN;
+            });
+
+            // return tutor và doanh thu
+            return { skill: item, revenue };
+          } else {
+            // get current year
+            const now = new Date();
+            const currYear = now.getYear();
+            var revenue = 0;
+
+            contracts.map(item => {
+              if (item.NGAYKT.getYear() === currYear)
+                revenue += item.CHITIET.TONGTIEN;
+            });
+
+            // return tutor và doanh thu
+            return { skill: item, revenue };
+          }
+        })
+      );
+
+      data.sort((a, b) => b.revenue - a.revenue);
+      res.status(200).send(data.slice(0, 5));
+    } catch (error) {
+      console.log(error);
+      res.status(500).send(error);
+    }
+  }
 });
 
 module.exports = router;

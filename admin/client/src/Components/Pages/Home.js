@@ -20,6 +20,9 @@ const Home = () => {
             <Link to="/complain" className="list-group-item">
               Quản lý khiếu nại
             </Link>
+            <Link to="/top-revenue" className="list-group-item">
+              Top doanh thu
+            </Link>
           </div>
         </div>
         <div className="col-md-9 col-lg-9"></div>

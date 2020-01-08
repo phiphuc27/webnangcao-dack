@@ -3,7 +3,14 @@ const InitialState = {
   fetched: false,
   error: '',
   list: null,
-  pagination: null
+  pagination: null,
+  revenue: {
+    fetching: false,
+    fetched: false,
+    error: '',
+    contract: null,
+    userID: null
+  }
 };
 
 const UserList = (state = InitialState, action) => {
@@ -27,6 +34,40 @@ const UserList = (state = InitialState, action) => {
     }
     case 'GET_CONTRACT_ERROR': {
       return { ...state, fetching: false, fetched: false, error: action.error };
+    }
+    case 'GET_REVENUE_START': {
+      return {
+        ...state,
+        revenue: {
+          ...state.revenue,
+          fetching: true,
+          fetched: false,
+          error: ''
+        }
+      };
+    }
+    case 'GET_REVENUE_SUCCESS': {
+      return {
+        ...state,
+        revenue: {
+          ...state.revenue,
+          fetching: false,
+          fetched: true,
+          contract: action.value.contract,
+          userID: action.value.id
+        }
+      };
+    }
+    case 'GET_REVENUE_ERROR': {
+      return {
+        ...state,
+        revenue: {
+          ...state.revenue,
+          fetching: false,
+          fetched: false,
+          error: action.error
+        }
+      };
     }
     default:
       return state;

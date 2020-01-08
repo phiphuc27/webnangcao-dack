@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { BrowserRouter as Router } from 'react-router-dom';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
+
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 
@@ -34,7 +37,9 @@ if (token) {
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <App />
+      <MuiPickersUtilsProvider utils={MomentUtils}>
+        <App />
+      </MuiPickersUtilsProvider>
     </Router>
   </Provider>,
   document.getElementById('root')

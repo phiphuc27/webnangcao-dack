@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Spinner, Pagination, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
-import 'moment/locale/en-gb';
+// import moment from 'moment';
+// import 'moment/locale/en-gb';
 // import { makeStyles } from '@material-ui/core/styles';
 
 // import useForm from 'react-hook-form';
 
-const Contract = ({ isFetching, isFetched, list, pagination, getList }) => {
+const Complain = ({ isFetching, isFetched, list, pagination, getList }) => {
   var List = null;
   if (list !== null && list !== undefined) {
     // console.log(userList);
@@ -68,6 +68,9 @@ const Contract = ({ isFetching, isFetched, list, pagination, getList }) => {
             <Link to="/complain" className="list-group-item  active">
               Quản lý khiếu nại
             </Link>
+            <Link to="/top-revenue" className="list-group-item">
+              Top doanh thu
+            </Link>
           </div>
         </div>
         <div className="col-md-9 col-lg-9">
@@ -102,4 +105,4 @@ const Contract = ({ isFetching, isFetched, list, pagination, getList }) => {
   );
 };
 
-export default Contract;
+export default Complain;

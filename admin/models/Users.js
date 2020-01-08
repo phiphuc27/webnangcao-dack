@@ -13,6 +13,14 @@ var Users = {
     var sql = `Select * from taikhoan where LOAI=2 or LOAI=3`;
     return db.load(sql);
   },
+  getTutorOnly: function() {
+    var sql = `Select * from taikhoan where LOAI=2`;
+    return db.load(sql);
+  },
+  getTutorOnlyInfo: function() {
+    var sql = `Select u.ID, i.HO, i.TEN from taikhoan u join thongtin i on u.ID = i.ID where LOAI=2`;
+    return db.load(sql);
+  },
   getUsersOnlyPagination: function(limit) {
     var sql = `Select * from taikhoan where LOAI=2 or LOAI=3 ORDER BY ID ASC LIMIT ${limit}`;
     return db.load(sql);

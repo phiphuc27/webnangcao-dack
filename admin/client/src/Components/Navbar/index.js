@@ -26,15 +26,7 @@ const index = ({ user, logout, history, loggedIn }) => {
                 <li>
                   <Link to="/register">Tạo mới admin</Link>
                 </li>
-              ) : (
-                <li>Menu 1</li>
-              )}
-              <li>
-                <Link to="/userList">Danh sách tài khoản</Link>
-              </li>
-              {/* <li>
-              <Link to="/userList">Kỹ năng</Link>
-            </li> */}
+              ) : null}
             </ul>
           ) : null}
         </div>

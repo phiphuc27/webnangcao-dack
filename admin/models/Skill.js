@@ -17,6 +17,10 @@ var Skill = {
     var sql = `select * from kynang_nguoidung u join kynang i on u.IDKN=i.ID where u.IDND='${id}'`;
     return db.load(sql);
   },
+  getTutorBySkillId: function(id) {
+    var sql = `select IDND as ID from kynang_nguoidung where IDKN='${id}'`;
+    return db.load(sql);
+  },
   findByName: function(skill) {
     var sql = `select * from kynang where KYNANG='${skill}'`;
     return db.load(sql);

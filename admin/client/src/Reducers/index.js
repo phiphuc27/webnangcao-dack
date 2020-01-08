@@ -5,6 +5,7 @@ import profile from './profile';
 import skill from './Skill';
 import contract from './contract';
 import complain from './complain';
+import topRevenue from './topRevenue';
 
 const allReducer = combineReducers({
   user,
@@ -12,7 +13,8 @@ const allReducer = combineReducers({
   profile,
   skill,
   contract,
-  complain
+  complain,
+  topRevenue
 });
 
 const rootReducer = (state, action) => {

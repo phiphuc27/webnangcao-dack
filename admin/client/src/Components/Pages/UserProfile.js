@@ -108,6 +108,39 @@ const Profile = ({
                   </ul>
                 </ExpansionPanelDetails>
               </ExpansionPanel>
+              {user ? (
+                <ExpansionPanel
+                  expanded={expanded === 'doanh-thu'}
+                  onChange={handleChange('doanh-thu')}
+                >
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMore />}
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
+                  >
+                    <Typography
+                      className={`tab-header ${expanded === 'doanh-thu' &&
+                        'active'}`}
+                    >
+                      Doanh thu
+                    </Typography>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <ul>
+                      <li>
+                        <Link to={'/user/' + user.ID + '/revenue/month'}>
+                          Theo tháng
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to={'/user/' + user.ID + '/revenue/year'}>
+                          Theo năm
+                        </Link>
+                      </li>
+                    </ul>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+              ) : null}
             </div>
           </div>
         </div>
