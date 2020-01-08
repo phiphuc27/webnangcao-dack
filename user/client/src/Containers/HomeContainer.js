@@ -7,7 +7,7 @@ const mapStateToProps = state => ({
   isFetching: state.tutor.fetching,
   isFetched: state.tutor.fetched,
   error: state.tutor.error,
-  tutors: state.tutor.tutors
+  tutors: state.tutor.sortTutors
 });
 const mapDispatchToProps = dispatch => ({
   getAllTutors: () => dispatch(getAllTutors())

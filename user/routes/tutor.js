@@ -16,10 +16,10 @@ router.get('/', async (req, res) => {
       tutors.map(async tutor => {
         const tmpTutor = { ...tutor };
         const skills = await SkillModel.getSkillByUserId(tmpTutor.ID);
-
+        const review = await TutorModel.getReviewByTutorID(tmpTutor.ID);
         const newTutor = {
           ...tmpTutor,
-          KYNANG: [...skills]
+          KYNANG: [...skills], DANHGIA: [...review]
         };
 
         return newTutor;

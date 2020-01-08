@@ -4,10 +4,15 @@ import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { Breadcrumbs, Typography } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import Tutor from '../Tutor/Tutor';
 import TutorList from '../Tutor/TutorList';
 import Category from '../Other/Category';
-import { sortTutor, getAllTutors } from '../../Actions/tutor';
+import { sortTutor, getAllTutors, searchTutor } from '../../Actions/tutor';
+
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 const Tutors = () => {
   const tutors = useSelector(state => state.tutor.tutors);
@@ -18,6 +23,16 @@ const Tutors = () => {
   if (tutors.length === 0) {
     dispatch(getAllTutors());
   }
+
+  const query = useQuery();
+  const [search] = useState(query.get('search') || '');
+  useEffect(() => {
+    if (search !== '') {
+      if (tutors.length > 0) {
+        dispatch(searchTutor(search));
+      }
+    }
+  }, [tutors]);
 
   const [sort, setSort] = useState('');
   useEffect(() => {
@@ -49,15 +64,15 @@ const Tutors = () => {
           <div style={{ marginBlockStart: '3em' }}>
             <div className="row">
               <div className="col-md-9" style={{ display: 'flex', alignItems: 'center' }}>
-                {/* {search && (
-                    <h6 className="row">
-                      Kết quả tìm kiếm cho&nbsp;
-                      <span style={{ fontWeight: 'bold' }}>"{search}"</span>
-                      :&nbsp;
-                      <span style={{ fontWeight: 'bold' }}>{productList.length}</span>
-                      &nbsp;sản phẩm.
-                    </h6>
-                  )} */}
+                {search && (
+                  <h6 className="row">
+                    Kết quả tìm kiếm cho kỹ năng&nbsp;
+                    <span style={{ fontWeight: 'bold' }}>&quot;{search}&quot;</span>
+                    :&nbsp;
+                    <span style={{ fontWeight: 'bold' }}>{sortTutors.length}</span>
+                    &nbsp;gia sư.
+                  </h6>
+                )}
               </div>
               <FormControl
                 style={{
@@ -78,7 +93,7 @@ const Tutors = () => {
                     id: 'sort-native-label-placeholder'
                   }}
                 >
-                  <option value="">Gia sư nổi bật</option>
+                  <option value="NAME_DESC">Gia sư nổi bật</option>
                   <option value="PRICE_DESC">Giá tiền giảm dần</option>
                   <option value="PRICE_ASC">Giá tiền tăng dần</option>
                   <option value="NAME_DESC">Tên từ A-Z</option>

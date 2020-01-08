@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { Modal, Button, Spinner, Dropdown } from 'react-bootstrap';
 import { HomeRounded } from '@material-ui/icons';
 import { GoSearch, GoBell } from 'react-icons/go';
-import { Spinner, Dropdown } from 'react-bootstrap';
+
 import {
   getTutorRequest,
   getTutorContract,
   getStudentRequest,
   getStudentContract
 } from '../../Actions/contract';
-import { getChatNotification } from '../../Actions/user';
-import {  openChat, getChatHistory } from '../../Actions/tutor';
+import { getChatNotification, updateType } from '../../Actions/user';
+import { openChat, getChatHistory } from '../../Actions/tutor';
 
 const Navbar = ({ user, logout, history }) => {
   const dispatch = useDispatch();
@@ -19,6 +20,12 @@ const Navbar = ({ user, logout, history }) => {
   const { onGoing } = useSelector(state => state.contract.contract);
   const { notification } = useSelector(state => state.chat);
   let listChatNoti = [];
+
+  const [show, setShow] = useState(false);
+  const [search, setSearch] = useState('');
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   if (!all && user && user.LOAI === 2) {
     dispatch(getTutorRequest(user.ID));
@@ -30,18 +37,27 @@ const Navbar = ({ user, logout, history }) => {
     dispatch(getStudentContract(user.ID));
   }
 
+  const handleSearch = () => {
+    if (search === '') {
+      return;
+    }
+    window.location = `/tutors?search=${search}`;
+  };
+
   if (notification.fetched) {
     listChatNoti = notification.list.map((item, index) => {
       return (
-        <Dropdown.Item key={item.ID} onClick={e => {
-          if (user) {
-            dispatch(openChat());
-          dispatch(getChatHistory(user.ID, item.ID));
-            
-          } else {
-            history.push('/login');
-          }
-        }}>
+        <Dropdown.Item
+          key={item.ID}
+          onClick={() => {
+            if (user) {
+              dispatch(openChat());
+              dispatch(getChatHistory(user.ID, item.ID));
+            } else {
+              history.push('/login');
+            }
+          }}
+        >
           <div className="noti-item">
             <img src={item.AVATARURL} alt="" />
             <span>{`${item.HO} ${item.TEN}`}</span>
@@ -60,21 +76,35 @@ const Navbar = ({ user, logout, history }) => {
     <nav className="nav">
       <div className="container navbar">
         <div className="nav-logo">
-          <Link to="/">
+          <a href="/">
             <HomeRounded />
             <span>Logo</span>
-          </Link>
+          </a>
         </div>
         <div className="nav-menu">
           <ul>
             <li>
               <a href="/tutors">Danh sách gia sư</a>
             </li>
+            {user && user.LOAI === 3 && (
+              <li>
+                <button type="button" className="btn btn-primary" onClick={() => handleShow(true)}>
+                  Trở thành gia sư
+                </button>
+              </li>
+            )}
           </ul>
         </div>
         <div className="nav-search">
-          <input type="text" placeholder="Tìm kiếm..." />
-          <button type="button">
+          <input
+            type="text"
+            placeholder="Tìm kiếm kỹ năng bạn muốn học..."
+            onChange={e => setSearch(e.target.value)}
+            onKeyPress={e => {
+              if (e.key === 'Enter') handleSearch();
+            }}
+          />
+          <button type="button" onClick={handleSearch}>
             <span>
               <GoSearch />
             </span>
@@ -86,7 +116,8 @@ const Navbar = ({ user, logout, history }) => {
             <div className="nav-chat-noti">
               <Dropdown>
                 <div
-                  onClick={e => {
+                  role="presentation"
+                  onClick={() => {
                     if (!notification.fetching) {
                       dispatch(getChatNotification());
                     }
@@ -101,9 +132,8 @@ const Navbar = ({ user, logout, history }) => {
                   </Dropdown.Toggle>
                 </div>
                 <Dropdown.Menu className="noti-list">
-                  {notification.fetching ? (
-                    <Spinner variant="dark" animation="border" />
-                  ) : listChatNoti.length > 0 ? (
+                  {notification.fetching && <Spinner variant="dark" animation="border" />}
+                  {notification.fetched && listChatNoti.length > 0 ? (
                     listChatNoti
                   ) : (
                     <Dropdown.Item href="#/action-1">Không có tin nhắn</Dropdown.Item>
@@ -118,7 +148,7 @@ const Navbar = ({ user, logout, history }) => {
                     <GoBell />
                     {sent && sent.length > 0 && <span>{sent.length}</span>}
                   </a>
-                  <div className="dropdown-menu, note-menu">
+                  <div className="dropdown-menu note-menu">
                     <p>{sent && <span>{sent.length}</span>} yêu cầu chưa duyệt</p>
                   </div>
                 </>
@@ -186,6 +216,29 @@ const Navbar = ({ user, logout, history }) => {
           </div>
         )}
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Trở thành gia sư</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Để đăng kí trở thành gia sư, bạn phải hoàn tất cung cấp thông tin xác nhận hồ sơ của bạn
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Hủy
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() => {
+              dispatch(updateType({ id: user.ID, type: 2 }));
+              window.alert('Đăng kí gia sư thành công');
+              window.location = '/profile/account';
+            }}
+          >
+            Đăng kí thành gia sư
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </nav>
   );
 };

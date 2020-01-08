@@ -91,6 +91,28 @@ export const login = data => {
   };
 };
 
+export const successJoinTutor = {
+  type: 'SUCCESS_JOIN_TUTOR'
+};
+
+export const updateType = data => {
+  return async dispatch => {
+    await axios({
+      method: 'post',
+      url: '/auth/update/type',
+      data
+    })
+      .then(response => {
+        if (response.data.result === 'success') {
+          dispatch(successJoinTutor);
+        }
+      })
+      .catch(err => {
+        dispatch(errorLogin(err.response.data.message));
+      });
+  };
+};
+
 export const googleLogin = data => {
   return async dispatch => {
     await dispatch(startLogin);
@@ -460,6 +482,7 @@ export const deleteSkill = id => {
 };
 
 /* end of profile */
+
 /* chat notification */
 
 export const startGetChatNotification = {

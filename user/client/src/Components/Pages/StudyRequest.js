@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Spinner, Button, Col, Row } from 'react-bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Redirect } from 'react-router-dom';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import moment from 'moment';
 import 'moment/locale/vi';
@@ -78,6 +78,7 @@ const StudyRequest = () => {
   }, [startDate, endDate, daysOfWeek, hoursOfDay, GIA]);
 
   const { fetching, fetched } = useSelector(state => state.contract);
+  const user = useSelector(state => state.user.user);
 
   const onSubmit = () => {
     const data = {
@@ -98,6 +99,7 @@ const StudyRequest = () => {
 
   return (
     <div className="container" style={{ marginTop: '3em' }}>
+      {user && user.LOAI === 2 && <Redirect to='/'/>}
       <div className="info-container">
         <div className="profile-header">
           <div className="row">

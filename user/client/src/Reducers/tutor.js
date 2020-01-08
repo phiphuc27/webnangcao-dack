@@ -5,8 +5,15 @@ const tutorState = {
   skills: [],
   tutor: '',
   tutors: [],
-  sortTutors: [],
-  sortSkill: []
+  sortTutors: []
+};
+
+const removeAccents = str => {
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/Đ/g, 'D');
 };
 
 const tutorManagement = (state = tutorState, action) => {
@@ -56,25 +63,25 @@ const tutorManagement = (state = tutorState, action) => {
     case 'SORT_TUTOR': {
       switch (action.name) {
         case 'NAME_DESC': {
-          let tmpTutors = [...state.tutors];
+          let tmpTutors = [...state.sortTutors];
           tmpTutors = tmpTutors.sort((a, b) => a.TEN.localeCompare(b.TEN));
           return { ...state, sortTutors: tmpTutors };
         }
 
         case 'NAME_ASC': {
-          let tmpTutors = [...state.tutors];
+          let tmpTutors = [...state.sortTutors];
           tmpTutors = tmpTutors.sort((a, b) => b.TEN.localeCompare(a.TEN));
           return { ...state, sortTutors: tmpTutors };
         }
 
         case 'PRICE_ASC': {
-          let tmpTutors = [...state.tutors];
+          let tmpTutors = [...state.sortTutors];
           tmpTutors = tmpTutors.sort((a, b) => a.GIA - b.GIA);
           return { ...state, sortTutors: tmpTutors };
         }
 
         case 'PRICE_DESC': {
-          let tmpTutors = [...state.tutors];
+          let tmpTutors = [...state.sortTutors];
           tmpTutors = tmpTutors.sort((a, b) => b.GIA - a.GIA);
           return { ...state, sortTutors: tmpTutors };
         }
@@ -95,8 +102,11 @@ const tutorManagement = (state = tutorState, action) => {
 
         case 'SKILL': {
           let tmpTutors = [...state.tutors];
+          if (action.filter.value === 0) {
+            return { ...state, sortTutors: state.tutors };
+          }
           tmpTutors = tmpTutors.filter(tutor =>
-            tutor.KYNANG.find(skill => skill.KYNANG === action.filter)
+            tutor.KYNANG.find(skill => skill.KYNANG === action.filter.label)
           );
           return { ...state, sortTutors: tmpTutors };
         }
@@ -115,10 +125,16 @@ const tutorManagement = (state = tutorState, action) => {
       }
     }
 
-    case 'SEARCH_SKILL': {
-      let tmpSkill = [...state.skills];
-      tmpSkill = tmpSkill.filter(skill => skill.KYNANG.includes(action.search));
-      return { ...state, sortSkill: tmpSkill };
+    case 'SEARCH_TUTOR': {
+      let tmpTutors = [...state.sortTutors];
+      const tmpSearch = removeAccents(action.search.toString().toLowerCase());
+      tmpTutors = tmpTutors.filter(tutor =>
+        tutor.KYNANG.find(skill => {
+          const name = removeAccents(skill.KYNANG.toLowerCase());
+          return name.includes(tmpSearch);
+        })
+      );
+      return { ...state, sortTutors: tmpTutors };
     }
 
     default:

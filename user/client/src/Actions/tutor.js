@@ -86,8 +86,8 @@ export const filterTutor = (name, filter) => ({
   filter
 });
 
-export const searchSkill = search => ({
-  type: 'SEARCH_SKILL',
+export const searchTutor = search => ({
+  type: 'SEARCH_TUTOR',
   search
 });
 

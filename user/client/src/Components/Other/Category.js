@@ -47,14 +47,14 @@ const Category = () => {
     };
   });
 
-  const skillSelect = [...skills];
+  const skillSelect = [{ value: 0, label: 'Chọn tất cả' }, ...skills];
 
   const [cityOption, setCityOption] = useState('');
   const [skillOption, setSkillOption] = useState('');
   const [price, setPrice] = useState([10000, 500000]);
 
   useEffect(() => {
-    dispatch(filterTutor('SKILL', skillOption.label));
+    dispatch(filterTutor('SKILL', skillOption));
   }, [skillOption, dispatch]);
 
   useEffect(() => {

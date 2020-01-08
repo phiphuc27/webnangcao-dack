@@ -247,16 +247,14 @@ router.post('/facebook', async (req, res) => {
   }
 });
 
-router.post('/updateType', async (req, res) => {
-  const user = await UsersModel.getUserById(req.id);
-  if (!user) {
-    return res.json({ result: 'error' });
+router.post('/update/type', async (req, res) => {
+  try {
+    const user = await UsersModel.getUserById(req.body.id);
+    await UsersModel.updateType(user[0].ID, req.body.type);
+    return res.json({ result: 'success' });
+  } catch (err) {
+    return res.status(400).send(err);
   }
-  if (user.LOAI !== '5') {
-    return res.json({ result: 'error' });
-  }
-  await UsersModel.updateType(user.id, req.type);
-  return res.json({ result: 'success' });
 });
 
 module.exports = router;
