@@ -4,6 +4,7 @@ const registerState = {
   loggedIn: false,
   successJoinTutor: false,
   error: '',
+  confirmEmail: '',
   user: null,
   skill: null,
   profile: {
@@ -32,7 +33,7 @@ const accountManagement = (state = registerState, action) => {
       };
     }
     case 'REGISTER_SUCCESS': {
-      return { ...state, fetching: false, fetched: true };
+      return { ...state, fetching: false, fetched: true, confirmEmail: action.email };
     }
     case 'REGISTER_ERROR': {
       return { ...state, fetching: false, fetched: false, error: action.error };
@@ -246,17 +247,26 @@ const accountManagement = (state = registerState, action) => {
       };
     }
     case 'DELETE_SKILL_SUCCESS': {
-      let i = 0;
-      for (i = 0; i < state.skill.length; i += 1) {
-        if (state.skill[i].ID === action.id) break;
-      }
+      return state;
+    }
+
+    case 'RESET_PASSWORD_START': {
       return {
         ...state,
-        fetching: false,
+        fetching: true,
         fetched: false,
-        skill: [...state.skill.slice(0, i), ...state.skill.slice(i + 1)]
+        error: ''
       };
     }
+
+    case 'RESET_PASSWORD_SUCCESS': {
+      return { ...state, fetching: false, fetched: true, confirmEmail: action.email };
+    }
+
+    case 'RESET_PASSWORD_ERROR': {
+      return { ...state, fetching: false, fetched: false, error: action.error };
+    }
+
     default:
       return state;
   }

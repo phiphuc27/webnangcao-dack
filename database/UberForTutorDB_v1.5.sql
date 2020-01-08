@@ -126,37 +126,60 @@ CREATE TABLE IF NOT EXISTS `uberfortutordb`.`khieunai` (
 
 ENGINE = InnoDB;
 
-INSERT INTO `uberfortutordb`.`taikhoan` (`EMAIL`, `MATKHAU`, `LOAI`) VALUES
-('root@admin.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 0);
+INSERT INTO `uberfortutordb`.`taikhoan` (`EMAIL`, `MATKHAU`, `LOAI`,`TRANGTHAI`) VALUES
+('root@admin.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 0, 0);
 -- root@admin.com - 1234567
 
 -- test acc
-INSERT INTO `uberfortutordb`.`taikhoan` (`EMAIL`, `MATKHAU`, `LOAI`) VALUES
-('tutor1@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2);
-INSERT INTO `uberfortutordb`.`taikhoan` (`EMAIL`, `MATKHAU`, `LOAI`) VALUES
-('tutor2@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2);
-INSERT INTO `uberfortutordb`.`taikhoan` (`EMAIL`, `MATKHAU`, `LOAI`) VALUES
-('tutor3@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2);
-INSERT INTO `uberfortutordb`.`taikhoan` (`EMAIL`, `MATKHAU`, `LOAI`) VALUES
-('student1@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 3);
-INSERT INTO `uberfortutordb`.`taikhoan` (`EMAIL`, `MATKHAU`, `LOAI`) VALUES
-('student2@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 3);
-INSERT INTO `uberfortutordb`.`taikhoan` (`EMAIL`, `MATKHAU`, `LOAI`) VALUES
-('student3@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 3);
+INSERT INTO `uberfortutordb`.`taikhoan` (`EMAIL`, `MATKHAU`, `LOAI`,`TRANGTHAI`) VALUES
+('tutor1@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2, 0),
+('tutor2@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2, 0),
+('tutor3@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2, 0),
+('student1@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 3, 0),
+('student2@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 3, 0),
+('student3@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 3, 0),
+('tutor4@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2,0),
+('tutor5@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2,0),
+('tutor6@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2,0),
+('tutor7@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2,0),
+('tutor8@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2,0),
+('tutor9@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2,0),
+('tutor10@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2,0),
+('tutor11@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2,0),
+('tutor12@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2,0),
+('tutor13@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2,0),
+('tutor14@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2,0),
+('tutor15@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2,0),
+('tutor16@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2,0),
+('tutor17@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2,0),
+('tutor18@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2,0),
+('tutor19@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2,0),
+('tutor20@gmail.com', '$2a$10$iVODj3s48SCg1B45SA9aA.FDikPqUoWas9tqHrNtgItSRDG24NDnq', 2,0);
 
 INSERT INTO `uberfortutordb`.`thongtin` (`ID`, `TEN`, `HO`, `DIACHI`, `GIOITINH`, `AVATARURL`, `GIOITHIEU`, `GIA`) VALUES
-(2, 'Phúc 1', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 10000);
-INSERT INTO `uberfortutordb`.`thongtin` (`ID`, `TEN`, `HO`, `DIACHI`, `GIOITINH`, `AVATARURL`, `GIOITHIEU`, `GIA`) VALUES
-(3, 'Phúc 2', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 10000);
-INSERT INTO `uberfortutordb`.`thongtin` (`ID`, `TEN`, `HO`, `DIACHI`, `GIOITINH`, `AVATARURL`, `GIOITHIEU`, `GIA`) VALUES
-(4, 'Phúc 3', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 10000);
-
-INSERT INTO `uberfortutordb`.`thongtin` (`ID`, `TEN`, `HO`, `DIACHI`, `GIOITINH`, `AVATARURL`, `GIOITHIEU`) VALUES
-(5, 'Phúc 4', 'Hồng', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... student');
-INSERT INTO `uberfortutordb`.`thongtin` (`ID`, `TEN`, `HO`, `DIACHI`, `GIOITINH`, `AVATARURL`, `GIOITHIEU`) VALUES
-(6, 'Phúc 5', 'Hồng', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... student');
-INSERT INTO `uberfortutordb`.`thongtin` (`ID`, `TEN`, `HO`, `DIACHI`, `GIOITINH`, `AVATARURL`, `GIOITHIEU`) VALUES
-(7, 'Phúc 6', 'Hồng', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... student');
+(2, 'Phúc 1', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 10000),
+(3, 'Phúc 2', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 10000),
+(4, 'Phúc 3', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 10000),
+(5, 'Phúc 4', 'Hồng', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... student',0),
+(6, 'Phúc 5', 'Hồng', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... student',0),
+(7, 'Phúc 6', 'Hồng', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... student',0),
+(8, 'Phúc 4', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 10000),
+(9, 'Phúc 5', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 20000),
+(10, 'Phúc 6', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 30000),
+(11, 'Phúc 7', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 40000),
+(12, 'Phúc 8', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 50000),
+(13, 'Phúc 9', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 60000),
+(14, 'Phúc 10', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 70000),
+(15, 'Phúc 11', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 80000),
+(16, 'Phúc 12', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 90000),
+(17, 'Phúc 13', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 100000),
+(18, 'Phúc 14', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 110000),
+(19, 'Phúc 15', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 120000),
+(20, 'Phúc 16', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 130000),
+(21, 'Phúc 17', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 140000),
+(22, 'Phúc 18', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 150000),
+(23, 'Phúc 19', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 160000),
+(24, 'Phúc 20', 'Đỗ', 'Quận 2', 'Nam', 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 'testing..... tutor', 170000);
 
 INSERT INTO `uberfortutordb`.`kynang` (`KYNANG`) VALUES
 ('c#'),('c++'),('c'),('java'),('javascript'),('react'),('angular'),('vue');
@@ -167,4 +190,10 @@ INSERT INTO `uberfortutordb`.`kynang_nguoidung` (`IDKN`,`IDND`) VALUES
 INSERT INTO `uberfortutordb`.`danhgia` (`IDND`,`IDNH`,`DANHGIA`,`NOIDUNG`) VALUES
 ('2','5','4','tốt'),
 ('2','6','5','tốt'),
-('2','7','2','dở');
+('2','7','2','dở'),
+('3','5','4',''),
+('3','6','5',''),
+('3','7','5',''),
+('4','5','1','tệ'),
+('4','6','4','tốt'),
+('4','7','2','dở');

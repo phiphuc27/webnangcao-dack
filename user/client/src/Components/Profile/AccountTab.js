@@ -3,7 +3,7 @@ import NumberFormat from 'react-number-format';
 import EditProfileModal from './EditProfileModal';
 import EditSkillModal from './EditSkillModal';
 
-const AccountTab = ({ user, handleProfileChange, handleAddNewSkill }) => {
+const AccountTab = ({ user, handleProfileChange, handleAddNewSkill, deleteSkill }) => {
   const [modalProfile, setModalProfile] = useState(false);
   const [modalSkill, setModalSkill] = useState(false);
 
@@ -13,7 +13,19 @@ const AccountTab = ({ user, handleProfileChange, handleAddNewSkill }) => {
 
   if (skill) {
     skillList = skill.map(value => {
-      return <li key={value.ID}>{value.KYNANG}</li>;
+      return (
+        <li key={value.ID}>
+          {value.KYNANG}
+          &nbsp;&nbsp;
+          <i
+            role="presentation"
+            className="far fa-trash-alt skill-delete-btn"
+            onClick={() => {
+              deleteSkill({ id: value.ID, idnd: user.ID });
+            }}
+          />
+        </li>
+      );
     });
   }
 
@@ -80,16 +92,18 @@ const AccountTab = ({ user, handleProfileChange, handleAddNewSkill }) => {
             </div>
           </div>
           <hr />
-          <div className="row">
-            <div className="col-lg-3 col-sm-6">
-              <h5>Giá theo giờ</h5>
+          {user.LOAI === 2 && (
+            <div className="row">
+              <div className="col-lg-3 col-sm-6">
+                <h5>Giá theo giờ</h5>
+              </div>
+              <div className="col-lg-9 col-sm-6">
+                <p style={{ color: 'red', fontWeight: '600' }}>
+                  <NumberFormat value={user.GIA} displayType="text" thousandSeparator suffix="₫" />
+                </p>
+              </div>
             </div>
-            <div className="col-lg-9 col-sm-6">
-              <p style={{ color: 'red', fontWeight: '600' }}>
-                <NumberFormat value={user.GIA} displayType="text" thousandSeparator suffix="₫" />
-              </p>
-            </div>
-          </div>
+          )}
         </div>
       </div>
       {user.LOAI === 2 && (

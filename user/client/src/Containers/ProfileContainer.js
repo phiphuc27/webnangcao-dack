@@ -1,3 +1,4 @@
+/* eslint-disable no-self-assign */
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Profile from '../Components/Pages/Profile';
@@ -30,8 +31,11 @@ const mapDispatchToProps = dispatch => ({
   getUserSkill: id => {
     dispatch(getUserSkill(id));
   },
-  handleAddNewSkill: (skill) => dispatch(addNewSkills(skill)),
+  handleAddNewSkill: skill => dispatch(addNewSkills(skill)),
   updateSkill: (skill, skillId) => dispatch(updateSkill(skill, skillId)),
-  deleteSkill: id => dispatch(deleteSkill(id))
+  deleteSkill: id => {
+    dispatch(deleteSkill(id));
+    window.location = window.location;
+  }
 });
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile));

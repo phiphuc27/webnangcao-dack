@@ -1,3 +1,4 @@
+/* eslint-disable no-self-assign */
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -47,16 +48,14 @@ const EditProfile = ({ show, onHide, onSubmitNewSkill, user }) => {
   const classes = useStyles();
 
   const onSubmit = () => {
-    // console.log(skills);
     const data = skills.map(value => {
       return { IDND: user.ID, KYNANG: value };
     });
     onSubmitNewSkill(data);
-    onHide();
+    window.location = window.location;
   };
 
   const onAddSkill = () => {
-    console.log(skill.label);
     if (skill.label === undefined) {
       setError('skills', 'required', 'Bắt buộc !');
       return;

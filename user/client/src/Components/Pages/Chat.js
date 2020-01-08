@@ -6,21 +6,20 @@ import { Spinner } from 'react-bootstrap';
 // import { Link } from 'react-router-dom';
 // import useForm from 'react-hook-form';
 
-const Chat = ({ isFetching, isFetched, error, receiver, history, user, socket, close }) => {
+const Chat = ({ isFetching, receiver, history, user, socket, close }) => {
   const [message, setMessage] = useState('');
   let scrollPanel;
   let History = null;
   if (history) {
-    History = history.map((message, index) => {
-      if (message.IDG === user.ID) {
+    History = history.map(msg => {
+      if (msg.IDG === user.ID) {
         return (
-          <div className="row msg_container base_sent" key={message.ID}>
+          <div className="row msg_container base_sent" key={msg.ID}>
             <div className="col-md-10 col-xs-10">
               <div className="messages msg_sent">
-                <p>{message.NOIDUNG}</p>
-                <time dateTime={message.NGAYGUI}>
-                  {`${user.HO} ${user.TEN}`} •{' '}
-                  {moment(message.NGAYGUI).format('DD/MM/YY, h:mm:ss a')}
+                <p>{msg.NOIDUNG}</p>
+                <time dateTime={msg.NGAYGUI}>
+                  {`${user.HO} ${user.TEN}`} • {moment(msg.NGAYGUI).format('DD/MM/YY, h:mm:ss a')}
                 </time>
               </div>
             </div>
@@ -37,10 +36,10 @@ const Chat = ({ isFetching, isFetched, error, receiver, history, user, socket, c
           </div>
           <div className="col-md-10 col-xs-10">
             <div className="messages msg_receive">
-              <p>{message.NOIDUNG}</p>
-              <time dateTime={message.NGAYGUI}>
+              <p>{msg.NOIDUNG}</p>
+              <time dateTime={msg.NGAYGUI}>
                 {`${receiver.HO} ${receiver.TEN}`} •{' '}
-                {moment(message.NGAYGUI).format('DD/MM/YY, h:mm:ss a')}
+                {moment(msg.NGAYGUI).format('DD/MM/YY, h:mm:ss a')}
               </time>
             </div>
           </div>
@@ -53,7 +52,7 @@ const Chat = ({ isFetching, isFetched, error, receiver, history, user, socket, c
     scrollPanel.scrollTo(0, scrollPanel.scrollHeight);
   };
 
-  const handleClick = e => {
+  const handleClick = () => {
     if (message === '') return;
     socket.message(socket.room, message, user.ID, receiver.ID);
     setMessage('');
@@ -81,7 +80,7 @@ const Chat = ({ isFetching, isFetched, error, receiver, history, user, socket, c
                   <button
                     type="button"
                     className="btn-default chat-btn-heading"
-                    onClick={e => {
+                    onClick={() => {
                       socket.disconnect();
                       close();
                     }}
@@ -97,7 +96,15 @@ const Chat = ({ isFetching, isFetched, error, receiver, history, user, socket, c
                 scrollPanel = panel;
               }}
             >
-              {!isFetching ? History : <Spinner style={{ width: '100px', height: '100px' }} variant="dark" animation="border" />}
+              {!isFetching ? (
+                History
+              ) : (
+                <Spinner
+                  style={{ width: '100px', height: '100px' }}
+                  variant="dark"
+                  animation="border"
+                />
+              )}
             </div>
             <div className="panel-footer">
               <div className="input-group">
@@ -111,6 +118,7 @@ const Chat = ({ isFetching, isFetched, error, receiver, history, user, socket, c
                 />
                 <span className="input-group-btn">
                   <button
+                    type="button"
                     className="btn btn-primary btn-sm"
                     id="btn-chat"
                     style={{ height: '100%' }}

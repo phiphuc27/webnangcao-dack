@@ -5,9 +5,10 @@ export const startRegister = {
   type: 'REGISTER_START'
 };
 
-export const successRegister = {
-  type: 'REGISTER_SUCCESS'
-};
+export const successRegister = email => ({
+  type: 'REGISTER_SUCCESS',
+  email
+});
 
 export const errorRegister = error => ({
   type: 'REGISTER_ERROR',
@@ -23,7 +24,7 @@ export const register = data => {
       data
     })
       .then(() => {
-        dispatch(successRegister);
+        dispatch(successRegister(data.email));
       })
       .catch(err => {
         dispatch(errorRegister(err.response.data));
@@ -224,6 +225,32 @@ export const editPassword = data => {
     axios({
       method: 'post',
       url: '/users/profile/changePassword',
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(async response => {
+        if (response.statusText === 'OK') {
+          await dispatch(successPasswordEdit);
+          setTimeout(() => {
+            dispatch(getLoginUser(token));
+          }, 2000);
+        }
+      })
+      .catch(err => {
+        dispatch(errorPasswordEdit(err.response.data));
+      });
+  };
+};
+
+export const resetPassword = data => {
+  return dispatch => {
+    dispatch(startPasswordEdit);
+    const { token } = data;
+    axios({
+      method: 'post',
+      url: '/auth/reset-password',
       data,
       headers: {
         Authorization: `Bearer ${token}`
@@ -455,7 +482,7 @@ export const updateSkill = (skill, skillId) => {
   };
 };
 
-export const deleteSkill = id => {
+export const deleteSkill = data => {
   return async dispatch => {
     const token = window.sessionStorage.getItem('jwtToken');
 
@@ -465,13 +492,13 @@ export const deleteSkill = id => {
       headers: {
         Authorization: `Bearer ${token}`
       },
-      data: { id }
+      data
     })
       .then(response => {
         if (response.statusText === 'OK') {
           dispatch({
             type: 'DELETE_SKILL_SUCCESS',
-            id
+            id: data.id
           });
         }
       })
@@ -521,3 +548,38 @@ export const getChatNotification = () => {
 };
 
 /* end chat notification */
+
+/* Forgot Password */
+export const startResetPassword = {
+  type: 'RESET_PASSWORD_START'
+};
+
+export const successResetPassword = email => ({
+  type: 'RESET_PASSWORD_SUCCESS',
+  email
+});
+
+export const errorResetPassword = error => ({
+  type: 'RESET_PASSWORD_ERROR',
+  error
+});
+
+export const sendResetPasswordEmail = data => {
+  return async dispatch => {
+    await dispatch(startResetPassword);
+
+    await axios({
+      method: 'post',
+      url: '/auth/forgot',
+      data
+    })
+      .then(() => {
+        dispatch(successResetPassword(data.email));
+      })
+      .catch(err => {
+        dispatch(errorResetPassword(err.response.data.message));
+      });
+  };
+};
+
+/* end of Forgot Password */

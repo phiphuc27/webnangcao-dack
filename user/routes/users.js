@@ -1,7 +1,6 @@
 const express = require('express');
 
 const router = express.Router();
-const passport = require('passport');
 
 const bcrypt = require('bcryptjs');
 
@@ -33,7 +32,6 @@ router.post('/profile', (req, res) => {
 });
 
 router.post('/profile/changePassword', async (req, res) => {
-  console.log(req.body);
   const checkPassword = await bcrypt.compare(
     req.body.oldPassword,
     req.user.MATKHAU
@@ -91,8 +89,24 @@ router.post('/insertUserSkills', async (req, res) => {
   const runSQL = async () => {
     const data = await Promise.all(
       list.map(async item => {
-        const result = await SkillModel.insert(item);
-        return result.insertId;
+        console.log(item);
+        const skill = await SkillModel.getSkillByName(item.KYNANG);
+        try {
+          const checkSkillExist = await SkillModel.checkSkillExist(
+            item.IDND,
+            skill[0].ID
+          );
+          if (checkSkillExist.length > 0) {
+            return item;
+          }
+          const result = await SkillModel.insert({
+            IDND: item.IDND,
+            IDKN: skill[0].ID
+          });
+          return result.insertId;
+        } catch (err) {
+          return err;
+        }
       })
     );
 
@@ -100,7 +114,7 @@ router.post('/insertUserSkills', async (req, res) => {
   };
   runSQL()
     .then(result => {
-      // console.log(result);
+      console.log(result);
       res.status(200).send(result);
     })
     .catch(err => {
@@ -130,7 +144,7 @@ router.post('/updateUserSkill', async (req, res) => {
 });
 
 router.post('/deleteUserSkill', async (req, res) => {
-  SkillModel.delete(req.body.id)
+  SkillModel.delete(req.body.id,req.body.idnd)
     .then(result => {
       res.status(200).send(result);
     })

@@ -123,6 +123,7 @@ const Login = ({ isFetching, isFetched, login, loginGoogle, loginFacebook, error
           </div>
         </Form>
       </div>
+      <Link to="/reset-password">Quên mật khẩu</Link>
       <p>
         Bạn chưa có tài khoản? <Link to="/register">Đăng kí</Link>
       </p>
