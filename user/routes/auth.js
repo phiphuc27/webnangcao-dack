@@ -183,7 +183,7 @@ router.post('/login', async (req, res) => {
     }
     if (user.TRANGTHAI === 1) {
       return res.status(400).send({
-        message: 'Tài khoản đã bị khóa'
+        message: 'Tài khoản đã bị khóa. Vui lòng liện hệ dohongphuc1997@gmail.com để gỡ khóa. '
       });
     }
     // lock admin login

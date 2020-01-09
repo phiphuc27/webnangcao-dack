@@ -131,13 +131,23 @@ const Navbar = ({ user, logout, history }) => {
                     <i className="fas fa-comment" />
                   </Dropdown.Toggle>
                 </div>
-                <Dropdown.Menu className="noti-list">
-                  {notification.fetching && <Spinner variant="dark" animation="border" />}
-                  {notification.fetched && listChatNoti.length > 0 ? (
+                <Dropdown.Menu className="noti-list" >
+                  {notification.fetching ? (
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}> <Spinner variant="dark" animation="border" /></div>
+                  ) : (
+                    <>
+                    {notification.fetched && listChatNoti.length > 0 ? (
                     listChatNoti
                   ) : (
                     <Dropdown.Item href="#/action-1">Không có tin nhắn</Dropdown.Item>
                   )}
+                    </>
+                  )}
+                  
                 </Dropdown.Menu>
               </Dropdown>
             </div>

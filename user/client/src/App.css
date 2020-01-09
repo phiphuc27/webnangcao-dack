@@ -282,6 +282,7 @@ ul {
 .note-menu {
   display: none;
   z-index: 1000 !important;
+  padding: 0 1.2em !important;
 }
 
 .dropdown-menu {
@@ -292,7 +293,6 @@ ul {
   width: 200px;
   height: auto;
   background: var(--white-bg);
-  padding: 0 1.2em !important;
   z-index: 1;
   box-shadow: var(--box-shadow);
   border-radius: 8px;

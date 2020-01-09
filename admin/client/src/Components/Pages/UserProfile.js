@@ -108,7 +108,7 @@ const Profile = ({
                   </ul>
                 </ExpansionPanelDetails>
               </ExpansionPanel>
-              {user ? (
+              {user && user.LOAI === 2 ? (
                 <ExpansionPanel
                   expanded={expanded === 'doanh-thu'}
                   onChange={handleChange('doanh-thu')}

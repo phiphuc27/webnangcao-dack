@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import 'moment/locale/en-gb';
 import { Spinner } from 'react-bootstrap';
@@ -49,7 +49,10 @@ const Chat = ({ isFetching, receiver, history, user, socket, close }) => {
   }
 
   const scrollChatToBottom = () => {
-    scrollPanel.scrollTo(0, scrollPanel.scrollHeight);
+    const { scrollHeight, clientHeight } = scrollPanel;
+    const height = clientHeight;
+    const maxScrollTop = scrollHeight - height;
+    scrollPanel.scrollTop = maxScrollTop;
   };
 
   const handleClick = () => {
@@ -58,6 +61,11 @@ const Chat = ({ isFetching, receiver, history, user, socket, close }) => {
     setMessage('');
     scrollChatToBottom();
   };
+
+  useEffect(() => {
+    console.log(scrollPanel.offsetHeight);
+    scrollChatToBottom();
+  }, []);
 
   return (
     <div className="container chat">
@@ -115,6 +123,9 @@ const Chat = ({ isFetching, receiver, history, user, socket, close }) => {
                   placeholder="Tin nhắn..."
                   value={message}
                   onChange={e => setMessage(e.target.value)}
+                  onKeyPress={e => {
+                    if (e.key === 'Enter') handleClick(e);
+                  }}
                 />
                 <span className="input-group-btn">
                   <button
@@ -124,7 +135,7 @@ const Chat = ({ isFetching, receiver, history, user, socket, close }) => {
                     style={{ height: '100%' }}
                     onClick={e => handleClick(e)}
                   >
-                    Send
+                    Gửi
                   </button>
                 </span>
               </div>

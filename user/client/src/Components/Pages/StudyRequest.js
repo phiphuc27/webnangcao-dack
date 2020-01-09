@@ -111,6 +111,7 @@ const StudyRequest = () => {
         {fetched ? (
           <div className="profile-body"> 
             <h2 style={{ margin: '1em auto', textAlign:'center' }}>Gửi yêu cầu thành công</h2>
+            <a href='/'>Quay về trang chủ</a>
           </div>
         ) : (
           <div className="profile-body">
