@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Spinner, Button } from 'react-bootstrap';
@@ -40,7 +41,7 @@ const Profile = ({
       getProfile(match.params.id);
     }
   }
-  var SkillList = null;
+  let SkillList = null;
   if (skill !== null && skill !== undefined) {
     SkillList = skill.map((value, index) => {
       return (
@@ -48,11 +49,12 @@ const Profile = ({
           {value.KYNANG}
           {'  '}
           <i
+            role="presentation"
             className="far fa-trash-alt skill-delete-btn"
             onClick={e => {
               deleteSkill(value.ID, user.ID);
             }}
-          ></i>
+          />
         </li>
       );
     });
@@ -63,7 +65,7 @@ const Profile = ({
   };
 
   const onSubmit = e => {
-    //console.log(e);
+    // console.log(e);
     if (newSkillText === '') return;
     addNewSkill(user.ID, newSkillText);
     setNewSkillModalShow(false);
@@ -128,12 +130,12 @@ const Profile = ({
                   <ExpansionPanelDetails>
                     <ul>
                       <li>
-                        <Link to={'/user/' + user.ID + '/revenue/month'}>
+                        <Link to={`/user/${user.ID}/revenue/month`}>
                           Theo tháng
                         </Link>
                       </li>
                       <li>
-                        <Link to={'/user/' + user.ID + '/revenue/year'}>
+                        <Link to={`/user/${user.ID}/revenue/year`}>
                           Theo năm
                         </Link>
                       </li>
@@ -151,7 +153,7 @@ const Profile = ({
                 <div className="col-10">
                   <h3>Thông tin cá nhân</h3>
                 </div>
-                <div className="col-2" style={{ textAlign: 'end' }}></div>
+                <div className="col-2" style={{ textAlign: 'end' }} />
               </div>
             </div>
             <div className="profile-body">
@@ -244,10 +246,7 @@ const Profile = ({
                         <div className="col-10">
                           <h3>Giới thiệu bản thân</h3>
                         </div>
-                        <div
-                          className="col-2"
-                          style={{ textAlign: 'end' }}
-                        ></div>
+                        <div className="col-2" style={{ textAlign: 'end' }} />
                       </div>
                     </div>
                     <div className="profile-body">
@@ -328,11 +327,7 @@ const Profile = ({
                         <div className="col-12">
                           <ul className="profile-skill">
                             {skill ? (
-                              SkillList ? (
-                                SkillList
-                              ) : (
-                                'Chưa có kỹ năng'
-                              )
+                              SkillList || 'Chưa có kỹ năng'
                             ) : (
                               <Spinner
                                 animation="border"
